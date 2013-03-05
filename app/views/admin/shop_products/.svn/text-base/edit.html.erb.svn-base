@@ -1,0 +1,72 @@
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      编辑商品
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <% content_for :error_message do %>
+        <br/>
+        <% error_messages(@shop_product).each do |err| %>
+            <%= err %>
+            <br/>
+        <% end %>
+    <% end %>
+    <%= simple_form_for @shop_product, :url => admin_shop_product_path, :remote => true, :defaults => {:input_html => {:id => "product_form"}} do |f| %>
+        <%= render :partial =>"form", :locals =>{:f => f} %>
+    <% end %>
+  </div>
+</div>
+
+
+<%= content_for :head do %>
+    <script type="text/javascript">
+        $(function() {
+            $("#update_attachment").click(function(e) {
+                if (e.target.nodeName == 'SPAN') {
+                    if (e.target.className == 'addon-img-insert') {
+                        CKEDITOR.instances.product_content_content.insertHtml('<img src="' + $(e.target).parent().find('img').attr('src') + '" />');
+                    }
+
+                    if (e.target.className == 'addon-img-delete') {
+
+                        $.ajax({
+                            type: "POST",
+                            url: "<%=delete_product_image_admin_shop_products_path %> ",
+                            data: "id=" + e.target.getAttribute('addonId'),
+                            success:function() {
+                                $(e.target).parent().remove();
+                            }
+                        });
+
+                    }
+                }
+            });
+        });
+
+        $(function() {
+            $("#edit_shop_product_<%= @shop_product.id %>").validate({
+
+                 rules: {
+                 "shop_product[product_id]": {
+                         required: true
+                          }
+                   },
+                  messages:{
+                  "shop_product[product_id]": {
+                  required:"产品不能为空"
+                    }
+                  },
+                submitHandler:function(form) {
+                    $(form).hide().data('submiting', 'true');
+                    var loading = $('<p> <%= image_tag("/images/loading.gif") %>正在提交，请稍后...</p>');
+                    $(form).after(loading);
+                    form.submit();
+                }
+            });
+        });
+
+
+    </script>
+<% end %>

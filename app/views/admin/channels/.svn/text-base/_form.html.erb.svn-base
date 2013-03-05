@@ -1,0 +1,235 @@
+<%=content_for :head do%>
+<% end %>
+
+<div class="gm-tabs s-h-wrapper">
+  <div class="gm-tabs-head">
+    <a href="#"  class="current">基本信息</a>
+    <a href="#" >模板</a>
+    <a href="#" >推广内容</a>
+  </div>
+  <div class="gm-tabs-content current">
+    <%= f.input :parent_name, :label => "上级栏目：", :disabled => true, :input_html => {:size => 20}%>
+    <%= f.input :id, :label => "栏目ID：", :disabled => true, :input_html => {:size => 20}%>
+    <%= f.input :name, :label=>"栏目名称：",:input_html=>{:id=>"name"} %><p class="help-block">导航显示的名称</p>
+    <input type="hidden" name="channel[parent_id]" value= "<%= @channel.parent_id %>" />
+    <%= f.input :position, :label => "排序字段"  %>
+    <p class="help-block">（数值大的往前排）</p>
+
+    <%= f.input :path_customize, :label=>"自定义url：", :input_html=>{:id=>"path_customize", :class => "required custom_url"} %><p class="help-block">（设置恰当的名称可以更便于搜索引擎的收录,只接受英文字母）</p>
+    <div class="input radio_buttons">
+      <label class="radio_buttons optional control-label"> 导航是否显示：</label>
+      <div class="controls">
+        <%= f.radio_button :show_nav, true %>是<%= f.radio_button :show_nav, false%>否
+      </div>
+    </div>
+    <% unless @channel.single_page || @channel.final_page %>
+      <div class="input radio_buttons">
+        <label class="radio_buttons optional control-label"> 最终栏目：</label>
+        <div class="controls">
+          <%= f.radio_button :final_page, true%>是<%= f.radio_button :final_page, false%>否
+        </div>
+        <p class="help-block">（只有设置为最终栏目，才能向其中添加文章/产品/招聘信息等内容）</p>
+      </div>
+      <div class="input radio_buttons">
+        <label class="radio_buttons optional control-label"> 是否为自宝义页：</label>
+        <div class="controls">
+          <%= f.radio_button :single_page, true%>是<%= f.radio_button :single_page, false%>否
+        </div>
+        <p class="help-block">（公司简介/公司荣誉/联系我们等页面，设置为单页后填充内容）</p>
+      </div>
+    <% end %>
+    <% unless @channel.single_page  %>
+    <%= f.input :channel_type, :collection => [["原创内容",1],["跳转",2]], :include_blank => false, :label=>"栏目类型：" %>
+    <p class="help-block">（原创内容可以添加子栏目或者文章/产品等信息，跳转可以跳到网站内页或任意网站）</p>
+    <%= f.input :info_model_id, :collection => InfoModel.all.map { |info| [info.name, info.id] }, :input_html => {:id => "model_id"}, :include_blank => false, :label=>"模型：" %>
+    <p class="help-block model_id">（选择对应模型，没有对应的模型采用默认新闻模型）</p>
+    <%= f.input :return_url, :label=>"跳转到的url：", :input_html => {:type => "text"} %>
+    <p class="help-block model_id1">（站内地址或者站外地址均可）</p>
+    <% end %>
+<%#*<div class="input">%>
+<%# if @channel.thumb.present?  %>
+<%#*<div style="padding-left:250px">%>
+<%#= image_tag @channel.thumb.url, :width => 80%>
+<%#*</div>%>
+<%# end %>
+<%#= f.input :thumb, :as => "file", :label => "栏目图片："%>
+<%#*</div>%>
+  </div>
+  <div class="gm-tabs-content">
+    <% unless @channel.single_page  %>
+      <div class="mutil_page_labed"><%= f.input :template_id_index, :collection => InfoModel.get_channel_templates(TemplateCategory::TEMPLATE_TYPE[:channel]).map { |info| [info.name, info.id] }, :include_blank => false, :label=>"栏目模板：", :input_html=>{:id=>"template_id_index"}  %>
+      <p class="help-block mutil_page_labed">（对应模型选择相应模板，默认新闻模型可不选）</p></div>
+      <div class="mutil_page_labed"><%= f.input :template_id_list, :collection => InfoModel.get_channel_templates(TemplateCategory::TEMPLATE_TYPE[:list]).map { |info| [info.name, info.id] }, :include_blank => false, :label=>"列表模板：", :input_html=>{:id=>"template_id_list"} %>
+      <p class="help-block mutil_page_labed">（对应模型选择相应模板，默认新闻模型可不选）</p></div>
+      <div class="mutil_page_labed"><%= f.input :template_id_detail, :collection =>InfoModel.get_channel_templates(TemplateCategory::TEMPLATE_TYPE[:content]).map { |info| [info.name, info.id] }, :include_blank => false, :label=>"内容模板：", :input_html=>{:id=>"template_id_detail"}  %>
+      <p class="help-block mutil_page_labed">（对应模型选择相应模板，默认新闻模型可不选）</p></div>
+    <% end %>
+    <div class="single_page_labed"  <%= "style='display:none;'" unless @channel.single_page  %> ><%= f.input :template_single, :collection => ::Template.where("template_category_id = 13").map { |info| [info.name, info.id] }, :include_blank => "请选择模板", :label=>"单页模板：", :input_html=>{:id=>"template_single"}  %>
+    <p class="help-block single_page_labed" style="display:none;">（对应模型选择相应模板，默认新闻模型可不选）</p></div>
+  </div>
+
+  <div class="gm-tabs-content">
+    <%= f.input :title, :label=>"栏目标题：", :input_html=>{:id=>"title"} %><p class="help-block">页面的title显示</p>
+    <%= f.input :keyword, :label=>"栏目关键词：", :input_html=>{:id=>"keyword"} %><p class="help-block">页面的keyword显示</p>
+    <%= f.input :description ,:as=>:text, :label=>"栏目描述：", :input_html => {:id=>"description",:rows => 5, :cols => 60}%><p class="help-block">页面的description显示</p>
+  </div>
+</div>
+<div class="form-actions">
+  <div class="s-input">
+    <%= f.button :submit, "提交"%>
+  </div>
+</div>
+
+<% unless @channel.single_page  %>
+  <script type="text/javascript" >
+
+    function toggleOptions(ele,toggle,check,event){
+      $(ele).bind(event,function(e){
+        if(check(ele)){
+          toggle.checked(ele);
+        }else{
+          toggle.unchecked(ele);
+        }
+      });
+    }
+
+    toggleOptions($('#channel_single_page_true'),{
+      checked : function(ele){
+        $('.single_page_labed').show();
+        $('.mutil_page_labed').hide();
+      },
+      unchecked : function(ele){}
+    }, function(ele){
+      return ele.attr('checked');
+    },'click');
+
+    toggleOptions($('#channel_single_page_false'),{
+      checked : function(ele){
+        $('.single_page_labed').hide();
+        $('.mutil_page_labed').show();
+      },
+      unchecked : function(ele){}
+    }, function(ele){
+      return ele.attr('checked');
+    },'click');
+
+    (function(){
+
+      // 过滤模版下拉列表
+      var TempleteModule = {
+        _data : {},
+        create : function(value, text, type){
+          if(!this.validate(value, text, type)){ return; }
+
+          this._data[type+'_'+value] = {
+            value : value,
+            text : text,
+            type : type,
+            id : type+'_'+value
+          };
+        },
+        validate : function(value, text, type){
+          if(!value || !type){ return false; }
+          return true;
+        },
+        all : function(){
+          return this._data;
+        },
+        empty : function(){
+          this._data = {};
+        }
+      };
+
+      var TempleteController = {
+        _subs : [],
+        subscribe : function(sub){
+          this._subs.push(sub);
+        },
+        unsubscribe : function(sub){
+          var subs = this._subs;
+          var i = 0;
+          while(subs[i]){
+            if(sub === subs[i]){
+              subs.splice(i,1);
+            }else{ i++; }
+          }
+        },
+        deliver : function(m){
+          var subs = this._subs;
+          var data = m.all();
+          for(var i = 0, len = subs.length; i < len; i++){
+            subs[i].obtain(data);
+          }
+        }
+      };
+
+      var TempleteView = function(ele,type){
+        this._ele = ele;
+        this._type = type;
+      };
+      TempleteView.prototype.ele = function(m){
+        return this._ele;
+      };
+      TempleteView.prototype.obtain = function(m){
+        this.empty();
+
+        for(var i in m){
+          if(m[i].type == this._type){
+            this.appendOptions(m[i]);
+          }
+        }
+        if(this._ele.getElementsByTagName('option').length < 1){
+          this._ele.parentNode.parentNode.style.display = 'none';
+        }else{
+          this._ele.parentNode.parentNode.style.display = 'block';
+        }
+      };
+      TempleteView.prototype.appendOptions = function(data){
+        var o = document.createElement('option');
+        o.value = data.value;
+        o.innerHTML = data.text;
+        this._ele.appendChild(o);
+      },
+      TempleteView.prototype.empty = function(){
+        this._ele.innerHTML = '';
+      };
+
+
+      //subscribe
+      TempleteController.subscribe(new TempleteView(document.getElementById('template_id_index'),'<%=  TemplateCategory::TEMPLATE_TYPE[:channel]%>'));
+      TempleteController.subscribe(new TempleteView(document.getElementById('template_id_list'),'<%=  TemplateCategory::TEMPLATE_TYPE[:list]%>'));
+      TempleteController.subscribe(new TempleteView(document.getElementById('template_id_detail'),'<%=  TemplateCategory::TEMPLATE_TYPE[:content]%>'));
+
+      //add event
+      var xhrHandler;
+      document.getElementById('model_id').onchange = function(e){
+        modelChangedHandler(this);
+      }  
+      function modelChangedHandler(select){
+        if(xhrHandler){
+          xhrHandler.abort();
+        }
+        xhrHandler = $.ajax({
+          url: "/admin/channels/template_json_info?" + "id=" + select.value,
+          dataType : 'json',
+          success : function(data){
+            //init module
+            TempleteModule.empty();
+            for(var i = 0, len = data.length; i < len; i++){
+              TempleteModule.create(data[i][0].id,data[i][0].name,data[i][1]);
+            }
+            TempleteController.deliver(TempleteModule);
+            xhrHandler = null;
+            //console.log(data);
+          }
+        });
+      }
+
+      if(document.getElementById('model_id').value != 1){
+        modelChangedHandler(document.getElementById('model_id'));
+      }
+
+    })();
+
+  </script>
+<%  end %>

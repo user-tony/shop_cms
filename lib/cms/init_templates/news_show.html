@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{{vo.title}}{{cms["web_name"]}}</title>
+       {% render "head" %}
+    </head>
+    <body>
+        {% render "channel" %}
+
+        <div class="g-ltw s-ltw s-ltwm">
+            <a href="#"><img src="/skin/default/images/banner.gif" alt="980 x 60广告位" target="_blank" /></a>
+        </div>
+
+        <div class="g-ltw s-ltw s-ltwm">
+            <div class="g-ltw g-ltl s-grid2">
+                <div class="g-ltw s-ltwm g-ltc s-snav">
+                    <a href="#">首页</a>
+                    {% cms_Channel u in channel:channel top_node:true%}
+                    &gt;  <a href="{{forloop.url}}" title="{{u.name}}">{{u.name}}</a>
+                    {% endcms_Channel%} &gt;  {{vo.title}}
+                </div>
+
+                <div class="g-ltw g-ltc s-cwrapper s-ltwm">
+                    <div class="s-arts-details-wrapper">
+                        <div class="s-head">
+                            <h3 class="s-arts-title">{{vo.title}}</h3>
+                            <p class="s-list-meta">来源：<span class="meta-content">窝窝家</span> 发布日期：<span class="meta-content"> {{vo.created_at | date: "%Y-%m-%d %H:%M"}}</span>   浏览次数：<span class="meta-content">{{vo.view_count}}</span></p>
+                        </div>
+                        <div class="s-body">
+                            {{vo.article_content.content}}
+                        </div>
+                    </div>
+                </div>
+
+                
+            </div>
+            <div class="g-ltw g-ltr s-grid1">
+
+                <div class="g-ltw g-ltc s-ltwm s-bwrapper">
+                    <a href="#" target="blank"><img src="/skin/default/images/banner_side.gif" alt="248 x 248 广告位" /></a>
+                </div>
+
+                <div class="g-ltw g-ltc s-ltwm s-cwrapper">
+                    <h2 class="s-title">推荐内容</h2>
+
+                    <div class="s-list-wrapper">
+                        <ul class="s-list-title g-ltw">
+                            {% cms_Article u in limit:10 recomment:all %}
+                            <li><a href="{{forloop.url}}" title="{{u.title}}">{{u.title}}</a></li>
+                            {% endcms_Article %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="g-ltw g-ltc s-ltwm s-cwrapper">
+                    <h2 class="s-title">相关文章</h2>
+
+                    <div class="s-list-wrapper">
+                        <ul class="s-list-title g-ltw">
+                            {% cms_Article u in limit:10 article_tag:vo.id %}
+                            <li><a href="{{forloop.url}}" title="{{u.title}}">{{u.title}}</a></li>
+                            {% endcms_Article %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% render "footer" %}
+    </body>
+</html>

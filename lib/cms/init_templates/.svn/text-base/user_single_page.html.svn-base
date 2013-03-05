@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        {% if channel %}
+        <title>{{channel.title}}{{cms["web_name"]}}</title>
+        <meta name="description" content="{{channel.description}}" />
+        <meta name="keywords" content="{{channel.keyword}}" />
+        {%endif%}
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="bookmark" href="/favicon.ico" type="image/x-icon">
+
+        <link rel="stylesheet" href="/skin/default/stylesheets/global.css" media="all" type="text/css" />
+        <link rel="stylesheet" href="/skin/default/stylesheets/site.css" media="all" type="text/css" />
+        <link rel="stylesheet" href="/skin/default/stylesheets/mod.css" media="all" type="text/css" />
+        <link rel="stylesheet" href="/skin/default/stylesheets/jqModal.css" media="all" type="text/css" />
+        <link rel="stylesheet" href="/skin/default/stylesheets/login.css" media="all" type="text/css" />
+
+        <script type="text/javascript" src="/skin/default/javascripts/jquery-1.5.2.min.js"></script>
+        <script src="/assets/jquery_ujs.js?body=1" type="text/javascript"></script>
+        <script type="text/javascript" src="/skin/default/javascripts/jquery.validate.js"></script>
+    </head>
+    <body>
+        {% render "channel"%}
+        {{vo}}
+        {% render "footer"%}
+    </body>
+</html>

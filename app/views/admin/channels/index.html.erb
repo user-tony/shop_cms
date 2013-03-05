@@ -1,0 +1,72 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "channel"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/channel"%>
+<% end %>
+
+
+<div class="s-content g-ltw">
+  <div class="gm-tabs s-h-wrapper">
+    <div class="gm-tabs-head">
+      <a href="#"  class="current">栏目列表</a>
+    </div>
+    <div class="gm-tabs-content current">
+
+      <div class="s-table">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>ID</th>
+              <th>栏目名</th>
+              <th>自定义URL字段</th>
+              <th>是否显示在导航</th>
+              <th>是否为最终栏目</th>
+              <th>是否为单页栏目</th>
+              <th>上级栏目</th>
+              <th>排序数字</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @channels.each do |ch| %>
+              <tr>
+                <td>
+                  <div class="s-input">
+                    <input type="checkbox" value="1"/>
+                  </div>
+                </td>
+                <td>
+                  <%= ch.id %>
+                </td>
+                <td>
+                  <%="----" * ch.level    %> <%=  ch.name %>
+                </td>
+                <td><%= ch.path_customize %></td>
+                <td><%= ch.show_nav ? "显示" : "不显示" %></td>
+                <td><%= ch.final_page ? "是" : "不是" %></td>
+                <td><%= ch.single_page ? "是" : "不是" %></td>
+                <td><%= ch.parent_name %></td>
+                <td><%= ch.position %></td>
+                <td class="edit">
+                  <% if !ch.final_page %>
+                    <%= link_to image_tag("icon/add.png"), new_child_admin_channel_path(ch.id), :title => "新增子栏目" %>
+                  <% end %>
+                  <% if ch.parent_id %>
+                    <%= link_to image_tag("icon/edit.png"), edit_admin_channel_path(ch) %><%= link_to image_tag("icon/delete.png"), admin_channel_path(ch), :method => "delete", :confirm => "确认删除？" %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="gm-pagination">
+        <%= paginate @channels %>
+      </div>
+
+    </div>
+  </div>
+</div>

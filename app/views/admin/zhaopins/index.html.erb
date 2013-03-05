@@ -1,0 +1,62 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "content"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/content"%>
+<% end %>
+
+<h2 class="s-title-head"><%=image_tag("icon/warning.png") %> 招聘信息管理</h2>
+<div class="gm-tabs s-h-wrapper">
+  <div class="gm-tabs-head">
+    <a href="#"  class="current">招聘信息管理</a>
+  </div>
+  <div class="gm-tabs-content current">
+    <div class="gm-toolbar">
+      <ul>
+        <li><%=link_to "发布招聘", new_admin_zhaopin_path ,:title => "发布招聘" %></li>
+      </ul>
+    </div>
+    <div class="s-table">
+      <table>
+        <thead>
+          <tr>
+            <th>选项</th>
+            <th>序号</th>
+            <th>招聘岗位</th>
+            <th>学历</th>
+            <th>联系人</th>
+            <th>联系电话</th>
+            <th>发布时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @zhaopings.each do |zhaopin|  %>
+            <tr>
+              <td>
+                <div class="s-input">
+                  <input type="checkbox" value="<%=  zhaopin.id%>" />
+                </div>
+              </td>
+              <td><%=  zhaopin.id %></td>
+              <td> <%= zhaopin.position  %>  </td>
+              <td> <%= zhaopin.education  %>  </td>
+              <td> <%= zhaopin.contact_user %></td>
+              <td> <%= zhaopin.contact_tel %></td>
+              <td><%= current_time_format(zhaopin.created_at) %></td>
+              <td class="edit">
+                <%= link_to image_tag("icon/edit.png"), edit_admin_zhaopin_path(zhaopin),:title => "编辑" %>
+                <%= link_to image_tag("icon/delete.png"), admin_zhaopin_path(zhaopin), :method => :delete ,:confirm => "你确定要删除吗？" ,:title => "删除" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <!-- pagination -->
+    <div class="gm-pagination">
+      <%= paginate @zhaopings %>
+    </div>
+  </div>
+ 
+</div>

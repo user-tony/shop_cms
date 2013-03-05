@@ -1,0 +1,13 @@
+    <div class="gm-bloc s-h-wrapper">
+        <div class="gm-bloc-head">
+            <h3 class="gm-bloc-title">
+                添加系统模型
+            </h3>
+            <a href="#" class="toggle"></a>
+        </div>
+       <div class="gm-bloc-body">
+         <%= form_for @info_model ,:url => admin_info_models_path(@info_model), :html => {:id => "form"} do |f| %>
+         <%=render :partial =>"form", :locals =>{:f => f } %>
+         <%end%>
+       </div>
+    </div>

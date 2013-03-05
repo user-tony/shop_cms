@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>芒果CMS系统</title>
+    
+    <!-- description -->
+    <meta name="description" content="芒果CMS系统" />
+    
+    <!-- favorite icon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="bookmark" href="/favicon.ico" type="image/x-icon">
+    
+    <link rel="stylesheet" href="/assets/admin/global.css" media="all" type="text/css" />
+    <link rel="stylesheet" href="/assets/admin/mod.css" media="all" type="text/css" />
+    <link rel="stylesheet" href="/assets/admin/site.css" media="all" type="text/css" />
+</head>
+<body>
+    <div class="s-head g-ltwg-ltc">head</div>
+    <div class="s-mainav g-ltw g-ltc">mainav</div>
+    <div class="s-container g-ltw g-ltc">
+        <div class="s-content g-ltw">
+            <div class="s-right-wrapper g-ltw">
+                <h2 class="s-title-head"><img src="../images/demo/warning.png" alt="" />表单</h2>
+            
+                <!-- bloc -->
+                <div class="gm-bloc s-h-wrapper">
+                    <div class="gm-bloc-head">
+                        <h3 class="gm-bloc-title">
+                            简单表单样式
+                        </h3>
+                        <a href="#" class="toggle"></a>
+                    </div>
+                    <div class="gm-bloc-body">
+                        <form action="">
+                        <h3 class="legend">表单项分类</h3>
+                        <p>
+                            <div class="s-input">
+                                <label for="">用户名：</label><br />
+                                <input type="text" value="" />
+                                <span class="input-tips"> 用户名应为6至16位 </span>
+                            </div>
+                        </p>
+                        
+                        <p>
+                            <div class="s-input error">
+                                <label for="">昵称：</label><br />
+                                <input type="text" value="" />
+                                <span class="input-tips"> 昵称应为1至12字符 </span>
+                            </div>
+                        </p>
+                        
+                        <p>
+                            <div class="s-input">
+                                <span  class="input-tips">性别：</span>
+                                <input type="radio" value="1" />
+                                <label for="">男</label>
+                                <input type="radio" value="2" />
+                                <label for="">女</label>
+                            </div>
+                        </p>
+                        
+                        <p>
+                            <div class="s-input">
+                                <label for="">密码：</label><br />
+                                <input type="password" value="" />
+                                <span class="input-tips"> 密码长度为6-16个字符 </span>
+                            </div>
+                        </p>
+                        
+                        <p>
+                            <div class="s-input">
+                                <label for="">确认密码：</label><br />
+                                <input type="password" value="" />
+                                <span class="input-tips">  </span>
+                            </div>
+                        </p>
+                        
+                        <h3 class="legend">表单项分类</h3>
+                        <p>
+                            <div class="s-input error">
+                                <label for="">Email：</label><br />
+                                <input type="text" value="" size="40" />
+                                <span class="input-tips"> 格式错误 </span>
+                            </div>
+                        </p>
+                        
+                        <p>
+                            <div class="s-input error">
+                                <label for="">验证码：</label><br />
+                                <input type="text" value="" /> <img src="../images/demo/simple_captcha.jpg" alt="" /><br />
+                                <span class="input-tips"> 必填四位验证码 </span>
+                            </div>
+                        </p>
+                        
+                        <p>
+                            <div class="s-input">
+                                <label for=""><input type="checkbox" value="1" checked="checked" /> 我已经阅读并接受注册协议 </label>
+                            </div>
+                        </p>
+                        
+                        <p>
+                            <div class="s-input">
+                                <input type="submit" value="注册" />
+                            </div>
+                        </p>
+                        </form>
+                    </div>
+                </div>
+   
+                <div class="gm-bloc s-h-wrapper">
+                    <div class="gm-bloc-head">
+                        <h3 class="gm-bloc-title">
+                            复杂表单样式
+                        </h3>
+                        <a href="#" class="toggle"></a>
+                    </div>
+                    <div class="gm-bloc-body">
+                        <form action="">
+                        <div class="s-table">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td width="120"><label for="">表单项：</label></td>
+                                        <td><div class="s-input">
+                                                <input type="text" value="" />
+                                            </div></td>
+                                        <td width="80"><label for="">表单项：</label></td>
+                                        <td><div class="s-input">
+                                                <input type="text" value="" />
+                                            </div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="">表单项：</label></td>
+                                        <td>
+                                            <div class="s-input">
+                                                <label for=""><input type="radio" value="1" checked="checked" />选项  </label> 
+                                                <label for=""><input type="radio" value="1" checked="checked" />选项  </label>
+                                                <label for=""><input type="radio" value="1" checked="checked" />选项  </label>
+                                            </div></td>
+                                        <td width="80"><label for="">表单项：</label></td>
+                                        <td><select name="" id="">
+                                                <option value="001">001</option>
+                                                <option value="002">002</option>
+                                            </select></td>    
+                                    </tr>
+                                    <tr>
+                                        <td><label for="">表单项：</label></td>
+                                        <td colspan="3">
+                                            <div class="s-input">
+                                                <label for=""><input type="checkbox" value="1" checked="checked" />选项  </label> 
+                                                <label for=""><input type="checkbox" value="1" checked="checked" />选项  </label> 
+                                                <label for=""><input type="checkbox" value="1" checked="checked" />选项  </label> 
+                                                <label for=""><input type="checkbox" value="1" checked="checked" />选项  </label> 
+                                                <label for=""><input type="checkbox" value="1" checked="checked" />选项  </label> 
+                                                <label for=""><input type="checkbox" value="1" checked="checked" />选项  </label> 
+                                                <label for=""><input type="checkbox" value="1" checked="checked" />选项  </label> 
+                                                <label for=""><input type="checkbox" value="1" checked="checked" />选项  </label> 
+                                                <label for=""><input type="checkbox" value="1" checked="checked" />选项  </label> 
+                                                <label for=""><input type="checkbox" value="1" checked="checked" />选项  </label> 
+                                            </div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="">表单项：</label></td>
+                                        <td colspan="3">
+                                            <div class="s-input loading">
+                                                <input type="text" value="" />
+                                                <span class="input-tips"> 正在加载 </span>
+                                            </div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="">表单项：</label></td>
+                                        <td colspan="3">
+                                            <div class="s-input datePicker">
+                                                <input type="text" value="2011-02-29" readonly="true" />
+                                            </div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="">表单项：</label></td>
+                                        <td colspan="3" class="picture"><img src="../images/demo/anonymous.png" alt="" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="">表单项：</label></td>
+                                        <td colspan="3">
+                                            <div class="s-input">
+                                                <input type="file" />
+                                            </div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="">表单项：</label></td>
+                                        <td colspan="3">
+                                            <div class="s-input">
+                                                <textarea cols="80" rows="10">textarea</textarea>
+                                            </div></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p>
+                            <div class="s-input">
+                                <input type="submit" value="提交" />
+                            </div>
+                        </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="s-rail g-ltw">
+            <div class="gm-accordion-container g-ltw">
+                <ul>
+                	<li><a href="#">menu</a>
+                        <ul>
+                        	<li><a href="#">hello</a></li>
+                            <li class="current"><a href="#">menu</a>
+                                <ul>
+                                	<li><a href="#">hello</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="current"><a href="#">current menu</a>
+                        <ul>
+                        	<li><a href="#">hello</a></li>
+                            <li class="current"><a href="#">menu</a>
+                                <ul>
+                                	<li><a href="#">hello</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="no-child"><a href="#">not a menu</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="s-copyright g-ltc">copyright</div>
+    
+    
+</body>
+</html>

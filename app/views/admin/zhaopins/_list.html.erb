@@ -1,0 +1,46 @@
+<div class="gm-toolbar">
+  <ul>
+    <li><%=link_to "发布招聘" , "" , "data-iframe-src" => "/admin/zhaopins/#{params[:id]}/new" ,:title => "发布招聘"  , :class => "add-zhaopin-tlj" %></li>
+  </ul>
+</div>
+<div class="s-table">
+  <table>
+    <thead>
+      <tr>
+        <th>选项</th>
+        <th>序号</th>
+        <th>招聘岗位</th>
+        <th>学历</th>
+        <th>联系人</th>
+        <th>联系电话</th>
+        <th>发布时间</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @zhaopings.each do |zhaopin|  %>
+        <tr class ="zhaopin_tr_<%=zhaopin.id%>" >
+          <td>
+            <div class="s-input">
+              <input type="checkbox" value="<%=  zhaopin.id%>" />
+            </div>
+          </td>
+          <td><%=  zhaopin.id %></td>
+          <td> <%= zhaopin.position  %>  </td>
+          <td> <%= zhaopin.education  %>  </td>
+          <td> <%= zhaopin.contact_user %></td>
+          <td> <%= zhaopin.contact_tel %></td>
+          <td><%= current_time_format(zhaopin.created_at) %></td>
+          <td class="edit">
+            <%= link_to image_tag("icon/edit.png"), "" , "data-iframe-src" => edit_admin_zhaopin_path(zhaopin),:title => "编辑" , :class => "add-zhaopin-tlj" %>
+            <%= link_to image_tag("icon/delete.png"),  admin_zhaopin_path(zhaopin),:remote => true,  :method => :delete ,:confirm => "你确定要删除吗？" ,:title => "删除" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<!-- pagination -->
+<div class="gm-pagination">
+  <%= paginate @zhaopings , :remote => true , :params => {:controller => "/admin/zhaopins", :action => "search" }  %>
+</div>

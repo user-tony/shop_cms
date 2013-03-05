@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        {% if channel %}
+        <title>{{channel.title}}{{cms["web_name"]}}</title>
+        <meta name="description" content="{{channel.description}}" />
+        <meta name="keywords" content="{{channel.keyword}}" />
+        {%endif%}
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="bookmark" href="/favicon.ico" type="image/x-icon">
+
+        <link rel="stylesheet" href="/skin/default/stylesheets/global.css" media="all" type="text/css" />
+        <link rel="stylesheet" href="/skin/default/stylesheets/site.css" media="all" type="text/css" />
+        <link rel="stylesheet" href="/skin/default/stylesheets/mod.css" media="all" type="text/css" />
+        <link rel="stylesheet" href="/skin/default/stylesheets/jqModal.css" media="all" type="text/css" />
+        <link rel="stylesheet" href="/skin/default/stylesheets/login.css" media="all" type="text/css" />
+
+        <script type="text/javascript" src="/skin/default/javascripts/jquery-1.5.2.min.js"></script>
+        <script src="/assets/jquery_ujs.js?body=1" type="text/javascript"></script>
+        <script type="text/javascript" src="/skin/default/javascripts/jquery.validate.js"></script>
+
+
+    </head>
+    <body>
+        <div class="g-ltw s-ltw s-ltwm s-page-login-w">
+            <div class="s-page-login s-code-validate">
+                <p class="title-signup"> 序列号验证 </p>
+                <div class="s-login-wrapper g-ltw g-ltc">
+                    <form accept-charset="UTF-8" action="/service_verifies/verify_save" method="post" id="service_from">
+                        <p><label for="" class="s-login-label">序列号：</label>
+                            <input type="text" class="s-login-input required" name ="number" />
+                            {% if message %}
+                            <label for="" class="error">{{ message }}</label>
+                            {% endif %}
+                        </p>
+                        <p class="p-submit"><input type="submit" value="" class="login-submit" /></p>
+                    </form>
+                    <p class="regedit-tip">官网郑重声明：凡购买正版产品均能在官网验证，否则为盗版</p>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $("#service_form").validate();
+        </script>
+    </body>
+</html>

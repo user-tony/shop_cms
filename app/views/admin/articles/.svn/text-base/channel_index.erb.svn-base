@@ -1,0 +1,106 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "content"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/content"%>
+<% end %>
+<div class="gm-tabs s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      新闻系统
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-tabs-head">
+    <a href="#"  class="current">文章信息管理</a>
+    <a href="#" >搜索</a>
+  </div>
+  <div class="gm-tabs-content current"  id ="article_body">
+    <%= render :partial => "list" %>
+  </div>
+  <div class="gm-tabs-content">
+    <%= form_for :admin_article, :url => search_admin_articles_path(:channel_id => @channel.id) , :html => {:method => :get},:remote => true do |f| %>
+      <div class="s-table">
+        <table>
+          <tbody>
+            <tr>
+              <td width="120"> <label for="">文章标题：</label></td>
+              <td>
+                <div class="s-input">
+                  <%=f.text_field :title %>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td width="120"> <label for="">推荐等级：</label></td>
+              <td>
+                <div class="s-input">
+                  <%=f.select :recomment,Article::RECOMMENT %>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td width="120"> <label for="validBeforePicker">开始时间：</label></td>
+              <td>
+                <div class="s-input">
+                  <%= text_field_tag :start_time,"", :class => "date required date-picker" ,:id => "validBeforePicker"%>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td width="120"> <label for="validAfterPicker">结束时间：</label></td>
+              <td>
+                <div class="s-input">
+                  <%= text_field_tag :end_time,"", :class => "date required date-picker", :id => "validAfterPicker" %>
+                </div>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+      <p>
+      <div class="s-input">
+        <%= f.submit "查询" %>
+      </div>
+      </p>
+    <% end %>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+  $(function(){
+    // Document is ready
+    $('.gm-tabs').jqtab();
+    $('#validBeforePicker,#validAfterPicker').datepick({onSelect: customRange});
+    
+  });
+  $().ready(function(){
+    $.jqmIframe({
+      overlay: 70,
+      trigger: '.add-article-tlj',
+      onLoad : $.jqmFullWindow
+    });
+    $(".jqmClose").click(function(){
+      load_content();
+    });
+  })
+
+  function load_content()
+  {
+    $('#tree_load_content').load("/admin/articles/<%= params[:id] %>/channel_index");
+  }
+ 
+
+
+  function customRange(dates) {
+    if (this.id == 'validBeforePicker') {
+      $('#validAfterPicker').datepick('option', 'minDate', dates[0] || null);
+    }
+    else {
+      $('#validBeforePicker').datepick('option', 'maxDate', dates[0] || null);
+    }
+  }
+</script>

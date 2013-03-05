@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>芒果CMS系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- description -->
+    <meta name="description" content="芒果CMS系统" />
+    <!-- favorite icon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"></link>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"></link>
+    <link rel="bookmark" href="/favicon.ico" type="image/x-icon"></link>
+
+    <%= stylesheet_link_tag   "admin.css" %>
+    <%= javascript_include_tag "admin.js" %>
+    <%= csrf_meta_tags %>
+    <script type="text/javascript">
+      //ajax提示回调方法
+      function prompt(type, msg){
+        $(".s-notif").hide();
+        $("#flash_"+type).show().find("span").html(msg);
+      }
+    </script>
+    <%= yield :head %>
+</head>
+<body>
+  <div class="s-container g-ltw g-ltc"  style =" padding-left: 0px">
+    <div class="s-content g-ltw" id="tree_load_content" >
+      <div class="s-right-wrapper g-ltw g-ltc" id="flash_prompt">
+        <%= render :partial => "admin/main/partials/notify/flash", :locals => {:flash => flash} %>
+        <%= yield %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

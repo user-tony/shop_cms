@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>购物车{{cms["web_name"]}}</title>
+        {% render "head" %}
+        <script type="text/javascript" src="/skin/default/javascripts/wm_clickNum.js"></script>
+        <script type="text/javascript" src="/skin/default/javascripts/jquery.ujs.js"></script>
+        <script type="text/javascript" src="/skin/default/javascripts/productItem.js"></script>
+        <style type="text/css">
+         .empty-cert{
+        margin: 10px;
+        }
+         .empty-cert a, .empty-cert a:visited{
+          color: #FF7D18;
+        }
+        </style>
+    </head>
+    <body>
+        {% render "channel" %}
+        {% render "search_category"%}
+        <div class="g-ltw s-ltw s-ltwm">
+            <div class="gm-step-nav s-step-nav">
+                <img src="/skin/default/images/cart_step1.gif" alt="" />
+            </div>
+            <div class="gm-cart-content">
+                <form action="" class="order-form">
+                    <!-- <p class="top-tip">商品总价(不含运费)：<span class="cost">{{total_price  | string_format:"float","%.2f"}}</span> 元</p>-->
+                    <div class="gm-cart-table s-step-sw0">
+                        <div class="gm-cart-table-head">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td width="310">商品信息</td>
+                                        <td width="120">单价(元)</td>
+                                        <td width="100">数量</td>
+                                        <td width="100">小计(元)</td>
+                                        <td width="100"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="gm-cart-table-body" id="cart-table-body">
+                            {% if  list["shop_product"].size > 0 %}
+                                {% cms_ShopProduct shop_product  in  cart_id:list["shop_product"] %}
+                                <!--  商品列表         -->
+                                <div class="item">
+                                    <table>
+                                        <tbody>
+                                            <tr id="{{shop_product.id}}" type="shop_product">
+                                                <td width="310">
+                                                    <a href="/{{shop.path_customize}}/show/{{shop_product.id}}" class="view-img"><img src="{{ shop_product.product_attachments.first | thumb:'s2' }}" alt="" /></a>
+                                                    <span class="title">
+                                                        <a href="/{{shop.path_customize}}/show/{{shop_product.id}}">{{shop_product.name}}</a>
+                                                        {{shop_product.description || truncate:80}}
+                                                    </span>
+                                                </td>
+                                                <td width="120">{{ shop_product.price | string_format:"float","%.2f"}}</td>
+                                                <td width="100"><input type="text" class="num products-num"  value=" {{ list["shop_product"] | get_cart_count:shop_product.id,"count"}}" /></td>
+                                                <td width="100"><span class="cost">{{  list | get_cart_item_price:shop_product.id,"shop_product" }}</span></td>
+                                                <td width="100"><a href="#" class="delete" >删除</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {% endcms_ShopProduct %}
+                            {% else %}
+                                 <p class="empty-cert">
+                                    <a href="/shop">购物车中没有商品，返回商品列表。</a>
+                                </p>
+                            {%endif%}
+                        </div>
+                        <div class="gm-cart-table-foot">
+                            <p class="delete_all"><a href="/shop_products/clear_cart" data-remove="true" data-method="delete" data-confirm="确认要清空购物车吗？" >清空购物车</a></p>
+                            <p class="top-tip">商品总价(不含运费)：<span class="cost" id="total_price">{{total_price  | string_format:"float","%.2f"}}</span> 元</p>
+                            <div class="submit-field">
+                                {% if list["shop_product"].size > 0 %}
+                                    {% if session["current_nick_name"]  %}
+                                        <a href="/shop_products/order_address" class="submit-form order-form" >  确认商品 </a>
+                                        {% else %}
+                                        <a href="#"  class="submit-form order-form pop_member_window"  disable="disable" >  确认商品 </a>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="jqmWindow" id="ajax"> </div>
+        <script type="text/javascript">
+            var canSubmit = true;
+            var prductItems = [];
+
+            $('#cart-table-body .item').each(function(index, ele){
+                prductItems.push(new ProductItem(ele,{
+                    change : function(input){
+                        var value = input.value;
+                        var id = $(input).parents('tr').attr('id')
+                        var type = $(input).parents('tr').attr('type')
+
+                        this.pushAjax({
+                            url : '/shop_products/modify_cart_info?'+'id='+id+'&type='+type+'&count='+value,
+                            dataType : 'json',
+                            //  id  type 类型 count（value） 数量
+                            success : function(json){
+
+                                //update
+                                var tr = $(input).parents('tr').first();
+                                $('.cost',tr).text("￥"+parseFloat(json.price).toFixed(2));
+                                $('#total_price').text("￥"+parseFloat(json.total_price).toFixed(2));
+                                $(input).val(json.count);
+
+                                //保存初始值
+                                $(input).data('sourceValue',json.count);
+                                //加载购物车下拉框
+                                updateShopCert();
+                            }
+                        });
+                        // this.ajax();
+
+                        if(this.loading()){
+                            this.abortAjax();
+                            // 恢复初始值
+                            $(input).val($(input).data('sourceValue'));
+                            this.nextAjax();
+                        }else{
+                            this.ajax();
+                        }
+                    },
+                    callback : function(ele){
+                        var item = this;
+                        $('.delete',ele).click(function(e){
+                            if(window.confirm("确认删除商品吗？")){
+                                var tr = $('tr',ele).first()
+                                $.ajax({
+                                    url:'/shop_products/destroy_product?id='+tr.attr('id')+"&type="+tr.attr('type'),
+                                    type :"delete",
+                                    dataType : 'json',
+                                    success : function(json){
+                                        $('#total_price').html(json.total_price);
+                                        item.remove();
+                                        //加载购物车下拉框
+                                        updateShopCert();
+                                        updateCertTable();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }));
+            });
+
+            function updateCertTable(){
+                if($('#cart-table-body .item').length < 1){
+                    $('.submit-field, .delete_all').hide();
+                    $('#cart-table-body').append('<p class="empty-cert"><a href="/shop"> 购物车中没有商品，返回商品列表</a></p>');
+                }
+            }
+
+            $('#ajax').jqm({
+                ajax: '/pop_sign?go_url=/shop_products/order_address',
+                trigger: '.pop_member_window',
+                onLoad:  function(){
+                    $.jqmResize("710","460");
+                }
+            });
+
+
+        </script>
+        {%  render "footer" %}
+    </body>
+</html>

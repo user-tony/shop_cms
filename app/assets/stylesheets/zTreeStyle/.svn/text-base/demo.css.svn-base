@@ -1,0 +1,49 @@
+
+div.zTreeDemoBackground {width:240px;text-align:left;}
+
+ul.ztree {border-bottom: 1px solid #617775;background: #f0f6e4;width:195px;overflow-y:scroll;overflow-x:auto;}
+
+
+/* 右键菜单 */
+        .treeRMenu{
+            position: absolute;
+            background: #ddd;
+            border: solid 1px #999;
+            font-size: 14px;
+            color: #666;
+            cursor: default;
+            border-top: none;
+            display:none;
+        }
+        .treeRMenu ul{
+            padding-top: 2px;
+            background: #A4AAFF;
+            overflow: hidden;
+        }
+        .treeRMenu ul li{
+            padding: 2px 10px 2px 24px;
+            border-bottom: solid 1px #999;
+            border-top: solid 1px #fff;
+            background-color: #ddd;
+            background-image: url(/assets/zTreeStyle/img/icon_rmenu.png);
+            background-position: -9999px 5px;
+            background-repeat: no-repeat;
+        }
+        .treeRMenu ul li:first-child{
+            border-top: solid 1px #999;
+        }
+        .treeRMenu ul li:last-child{
+            border-bottom: none;
+        }
+        .treeRMenu ul li:hover{
+            background-color: #fff;
+        }
+        .treeRMenu ul li.add{
+            background-position: 4px 5px;
+        }
+        .treeRMenu ul li.delete{
+            background-position: 4px -45px;
+        }
+        .treeRMenu ul li.edit{
+            background-position: 4px -95px;
+        }

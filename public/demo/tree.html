@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>    
+    <title>芒果CMS系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- description -->
+    <meta name="description" content="芒果CMS系统" />    
+    <!-- favorite icon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="bookmark" href="/favicon.ico" type="image/x-icon">
+    
+    <link rel="stylesheet" href="../../app/assets/stylesheets/admin/global.css" media="all" type="text/css" />
+    <link rel="stylesheet" href="../../app/assets/stylesheets/admin/mod.css" media="all" type="text/css" />
+    <link rel="stylesheet" href="../../app/assets/stylesheets/admin/site.css" media="all" type="text/css" />
+    
+    <link rel="stylesheet" href="../zTree/css/demo.css" type="text/css">
+    <link rel="stylesheet" href="../zTree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="../zTree/js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="../zTree/js/jquery.ztree.core-3.1.js"></script>
+    <script type="text/javascript" src="../zTree/js/jquery.ztree.excheck-3.1.js"></script>
+	<script type="text/javascript" src="../zTree/js/jquery.ztree.exedit-3.1.js"></script>
+    <SCRIPT type="text/javascript">
+		<!--
+		var setting = {
+			async: {
+				enable: true,
+				url:"json.html",
+				autoParam:["id", "name=n", "level=lv"],
+				otherParam:{"otherParam":"zTreeAsyncTest"},
+				dataFilter: filter
+			},
+            view: {
+				addHoverDom: addHoverDom,
+				removeHoverDom: removeHoverDom,
+				selectedMulti: false
+			},
+			edit: {
+				enable: true,
+				editNameSelectAll: true
+			},
+			callback: {
+				beforeDrag: beforeDrag,
+				beforeEditName: beforeEditName,
+				beforeRemove: beforeRemove,
+				beforeRename: beforeRename,
+				onRemove: onRemove,
+				onRename: onRename
+			}
+            
+		};
+
+		function filter(treeId, parentNode, childNodes) {
+			if (!childNodes) return null;
+			for (var i=0, l=childNodes.length; i<l; i++) {
+				childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
+			}
+			return childNodes;
+		}
+
+        var log, className = "dark";
+		function beforeDrag(treeId, treeNodes) {
+			return false;
+		}
+		function beforeEditName(treeId, treeNode) {
+			className = (className === "dark" ? "":"dark");
+			showLog("[ "+getTime()+" beforeEditName ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			zTree.selectNode(treeNode);
+			return confirm("进入节点 -- " + treeNode.name + " 的编辑状态吗？");
+		}
+		function beforeRemove(treeId, treeNode) {
+			className = (className === "dark" ? "":"dark");
+			showLog("[ "+getTime()+" beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			zTree.selectNode(treeNode);
+			return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
+		}
+		function onRemove(e, treeId, treeNode) {
+			showLog("[ "+getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+		}
+		function beforeRename(treeId, treeNode, newName) {
+			className = (className === "dark" ? "":"dark");
+			showLog("[ "+getTime()+" beforeRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+			if (newName.length == 0) {
+				alert("节点名称不能为空.");
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				setTimeout(function(){zTree.editName(treeNode)}, 10);
+				return false;
+			}
+			return true;
+		}
+		function onRename(e, treeId, treeNode) {
+			showLog("[ "+getTime()+" onRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+		}
+		function showLog(str) {
+			if (!log) log = $("#log");
+			log.append("<li class='"+className+"'>"+str+"</li>");
+			if(log.children("li").length > 8) {
+				log.get(0).removeChild(log.children("li")[0]);
+			}
+		}
+		function getTime() {
+			var now= new Date(),
+			h=now.getHours(),
+			m=now.getMinutes(),
+			s=now.getSeconds(),
+			ms=now.getMilliseconds();
+			return (h+":"+m+":"+s+ " " +ms);
+		}
+
+		var newCount = 1;
+		function addHoverDom(treeId, treeNode) {
+			var sObj = $("#" + treeNode.tId + "_span");
+			if (treeNode.editNameFlag || $("#addBtn_"+treeNode.id).length>0) return;
+			var addStr = "<button type='button' class='add' id='addBtn_" + treeNode.id
+				+ "' title='add node' onfocus='this.blur();'></button>";
+			sObj.append(addStr);
+			var btn = $("#addBtn_"+treeNode.id);
+			if (btn) btn.bind("click", function(){
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				zTree.addNodes(treeNode, {id:(100 + newCount), pId:treeNode.id, name:"new node" + (newCount++)});
+				return false;
+			});
+		};
+		function removeHoverDom(treeId, treeNode) {
+			$("#addBtn_"+treeNode.id).unbind().remove();
+		};
+		function selectAll() {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			zTree.setting.edit.editNameSelectAll =  $("#selectAll").attr("checked");
+		}
+		
+        
+		$(document).ready(function(){
+			$.fn.zTree.init($("#treeDemo"), setting);
+		});
+		//-->
+	</SCRIPT>
+    
+</head>
+<body>
+    <div class="s-head g-ltwg-ltc">head</div>
+    <div class="s-mainav g-ltw g-ltc">mainav</div>
+    <div class="s-container g-ltw g-ltc">
+        <div class="s-content g-ltw">
+            <div class="s-right-wrapper g-ltw">
+                <h2 class="s-title-head"><img src="../images/demo/warning.png" alt="" />树演示</h2>
+            
+                <!-- bloc -->
+                <div class="gm-bloc s-h-wrapper">
+                    <div class="gm-bloc-head">
+                        <h3 class="gm-bloc-title">
+                            关联数据表格
+                        </h3>
+                        <a href="#" class="toggle"></a>
+                    </div>
+                    <div class="gm-bloc-body">
+                        <div class="s-content-left">
+                            <div class="zTreeDemoBackground">
+                                <ul id="treeDemo" class="ztree"></ul>
+                            </div>
+                        </div>
+                            
+                        <div class="s-content-right">
+                            
+                             <div class="s-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>表头</th>
+                                            <th width="100">表头</th>
+                                            <th>表头</th>
+                                            <th>表头</th>
+                                            <th width="60">表头</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="s-input">
+                                                    <input type="checkbox" value="1" checked="checked" />
+                                                </div>
+                                            </td>
+                                            <td>John Doe</td>
+                                            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non nulla sapien, quis luctus felis. Fusce sodales tempus tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non nulla sapien, quis luctus felis. Fusce sodales tempus tincidunt.</td>
+                                            <td><a href="#">link</a></td>
+                                            <td class="edit"><a href="#"><img src="../images/demo/delete.png" alt="" /></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="s-input">
+                                                    <input type="checkbox" value="1" checked="checked" />
+                                                </div>
+                                            </td>
+                                            <td>John Doe</td>
+                                            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non nulla sapien, quis luctus felis. Fusce sodales tempus tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non nulla sapien, quis luctus felis. Fusce sodales tempus tincidunt.</td>
+                                            <td><a href="#">link</a></td>
+                                            <td class="edit"><a href="#"><img src="../images/demo/delete.png" alt="" /></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="s-input">
+                                                    <input type="checkbox" value="1" checked="checked" />
+                                                </div>
+                                            </td>
+                                            <td>John Doe</td>
+                                            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non nulla sapien, quis luctus felis. Fusce sodales tempus tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non nulla sapien, quis luctus felis. Fusce sodales tempus tincidunt.</td>
+                                            <td><a href="#">link</a></td>
+                                            <td class="edit"><a href="#"><img src="../images/demo/delete.png" alt="" /></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="s-input">
+                                                    <input type="checkbox" value="1" checked="checked" />
+                                                </div>
+                                            </td>
+                                            <td>John Doe</td>
+                                            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non nulla sapien, quis luctus felis. Fusce sodales tempus tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non nulla sapien, quis luctus felis. Fusce sodales tempus tincidunt.</td>
+                                            <td><a href="#">link</a></td>
+                                            <td class="edit"><a href="#"><img src="../images/demo/delete.png" alt="" /></a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="gm-pagination">
+                                 <nav class="pagination">
+                                    <span class="first">
+                                  <a href="/pages">&laquo; 第一条</a>
+                                </span>
+
+                                    <span class="prev">
+                                  <a href="/pages?page=8" rel="prev">&lsaquo; 上一个</a>
+                                </span>
+
+                                        <span class="page">
+                                  <a href="/pages">1</a>
+                                </span>
+
+                                        <span class="page">
+                                  <a href="/pages?page=2">2</a>
+                                </span>
+
+                                        <span class="page gap">...</span>
+
+                                        <span class="page">
+                                  <a href="/pages?page=5">5</a>
+                                </span>
+
+                                        <span class="page">
+                                  <a href="/pages?page=6">6</a>
+                                </span>
+
+                                        <span class="page">
+
+                                  <a href="/pages?page=7">7</a>
+                                </span>
+
+                                        <span class="page">
+                                  <a href="/pages?page=8" rel="prev">8</a>
+                                </span>
+
+                                        <span class="page current">
+                                  9
+                                </span>
+
+                                        <span class="page">
+                                  <a href="/pages?page=10" rel="next">10</a>
+                                </span>
+
+                                        <span class="page">
+                                  <a href="/pages?page=11">11</a>
+                                </span>
+
+                                        <span class="page">
+
+                                  <a href="/pages?page=12">12</a>
+                                </span>
+
+                                        <span class="page">
+                                  <a href="/pages?page=13">13</a>
+                                </span>
+
+                                        <span class="page gap">...</span>
+
+                                        <span class="page">
+
+                                  <a href="/pages?page=16">16</a>
+                                </span>
+
+                                        <span class="page">
+                                  <a href="/pages?page=17">17</a>
+                                </span>
+
+                                    <span class="next">
+                                  <a href="/pages?page=10" rel="next">下一个 &rsaquo;</a>
+
+                                </span>
+
+                                    <span class="last">
+                                  <a href="/pages?page=17">末尾 &raquo;</a>
+                                </span>
+
+                                  </nav>
+                                  <form action="" class="s-page-go">跳转到<input type="text" />页</form>
+                                </div>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="s-rail g-ltw">
+            <div class="gm-accordion-container g-ltw">
+                <ul>
+                	<li><a href="#">menu</a>
+                        <ul>
+                        	<li><a href="#">hello</a></li>
+                            <li class="current"><a href="#">menu</a>
+                                <ul>
+                                	<li><a href="#">hello</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="current"><a href="#">current menu</a>
+                        <ul>
+                        	<li><a href="#">hello</a></li>
+                            <li class="current"><a href="#">menu</a>
+                                <ul>
+                                	<li><a href="#">hello</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="no-child"><a href="#">not a menu</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="s-copyright g-ltc">copyright</div>
+    
+    
+</body>
+</html>

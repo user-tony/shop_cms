@@ -1,0 +1,84 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "template"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/template"%>
+<% end %>
+<div class="gm-tabs s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      模板资源文件管理
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-tabs-content current">
+    <div class="gm-toolbar">
+      <ul>
+        <li><%= link_to "上传文件", upload_file_admin_skins_path(:path => @path) %></li>
+        <li><%#= link_to "新建目录", "#" %></li>
+        <li><%#= link_to "批量删除", "#" %></li>
+      </ul>
+    </div>
+    <div class="s-table">
+      <table>
+        <thead>
+          <tr>
+            <th width="50">选项</th>
+            <th>文件名称</th>
+            <th width="150">文件大小</th>
+            <th width="120">更新时间</th>
+            <th width="150">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%if @path.present?%>
+            <tr>
+              <td>&nbsp;</td>
+              <td><img src="/assets/file_icon/UpFiles.gif" /> <%=link_to "返回上级目录", (@parent_path.present? ? admin_skins_path(:path => @parent_path) : admin_skins_path)%></td>
+              <td colspan="3"><strong>当前路径：</strong><%=@path%></td>
+            </tr>
+          <%end%>
+          <% @dir_list.each do |u| %>          
+            <tr>
+              <td>
+                <div class="s-input">
+                  <input type="checkbox" value="<%#=u[:name]%>" />
+                </div>
+              </td>
+              <td><img src="/assets/file_icon/folderclosed.gif" /> <strong><%=link_to u[:name], admin_skins_path(:path => "#{@path}/#{u[:name]}")%></strong></td>
+              <td><%=u[:size] == 0 ? "空目录" : "包含#{u[:size]}个文件"%></td>
+              <td><%=u[:date].strftime("%Y-%m-%d %H:%M")%></td>
+              <td class="edit">
+                <%#= link_to "[改名]", "#"%>
+                &nbsp;&nbsp;
+                <%#= link_to "[删除]", delete_admin_skins_path(:path => @path, :name => u[:name]), :confirm => "您确定要删除吗？" %>
+              </td>
+            </tr>
+          <%end%>
+          <% @file_list.each do |u| %>
+            <tr>
+              <td>
+                <div class="s-input">
+                  <input type="checkbox" value="<%=u[:name]%>" />
+                </div>
+              </td>
+              <td><img src="/assets/file_icon/<%=u[:extname]%>.gif" />&nbsp;&nbsp;<strong><%=link_to(u[:name], edit_file_admin_skins_path(:path => @path, :name => u[:name])) %></strong></td>
+              <td><%=file_size(u[:size])%></td>
+              <td><%=u[:date].strftime("%Y-%m-%d %H:%M")%></td>
+              <td class="edit">
+                <%= link_to("【编辑】", edit_file_admin_skins_path(:path => @path, :name => u[:name])) if Skin::EDIT_EXTNAME.include?(u[:extname]) %>
+                &nbsp;&nbsp;
+                <!--
+                <%#= link_to "[改名]", "#"%>
+                &nbsp;&nbsp;
+                -->
+                <%= link_to "【删除】", delete_admin_skins_path(:path => @path, :name => u[:name]), :confirm => "您确定要删除吗？" %>
+              </td>
+            </tr>
+          <%end%>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

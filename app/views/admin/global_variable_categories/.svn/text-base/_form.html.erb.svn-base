@@ -1,0 +1,27 @@
+<div class="s-input">
+  <%= f.label :parent_id, "*所属分类：" %>
+  <br />
+  <%= f.select :parent_id, options_for_select(GlobalVariableCategory.by_parent_id(0).by_level(GlobalVariableCategory::LEVEL_LOWER).delete_if{|category| category == @category}.map{|category| [category.name, category.id]}.unshift(["根分类", 0]), @category.parent_id), {:include_blank => false} %>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.label :name, "*分类名称：" %>
+  <br />
+  <%= f.text_field :name %>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.label :description, "描述信息：" %>
+  <br />
+  <%= f.text_area :description, :size => "70x10" %>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.submit "保存" %>
+</div>
+
+
+<br />

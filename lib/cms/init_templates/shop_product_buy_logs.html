@@ -1,0 +1,38 @@
+<div class="gm-show-buyer-list">
+  <table>
+    <thead>
+      <tr>
+        <th width="120">买家</th>
+        <th width="100">拍下价格</th>
+        <th width="60">数量</th>
+        <th width="160">购买时间</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%if buy_logs != empty%}
+      {%for log in buy_logs%}
+      <tr>
+        <td>
+          {%assign buy_member = log.buy_member%}
+          {%if buy_member%}
+          {{buy_member.nick_name}}
+          {%else%}
+          用户不存在
+          {%endif%}
+        </td>
+        <td><span class="cost">{{log.price | string_format:"float","%.2f"}}</span></td>
+        <td>{{log.item_count}}</td>
+        <td>{{log.created_at | date:"%Y-%m-%d %H:%M"}}</td>
+      </tr>
+      {%endfor%}
+      {%else%}
+      <tr>
+        <td>
+          还没有人购买
+        </td>
+      </tr>
+      {%endif%}
+    </tbody>
+  </table>
+  {{buy_logs | paginate:page_param}}
+</div>

@@ -1,0 +1,42 @@
+<h2>忘记密码</h2>
+
+<%= simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => {:id => "new_password", :method => :post }) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="inputs">
+    <%= f.input :email, :required => true %>
+  </div>
+
+  <div class="actions">
+    <%= f.button :submit, "重置密码" %>
+  </div>
+<% end %>
+
+<%= render "members/links" %>
+
+<%= content_for :head do %>
+  <script type ="text/javascript">
+    $(function(){
+      $("#new_password").validate({
+        //debug:true,　//测试时打开
+        rules: {
+          "member[email]": {
+            required:true
+          }
+        },
+        messages:{
+          "member[email]": {
+            required:"邮箱不能为空！"
+          }
+        },
+        submitHandler:function(form){
+          $(form).hide().data('submiting','true');
+          var loading = $('<p> <%= image_tag("/images/loading.gif") %>正在提交，请稍后...</p>');
+          $(form).after(loading);
+          form.submit();
+        }
+      });
+    });
+
+  </script>
+<% end %>

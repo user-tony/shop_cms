@@ -1,0 +1,46 @@
+<% if params[:iframe] %>
+  <%= hidden_field_tag "iframe", "true" %>
+<% end %>
+
+<!-- form -->
+<div class="s-input">
+  <%#= f.input :product_category_id, :collection  => nested_set_options(ProductCategory.parent_node) {|i| "#{'-' * i.level} #{i.name}" }, :label => "产品分类", :include_blank => false %>
+  <%= f.input :product_category_id, :collection => ProductCategory.parent_node(false), :label => "产品分类", :include_blank => false %>
+  <p class="help-block"> 区分新产品类别(如没有分类，请先在产品树上新建分类，之后添加产品)</p>
+</div>
+<br />
+ 
+<div class="s-input">
+  <%= f.input :name,  :label => "产品名称" %>
+  <p class="help-block"> 产品展示时显示 </p>
+</div>
+<br />
+
+<div class="input string">
+  <label for="product_tag" class="text optional control-label">产品标签</label>
+  <%= text_field_tag :tag, @product.tag_list.present? ? @product.tag_list : "", :id => "tag-id", :calss => "string "  %>
+  <p class="help-block"> 根据标签可以搜索到该产品</p>
+</div>
+<br />
+
+
+<div class="s-input">
+  <%= f.input :product_color,  :label => "产品颜色"  %>
+  <p class="help-block"> 产品显示时显示的一个产品属性</p>
+</div>
+<br />
+
+
+<div class="s-input">
+  <%= f.input :description , :as => "text", :label => "描述信息",  :input_html => {:size => "60x5"} %>
+  <p class="help-block"> 产品描述信息，在查看产品详细信息时显示</p>
+</div>
+<br />
+
+<div class="s-input" style =" margin-left: 150px " >
+  <%= f.button :submit, :value => "下一步" %>
+  <p class="help-block"> 产品基本信息添加后，进入下一步，完善产品信息</p>
+</div>
+<br />
+
+<!-- end form -->

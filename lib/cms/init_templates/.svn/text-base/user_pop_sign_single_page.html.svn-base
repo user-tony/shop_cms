@@ -1,0 +1,7 @@
+
+    {{vo}}
+ <script type="text/javascript">
+    $("#login_go_url").val('{{go_url}}');
+    $("#signup_go_url").val('{{go_url}}');
+ </script>
+ 

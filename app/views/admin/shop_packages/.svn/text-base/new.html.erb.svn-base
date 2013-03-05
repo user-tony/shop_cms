@@ -1,0 +1,25 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "shop"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/shop"%>
+<% end %>
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      添加套餐
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <% content_for :error_message do %>
+      <br />
+      <% error_messages(@shop_package).each do |err| %>
+        <%= err %><br />
+      <% end %>
+    <% end %>
+    <%= simple_form_for @shop_package, :url => admin_shop_packages_path, :defaults => {  :input_html => {:id => "shop_package_form"} } do |f| %>
+      <%= render :partial =>"form", :locals =>{:f => f } %>
+    <% end %>
+  </div>
+</div>

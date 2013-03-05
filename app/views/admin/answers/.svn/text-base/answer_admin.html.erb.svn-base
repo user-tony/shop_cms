@@ -1,0 +1,67 @@
+
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      管理员回复信息
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <!-- form -->
+    <h5>用户留言</h5>
+    <div>
+      <label class="string">留言标题：</label>
+      <%= @answer.title %>
+    </div>
+    <div>
+      <label class="string">留言内容：</label>
+      <div style="width:500px;margin-left: 60px" > <%= @answer.content %> </div>
+    </div>
+
+    <% @admins.each do |ad| %>
+      <div>
+        <p id ="content_<%=ad.id%>">
+        <h5>已回复内容(<%= current_time_format(ad.created_at,true) %>) </h5>
+        <%= ad.content  %> &nbsp;&nbsp;&nbsp;&nbsp;<%=link_to "删除", ajax_replay_answer_delete_admin_answer_path(ad), :remote => true  %>
+        </p>
+      </div>
+
+    <% end %>
+
+    <h5>管理员回复</h5>
+    <%= simple_form_for @reply_answer,  :url => reply_answer_create_admin_answers_path do |f| %>
+      <input class="hidden" id="reply_answer_answer_id" name="reply_answer[answer_id]" type="hidden" value="<%= @answer.id %>" />
+      <div>
+        <%= f.input :content, :as => "text", :label => "回复内容" ,:required => true, :input_html => { :size => "50"} %>
+      </div>
+      <br />
+      <div>
+        <%= f.submit "回复" %>
+      </div>
+    <% end %>
+    <br />
+  </div>
+</div>
+
+<%= content_for :head do  %>
+  <script type ="text/javascript">
+    $(function(){
+      $("#new_reply_answer").validate({
+        //debug:true,　//测试时打开
+        rules: {
+          "reply_answer[content]": {
+            required:true,
+            rangelength:[2,200]
+          }
+        },
+        messages:{
+          "reply_answer[content]": {
+             required:"回复内容不能为空!",
+            rangelength:"回复内容应在2-200个汉字"
+          }
+        }
+      });
+    });
+
+  </script>
+<% end %>

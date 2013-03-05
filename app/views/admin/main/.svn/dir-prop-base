@@ -1,0 +1,11 @@
+K 14
+bugtraq:number
+V 4
+true
+K 10
+svn:ignore
+V 62
+new_shop_v0.1.sublime-project
+new_shop_v0.1.sublime-workspace
+
+END

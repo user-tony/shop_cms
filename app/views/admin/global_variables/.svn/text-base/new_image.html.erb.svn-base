@@ -1,0 +1,16 @@
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      配置上传图片
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <%= form_for :attrachment, :url => create_image_admin_global_variable_path, :html => { :multipart => true } do |f| %>
+      <%= f.label :thumb, "图片地址：" %>
+      <%= f.file_field :thumb %>
+      <%= f.submit "上 传", :id => "fortest" %>
+      图片格式支持（gif/jpeg/png）
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="gm-toolbar">
+  <ul>
+    <% if params[:id] %>
+      <li><%= link_to "添加产品", "", "data-iframe-src" => new_admin_product_path(:category_id => params[:id], :iframe => true), :title => "添加产品", :class => "add-product-tlj" %></li>
+    <% end %>
+  </ul>
+</div>
+
+<div class="s-table">
+  <table>
+    <thead>
+      <tr>
+        <th>选项</th>
+        <th>序号</th>
+        <th>产品分类</th>
+        <th>产品名</th>
+        <th>描述</th>
+        <th>创建时间</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @products.each do |product| %>
+        <tr class="product_tr_<%= product.id %> ">
+          <td>
+            <div class="s-input">
+              <input type="checkbox" value="<%= product.id %>"/>
+            </div>
+          </td>
+          <td><%= product.id %></td>
+          <td> <%= product.product_category.name %>  </td>
+          <td style="font-weight: bold "> <%= link_to product.name, edit_admin_product_path(product, :iframe => true), "data-iframe-src" => edit_admin_product_path(product, :iframe => true), :title => "编辑", :class => "add-product-tlj" %> </td>
+          <td title="<%= product.description %>"> <%= truncate_u(product.description,80) %></td>
+          <td><%= current_time_format(product.created_at) %></td>
+          <td class="edit">
+            <%= link_to image_tag("icon/pic.png"), "", "data-iframe-src" => upload_admin_product_path(product, :iframe => true), :title => "图片管理", :class => "add-product-tlj" %>
+            <%= link_to image_tag("icon/edit.png"), "", "data-iframe-src" => edit_admin_product_path(product, :iframe => true), :title => "编辑", :class => "add-product-tlj" %>
+            <%= link_to image_tag("icon/delete.png"), admin_product_path(product), :method => :delete, :remote => true, :confirm => "你确定要删除吗？", :title => "删除" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<!-- pagination -->
+<div class="gm-pagination">
+  <%= paginate @products %>
+</div>

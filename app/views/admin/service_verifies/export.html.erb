@@ -1,0 +1,86 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "service_verify"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/service_verify"%>
+<% end %>
+
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      序列号批量操作
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <%= form_tag export_save_admin_service_verifies_path do%>
+      <input id="act_hidden" type="hidden" name="act" value="export" ></input>
+      <table>
+        <tr>
+          <td style=" border-bottom:1px solid #DFDFDF;">
+            <h1>1、选择序列号类型</h1>
+          </td>
+        </tr>
+        <tr>
+          <td style=" border-bottom:1px solid #DFDFDF;">
+            序列号类型：<%= select_tag "category_id", options_for_select(ServiceCategory.all.map{|category| [category.name, category.id]})%>
+          </td>
+        </tr>
+        <tr>
+          <td style=" border-bottom:1px solid #DFDFDF;">
+            <h1>2、选择范围方式</h1>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="radio" name="select_type" value="id" checked="checked">按结束id</input>
+          </td>
+        </tr>
+        <tr>
+          <td style=" border-bottom:1px solid #DFDFDF;">
+            开始id：<input name="start_id" type="text" value="<%=params[:start_id]%>" />结束id:<input name="end_id" type="text" />
+          </td>
+        </tr>
+         <tr>
+          <td>
+            <input type="radio" name="select_type" value="count">按条数</input>
+          </td>
+        </tr>
+        <tr>
+          <td style=" border-bottom:1px solid #DFDFDF;">
+            开始id：<input name="start_id2" type="text" value="<%=params[:start_id]%>" />连续取<input name="end_count" type="text" />条
+          </td>
+        </tr>
+        <tr>
+          <td style=" border-bottom:1px solid #DFDFDF;">
+            <h1>3、选择功能</h1>
+          </td>
+        </tr>
+        <tr>
+          <td style=" border-bottom:1px solid #DFDFDF;">
+            <div style="width:200px;height:100px; float: left; border:dashed; margin-left: 10px; text-align: center; padding:5px;">
+              设置状态<br />
+              <select name="status">
+                <option value="-1">锁定</option>
+                <option value="0">未锁定</option>
+              </select>
+              <br />
+              <input type="submit" value="提交" onclick="return switchAct('set_status')" />
+            </div>
+            <div style="width:200px;height:100px; float: left; border:dashed; margin-left: 10px; text-align: center; padding:5px;  ">
+              删除序列号<br />
+              <input type="submit" value="删除" onclick="return (confirm('确定删除？不可恢复！谨慎操作！') && switchAct('delete'))" />
+            </div>
+          </td>
+        </tr>
+      </table>
+    <%end%>
+  </div>
+</div>
+<script>
+  function switchAct(act)
+  {
+    $("#act_hidden").val(act);
+    return true;
+  }
+</script>

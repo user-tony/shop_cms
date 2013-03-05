@@ -1,0 +1,54 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "shop_category"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/shop_category"%>
+<% end %>
+
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      编辑分类信息      <%= link_to "删除本分类", admin_shop_category_path(@shop_category.id), :method => :delete ,:confirm => "你确定要删除吗？" ,:title => "删除"%>
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <%= simple_form_for @shop_category, :url => admin_shop_category_path(@shop_category),:validate => true, :defaults => { :input_html => {:method => :put } } do |f| %>
+      <%= render :partial =>"form", :locals =>{:f => f } %>
+    <% end %>
+  </div>
+</div>
+
+<%= content_for :head do   %>
+  <script type ="text/javascript">
+    $(function(){
+      $("#edit_shop_category_<%= @shop_category.id %> ").validate({
+        //debug:true,　//测试时打开
+        rules: {
+          "shop_category[name]": {
+            required:true,
+            rangelength:[2,30]
+          },
+          "shop_category[description]": {
+            rangelength:[2,200]
+          }
+        },
+        messages:{
+          "shop_category[name]": {
+            required: "分类标题不能为空",
+            rangelength:"描述应在2-30个汉字"
+          },
+          "shop_category[description]": {
+            rangelength:"描述应在2-200个汉字"
+          }
+        },
+        submitHandler:function(form){
+          $(form).hide().data('submiting','true');
+          var loading = $('<p>正在提交，请稍后...</p>');
+          $(form).after(loading);
+          form.submit();
+        }
+      });
+    });
+  </script>
+<% end %>

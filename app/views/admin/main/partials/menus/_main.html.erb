@@ -1,0 +1,15 @@
+<% menu_type ||= "" %>
+<div class="s-mainav g-ltw g-ltc">
+  <div class="gm-nav-wrapper">
+    <ul>
+      <li>
+        <a href="/admin/channels" <%= "class='current'" if menu_type == "channel"  %>>栏目管理</a>
+      </li>
+
+      <li><a href="/admin/members" <%= "class='current'" if menu_type == "member"  %>>用户管理</a></li>
+      <li><%= link_to "商城管理", admin_shop_products_path, :class => "#{"current" if menu_type == "shop"}" %></li>
+      <li><a href="<%=admin_templates_path %>" <%= "class='current'" if menu_type == "template"  %>>模板管理</a></li>
+      <li><a href=<%= admin_global_variables_path %> <%= "class='current'" if menu_type == "system"  %>>系统设置</a></li>
+    </ul>
+  </div>
+</div>

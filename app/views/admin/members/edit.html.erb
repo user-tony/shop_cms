@@ -1,0 +1,109 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "member"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/member"%>
+<% end %>
+
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      编辑用户信息
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <% content_for :error_message do %>
+    <% error_messages(@member).each do |err| %>
+      <%= err %><br />
+    <% end %>
+  <% end %>
+
+  <div class="gm-bloc-body">
+    <%= form_for @member, :url => admin_member_path, :html => {:method => :put} do |f| %>
+      <div class="s-input">
+        <%= f.label :login, "用户名：" %><br />
+        <%= f.text_field :login, :disabled => true %>
+        <p class="help-block">(用户登录名)</p>
+      </div>
+      <br />
+      <div class="s-input">
+        <%= f.label :nick_name, "昵称：" %><br />
+        <%= f.text_field :nick_name %> </div>
+      <p class="help-block">(用户昵称)</p>
+      <br />
+      <div class="s-input">
+        <%= f.label :email, "邮 箱：" %><br />
+        <%= f.email_field :email %>
+        <p class="help-block">(用户邮件地址)</p>
+      </div>
+      <br />
+      <% unless @member_info.blank? %>
+        <div class="s-input">
+          <%= label_tag "member_info[name]", "姓 名：" %>
+          <%= text_field_tag "member_info[name]", (@member_info.name unless @member_info.blank?) %>      </div>
+        <br />
+        <div class="s-input">
+          <%= label_tag "member_info[gender]", "性 别：" %>
+          <%= radio_button_tag "member_info[gender]", "false",(true if !@member_info.blank? and @member_info.gender == false) %>
+          <%= label_tag "member_info[gender][false]","男" %>
+          <%= radio_button_tag "member_info[gender]", "true", (true if !@member_info.blank? and @member_info.gender == true) %>
+          <%= label_tag "member_info[gender][true]","女" %>
+        </div>
+        <br />
+
+        <div class="s-input">
+          <%= label_tag "member_info[birthday]", "出生日期：" %>
+          <%= text_field_tag "member_info[birthday]" , nil, :id =>  "validBeforePicker" %>
+        </div>
+        <br />
+
+        <div class="s-input">
+          <%= label_tag "member_info[tel]", "电 话：" %>
+          <%= text_field_tag "member_info[tel]", (@member_info.tel unless @member_info.blank?) %>
+        </div>
+        <br />
+        <div class="s-input">
+          <%= label_tag "member_info[address]", "住 址：" %>
+          <%= text_field_tag "member_info[address]", (@member_info.address unless @member_info.blank?) %>
+        </div>
+        <br />
+
+        <div class="s-input">
+          <%= label_tag "member_info[description]", "个人说明：" %>
+          <%= text_area_tag "member_info[description]", (@member_info.description unless @member_info.blank?) %>
+        </div>
+        <br />
+      <% end %>
+      <div class="s-input">
+        <%= submit_tag "提交" %>
+      </div>
+      <br />
+    <% end %>
+  </div>
+</div>
+
+
+<%= content_for :head do  %>
+
+
+
+  <script type="text/javascript">
+    $(function(){
+      // Document is ready
+      $('#validBeforePicker').datepick({
+        onSelect: customRange});
+    });
+  
+
+    function customRange(dates) {
+      if (this.id == 'validBeforePicker') {
+        $('#validAfterPicker').datepick('option', 'minDate', dates[0] || null);
+      }
+      else {
+        $('#validBeforePicker').datepick('option', 'maxDate', dates[0] || null);
+      }
+    }
+  </script>
+<% end  %>
+
+

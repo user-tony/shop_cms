@@ -1,0 +1,1 @@
+<div class="s-copyright g-ltc">版本号：&nbsp;&nbsp;<%= $cms_global_variable["version"] %></div>

@@ -1,0 +1,26 @@
+.sindex-login-fixed{
+    height: 238px;
+}
+.sindex-artip-fixed{
+    height: 198px;
+}
+.s-index-cnews{
+    height: 428px;
+}
+.sindex-imglist-fixed{
+    height: 384px;
+}
+.sindex-ad-fixed{
+    height: 248px;
+}
+
+
+.s-index-sm li{
+    padding: 6px;
+    width: 160px;
+}
+.s-index-sm li img{
+    padding: 3px;
+    background: #fff;
+    border: solid 1px #ddd;
+}

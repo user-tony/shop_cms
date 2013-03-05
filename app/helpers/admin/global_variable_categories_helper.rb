@@ -1,0 +1,2 @@
+module Admin::GlobalVariableCategoriesHelper
+end

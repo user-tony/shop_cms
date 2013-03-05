@@ -1,0 +1,21 @@
+
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "custom_page"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/channel"%>
+<% end %>
+
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      编辑自定义页
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <%= simple_form_for  @custom_page, :url => admin_custom_page_path, :defaults => {  :input_html => { :method => :put} }, :remote => true do |f| %>
+      <%= render :partial =>"form", :locals =>{:f => f } %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "system"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/system"%>
+<% end %>
+
+<div class="gm-tabs s-h-wrapper">
+  <div class="gm-bloc-head">
+        <h3 class="gm-bloc-title">
+          友情链接管理
+        </h3>
+        <a href="#" class="toggle"></a>
+      </div>
+  <div class="gm-tabs-head">
+    <a href="#"  class="current">友情链接列表</a>
+  </div>
+  <div class="gm-tabs-content current">
+    <div class="gm-toolbar">
+      <ul>
+        <li><%= link_to "添加", new_admin_friendly_website_path %></li>
+      </ul>
+    </div>
+    <div class="s-table">
+      <table>
+        <thead>
+          <tr>
+            <th>链接名称</th>
+            <th>链接地址</th>
+            <th>时间</th>
+            <th>描述</th>
+            <th>操作</th>
+          </tr>
+        </thead>       
+        <tbody>
+          <% unless @websites.blank? %>
+            <% @websites.each do |website| %>
+              <tr>
+                <td><%= link_to website.name, edit_admin_friendly_website_path(website.id) %>  </td>
+                <td> <%= website.website_url %>  </td>
+                <td><%= website.created_at.to_date %></td>
+                <td> <%= website.description %></td>
+                <td class="edit">
+                  <%= link_to image_tag("icon/edit.png"), edit_admin_friendly_website_path(website.id) %>
+                  <%= link_to image_tag("icon/delete.png"), admin_friendly_website_path(website.id), :method => :delete ,:confirm => "你确定要删除吗？" %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <!-- pagination -->
+
+  </div>
+</div>

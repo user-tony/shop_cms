@@ -1,0 +1,11 @@
+
+
+<div class="s-rail g-ltw">
+  <div class="gm-accordion-container g-ltw">
+    <ul>
+      <% InfoModel.ct_desc.each do |model|  %>
+        <li><%#= link_to model.name, url_for(:controller => "#{model.model_name.tableize}", :action => "index") %> </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

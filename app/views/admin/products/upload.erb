@@ -1,0 +1,64 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "product"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/product"%>
+<% end %>
+
+
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      产品图片管理
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <%= form_for  @product, :url => attachment_admin_product_path(@product.id), :html => { :multipart => true, :method => :post } do |f| %>
+      <div class="s-input">
+        上传缩略图：<input type="file" name="product_imgs[]"/>
+        <span id ="thumb" ></span> <br/> &nbsp;&nbsp;&nbsp;
+        <%= link_to "添加更多", "#", :onclick =>"add_thumb();return false;" %>
+        (建议尺寸为：500x500) <br />
+        图片比例: 1 x 1
+        <div>        
+          <span>浏览：</span>
+        </div>
+        <%@product.product_attachments.each do |attachment|%>
+          <div id="img_<%=attachment.id%>">
+            <span><img src="<%=attachment.thumb.url(:s1)%>" height="60"/>&nbsp;<a href="javascript:removeimg('<%=attachment.id%>');"  onclick = "return (confirm('确定删除此图片吗?'))">删除</a></span>
+          </div>
+          <br />
+        <%end%>
+      </div>
+      <br />
+      <div class="s-input">
+        <%= f.submit "保存" %>
+      </div>
+      <br />
+    <% end %>
+  </div>
+</div>
+
+  <script type ="text/javascript">
+    var img_index=0;
+    function add_thumb(){
+      var html="<div id=\"thumb_"+img_index+"\">上传缩略图：<input type=\"file\" name=\"product_imgs[]\"/>&nbsp;<a href=\"javascript:removeline('"+img_index+"');\">删除</a></div>";
+      $("#thumb").before(html);
+      img_index++;
+    }
+    //删除行
+    function removeline(id){
+      $("#thumb_"+id).remove();
+    }
+    //删除图片
+    function removeimg(id){
+      $.get("<%=delete_attachment_admin_products_path%>", {id:id}, function (data, textStatus){
+        if(data==1){
+          $("#img_"+id).remove();
+        }else{
+          alert("图片删除失败。");
+        }
+      });
+    }
+  </script>

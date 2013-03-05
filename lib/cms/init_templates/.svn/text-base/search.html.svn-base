@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        {% render "head" %}
+    </head>
+    <body>
+        {% render "channel" %}
+        {% render "search_category"%}
+        <div class="g-ltw s-ltw s-ltwm">
+            <div class="g-ltw g-ltr s-grid2">
+                <div class="g-ltw s-ltwm g-ltc s-snav">
+                    <a href="#">首页</a>  &gt;  搜索结果  &gt;
+                    {%if q%}
+                    {{q}}
+                    {%else%}
+                    {{category_name}}
+                    {%endif%}
+                </div>
+                <div class="g-ltw s-ltwm g-ltc">
+                    <div class="gm-tags-sorts-list">
+                        <!-- 所有分类 -->
+                        {%unless category_name%}
+                        {%for root_category in root_categories%}
+                        <div class="item">
+                            <p class="title">{{root_category.name}}</p>
+                            <ul>
+                                <li><a href="/shop/index/search/{{q | generate_shop_search_filter_url:category_ids, root_category.id, 0, order}}">不限</a></li>
+                                {%for category in root_category.children%}
+                                <li class="{{category_ids | generate_shop_search_selection_status:root_category.id, category.id}}"><a href="/shop/index/search/{{q | generate_shop_search_filter_url:category_ids, root_category.id, category.id, order}}">{{category.name}}</a></li>
+                                {%endfor%}
+                            </ul>
+                        </div>
+                        {%endfor%}
+                        {%endunless%}
+                    </div>
+                </div>
+
+                <div class="g-ltw g-ltc s-shop-sets s-shop-small-sets">
+                    <div class="gm-img-list">
+                        <ul>
+                            <!-- 商品 -->
+                            {%if products != empty%}
+                            {%for product in products%}
+                            <li>
+                                <form action="/shop_products/buy_product" method="post"  accept-charset="UTF-8"  >
+                                    <a href="/shop/show/{{product.id}}" class="simg"><img alt="{{product.name}}" src="{{product.product_attachments.first | thumb:'s2'}}"></a>
+                                    <a href="/shop/show/{{product.id}}" title="{{product.name}}" class="link">{{product.name}}</a>
+                                    <input type="hidden" name="quantity" class="num-input" id="product_num"  value="1"/>
+                                    <input type="hidden" name="product_id" id="product_id"  value="{{product.id}}"  />
+                                    <input type="hidden" name="product_type"   value="shop_product"  />
+                                    <p><span class="evaluate">商品评价</span>: <img class="stars" src="/skin/default/images/star.gif" alt="{{product.name}}" /></p>
+                                    <p><span class="vip">市场价</span>  <span class="vip-cost"><del>{{product.market_price | string_format:"float","%.2f"}}</del></span></p>
+                                    <p><span class="vip">会员价</span>  <span class="vip-cost">{{product.price | string_format:"float","%.2f"}}</span></p>
+                                    <!-- <p>已成交 160 笔</p> -->
+                                    <p>
+                                        {% if session["current_nick_name"]  %}
+                                        <input type="submit"  class="buy jqModal" value="立即购买" />
+                                        {% else %}
+                                        <input type="submit"  class="buy jqModal pop_member_window" value="立即购买" />
+                                        {% endif%}
+                                        <a href="/shop_products/add_product" class="cert add-cert">加入购物车</a>
+                                    </p>
+                                </form>
+                            </li>
+                            {%endfor%}
+                            {%else%}
+                            没有相关商品
+                            {%endif%}
+                        </ul>
+                    </div>
+
+                    <!-- 分页 -->
+                    <!-- pagination -->
+                    <div class="gm-pagination">
+                        <div class="pagination">
+                            {{products | paginate}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 商城左侧 -->
+            {% render "shop_left" %}
+        </div>
+
+        {% render "footer" %}
+
+        <script type="text/javascript">
+            $('#dialog').jqm();
+            //添加购物车
+            add_cert_list();
+        </script>
+    </body>
+</html>

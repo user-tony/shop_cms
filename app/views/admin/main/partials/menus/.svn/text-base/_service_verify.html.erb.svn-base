@@ -1,0 +1,11 @@
+<div class="s-rail g-ltw">
+  <div class="gm-accordion-container g-ltw">
+    <ul>
+      <li><%= link_to "序列号管理", admin_service_verifies_path %> </li>
+      <li><%= link_to "导入序列号", import_admin_service_verifies_path %> </li>
+      <li><%= link_to "序列号分类管理", admin_service_categories_path %> </li>
+      <li><%= link_to "添加序列号分类", new_admin_service_category_path %> </li>
+      <li><%= link_to "序列号批量操作", export_admin_service_verifies_path %> </li>
+    </ul>
+  </div>
+</div>

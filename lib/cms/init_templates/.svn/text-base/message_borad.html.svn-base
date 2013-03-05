@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{{cms["web_name"]}}</title>
+        <meta name="description" content="{{cms['meta_description']}}" />
+        <meta name="keywords" content="{{cms['meta_keyword']}}" />
+
+        <script type="text/javascript" src="/assets/application.js"></script>
+        <script type="text/javascript" src="/skin/default/javascripts/jquery.validate.js"></script>
+        <script type="text/javascript" src="/skin/default/javascripts/easyTooltip.js"></script>
+        <link rel="stylesheet" href="/skin/default/stylesheets/global.css" media="all" type="text/css" />
+        <link rel="stylesheet" href="/skin/default/stylesheets/site.css" media="all" type="text/css" />
+        <link rel="stylesheet" href="/skin/default/stylesheets/mod.css" media="all" type="text/css" />
+    </head>
+    <body>
+    	{% render "channel" %}
+        <div class="g-ltw s-ltw s-ltwm">
+            <a href="#"><img src="/skin/default/images/banner.gif" alt="980 x 60广告位" target="_blank" /></a>
+        </div>
+
+        <div class="g-ltw s-ltw s-ltwm">
+            <div class="g-ltw g-ltl s-ltw">
+                <div class="g-ltw s-ltwm g-ltc s-snav">
+                    <a href="#">首页</a>  &gt;  客户留言
+                </div>
+                <div class="g-ltw g-ltc s-cwrapper s-radius-wrapper">
+                    <!-- 审核列表 -->
+                    <div class="gm-comment-list g-ltc s-comment-list">
+                        {% cms_list answer in Answer channel_id:channel.id page_size:'15'  %}
+                        <div class="gm-comment-content">
+                            <div class="user-info">
+                                {% if answer.member_id %}
+                                {%  else %}
+                                <a href="#" class="head"><img src="/skin/default/images/default_product.gif" alt="" />匿名用户</a>
+                                {% endif %}
+                            </div>
+                            <div class="comment">
+                                <div class="title">
+                                    <p>{{ answer.title}}</p>
+                                </div>
+                                <div class="question">
+                                    <p>{{answer.content}}</p>
+                                </div>
+                                <div class="answer">
+                                    {% cms_ReplyAnswer reply in  answer_id:answer.id %}
+                                    <p><span class="atitle">管理员回复：</span>
+                                        {{reply.content}}
+                                    </p>
+                                    {% endcms_ReplyAnswer%}
+                                </div>
+                                <div class="sarrow"></div>
+                            </div>
+                            <p class="digg">
+                                <span class="up" token="{{authenticity_token}}" cid="{{channel.id}}" aid="{{answer.id}}"><img src="/skin/default/images/icon_up.gif" alt="" /></span>
+                                <span class="num">{{answer.approval_count}}</span>
+                            </p>
+                        </div>
+                         
+                        <!-- pagination -->
+                        <div class="page-wrapper">
+                            <div class="ie-fixed custom-size"></div>
+                            <div class="gm-pagination">
+                                <div class="pagination">
+                             {{paginate_html}}
+                                </div>
+                            </div>
+                        </div>
+
+                        {% endcms_list %}
+                    </div>
+
+                    <div class="s-comment-form">
+                        <!-- 留言表单 -->
+                        <form action="/questions/{{ channel.path_customize }}/answer_create" data-remote='true'  id="answer_form"  name="answer"  method="post" >
+                            <input name="authenticity_token" type="hidden" value="6lmpxQ2Cjd81kzoScriags+M4IGvKHLuHG4lVh0y+O8=" />
+                            <p class="head-title">用户留言</p>
+                            <input name="answer[channel_id]" type="hidden" value="{{channel.id}}" />
+                            <div class="tip">提示信息</div>
+                            <div class="form-items">
+                                <p><label for="" class="title"><span class="redstar">*</span>姓名：</label> <input type="text"  name="answer[name]" class="required" /></p>
+                                <p><label for="" class="title"><span class="redstar">*</span>电话：</label> <input type="text" name="answer[phone]"  class="required phone"/></p>
+                                <p><label for="" class="title"><span class="redstar">*</span>地址：</label> <input type="text"   name="answer[address]" class="required"/></p>
+                                <p><label for="" class="title"><span class="redstar">*</span>标题：</label> <input type="text" name="answer[title]"  class="required"/></p>
+                                <p><label for="" class="title"><span class="redstar">*</span>详细内容：</label> <textarea id="" cols="30" rows="10" name="answer[content]" class="required"></textarea></p>
+                                <p class="tools-field"><input type="submit" class="submit" value=" " /> <input type="reset" class="reset" value=" " /></p>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" >
+         $("#answer_form").validate();
+
+            $('#top_story li').each(function(index,li){
+                $('> a',li).easyTooltip({
+                    content: '<div class="scontent" style="display:block;">' + $('.scontent',li).html() + '</div>'
+                });
+                $('.scontent',li).remove();
+            });
+
+            $('.digg .up').click(function(e){
+                var btn = this;
+                $.ajax({
+                    url: '/questions/{{ channel.path_customize }}/answer_top',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: 'token='+$(this).attr('token')+'&channel_id='+$(this).attr('cid')+'&answer_id='+$(this).attr('aid'),
+                    success: function(data, textStatus, jqXHR){
+
+                        if(data.number == 0){
+                            alert("您今天已经参与过了！");
+                        }else{
+                            $(btn).next(".num").text(data.number);
+                            alert("感谢您的参与");
+                        }
+                        //{num:100}
+                        //set num
+                        //alert
+                    }
+                });
+            });
+        </script>
+    		{% render "footer" %} 
+    </body>
+</html>

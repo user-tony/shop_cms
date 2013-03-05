@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>订单详细页{{cms["web_name"]}}</title>
+        {% render "head" %}
+    </head>
+    <body>
+        {% render "channel"%}
+        {% render "search_category"%}
+        <div class="g-ltw s-ltw s-ltwm">
+            <div class="g-ltw g-ltc s-ltwm s-cwrapper">
+                <h2 class="s-title">我的订单</h2>
+
+                <div class="gm-cart-content">
+                    <div class="order-title">
+                        <p class="num">订单编号: <strong>{{order.scode}}</strong> <span>({{order.order_status_cn}})</span></p>
+                        <p class="state">支付状态: <strong>{{order.payment_status_cn}}</strong></p>
+                        {%if order.payment_status == 0%}
+                        <p class="pay"><a href="/my/orders/{{order.id}}/payment?goto_url=/my/orders/{{order.id}}">继续支付</a></p>
+                        {%endif%}
+                    </div>
+
+                    <p class="cert-title">订单信息</p>
+                    <div class="gm-address-list">
+                        <ul>
+                            <li>收货人：{{order.recipient_name}}</li>
+                            <li>联系电话：{{order.phone}}</li>
+                            <li>收货地址：{{order.address}}</li>
+                            <li>下单日期：{{ order.created_at | date:"%Y-%m-%d %H:%M"}}</li>
+                            <li>总金额：{{order.amount | string_format:"float","%.2f"}}</li>
+                            <li>已支付：{{order.payment | string_format:"float","%.2f"}}</li>
+                            <li>留言信息：{{order.remark}}</li>
+                        </ul>
+                    </div>
+
+                    {% if order.logistic %}
+                    <a name="logistics" id="logistics" ></a>
+                    <p class="cert-title">物流信息</p>
+                    <div class="gm-propost-info">
+                        <p class="tip">以下信息由物流公司提供，如无跟踪信息或有疑问，请查询 <a href="#" class="w-link">{{ order.logistic.logistic_com | get_logistic_name}}</a> 官方网站或联系其公示电话</p>
+                        <ul>
+                            <li class="current">{{ order.id | get_logistic }} </li>
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    <p class="cert-title">商品信息</p>
+                    <div class="gm-order-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>产品名称</th>
+                                    <th>购买数量</th>
+                                    <th>成交价格</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in products %}
+                                <tr>
+                                    <td>{{forloop.index}}</td>
+                                    <td><a href="/shop/show/{{product.item_id}}">{{product.item.name}}</a></td>
+                                  <td>{{ product.item_count}}</td>
+                                    <td>{{product.price | string_format:"float","%.2f"}} 元</td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                      <p class="total-cost">商品数量：<strong>{{ products | get_order_item_count }}</strong> 件，消费金额：<strong>{{order.amount | string_format:"float","%.2f"}}</strong> 元，&nbsp;&nbsp;已支付：<strong>{{order.payment | string_format:"float","%.2f"}}</strong>元</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% render "footer" %}
+    </body>
+</html>

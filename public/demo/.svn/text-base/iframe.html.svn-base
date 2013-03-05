@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>芒果CMS系统</title>
+    
+    <!-- description -->
+    <meta name="description" content="芒果CMS系统" />
+    
+    <!-- favorite icon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="bookmark" href="/favicon.ico" type="image/x-icon">
+    
+    <link rel="stylesheet" href="/assets/admin/global.css" media="all" type="text/css" />
+    <link rel="stylesheet" href="/assets/admin/mod.css" media="all" type="text/css" />
+    <link rel="stylesheet" href="/assets/admin/site.css" media="all" type="text/css" />
+    
+    <script type="text/javascript" src="../javascripts/jquery.min.js"></script>
+</head>
+<body style="background:#eee;">
+        <p>提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息</p>
+        <div>
+        <div class="s-input">
+            <input type="button" value="关闭" class="p-close" />
+        </div>
+        </div>
+        
+        <script type="text/javascript">
+            $('.p-close').click(function(e){
+                alert('do something');
+                window.parent.global_jqModal.w.jqmHide();
+            });
+        </script>
+</body>
+</html>

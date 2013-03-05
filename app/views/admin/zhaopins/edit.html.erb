@@ -1,0 +1,48 @@
+ <% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "content"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/content"%>
+<% end %>
+
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      编辑招聘信息
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <%= simple_form_for  @zhaopin, :url => admin_zhaopin_path , :remote => true do |f| %>
+      <%= render :partial =>"form", :locals =>{:f => f } %>
+    <% end %>
+  </div>
+</div>
+
+
+<%= content_for :head do   %>
+  <script type ="text/javascript">
+
+    $(function(){
+      $("#new_article").validate({
+        //debug:true,　//测试时打开
+        rules: {
+          "article[title]": {
+            required:true,
+            rangelength:[2,30]
+          },
+          "article[channel_id]": {
+             required:true
+          },
+          "article[recomment]": {
+             required:true
+          }
+        },
+        messages:{
+
+        }
+      });
+    });
+
+  </script>
+<% end %>

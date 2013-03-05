@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+          <title>{{channel.name}}{{cms["web_name"]}}</title>
+         {% render "head" %}
+    </head>
+    <body>
+        {% render "channel" %}
+
+        <div class="g-ltw s-ltw s-ltwm">
+            <a href="#"><img src="/skin/default/images/banner.gif" alt="980 x 60广告位" target="_blank" /></a>
+        </div>
+
+        <div class="g-ltw s-ltw s-ltwm">
+            <div class="g-ltw g-ltl s-grid2">
+                <div class="g-ltw s-ltwm g-ltc s-snav">
+                    <a href="/" title="首页">首页</a>
+                    {% cms_Channel u in channel:channel top_node:true%}
+                    &gt;  <a href="{{forloop.url}}" title="{{u.name}}">{{u.name}}</a>
+                    {% endcms_Channel%} &gt;  列表
+                </div>
+
+                <div class="g-ltw g-ltc s-cwrapper">
+                    <h2 class="s-title">{{channel.name}}</h2>
+                    {% cms_list list in Article channel_id:channel.id page_size:'15'  %}
+                    <div class="s-list-wrapper">
+                        {% for u in list%}
+                        <div class="s-list-intro g-ltw g-ltc">
+                            <h3 class="s-title"><a href="/articles/{{u.id}}" title="{{u.title}}">{{u.title}}</a></h3>
+                            <p>{{u.description | truncate:80}}</p>
+                            <p class="s-list-meta">发布日期：<span class="meta-content"> {{u.created_at | date:"%Y-%m-%d %H:%M"}}</span>   浏览次数：<span class="meta-content">{{u.view_count}}</span></p>
+                        </div>
+                        {% endfor%}
+                    </div>
+
+
+                    <!-- pagination -->
+                    <div class="gm-pagination">
+                       {{paginate_html}}
+                        <!--<form action="" class="s-page-go">跳转到<input type="text" class="input-page" />页</form>-->
+                    </div>
+                    {% endcms_list %}
+                </div>
+
+                
+            </div>
+
+            <div class="g-ltw g-ltr s-grid1">
+
+                <div class="g-ltw g-ltc s-ltwm s-bwrapper">
+                    <a href="#" target="blank"><img src="/skin/default/images/banner_side.gif" alt="248 x 248 广告位" /></a>
+                </div>
+
+                <div class="g-ltw g-ltc s-ltwm s-cwrapper">
+                    <h2 class="s-title">推荐内容</h2>
+
+                    <div class="s-list-wrapper">
+                        <ul class="s-list-title g-ltw">
+                            {% cms_Article vo in limit:5 t_attr:1%}
+                            <li><a href="{{forloop.url}}" title="{{vo.title}}">{{vo.title}}</a></li>
+                            {% endcms_Article%}
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% render "footer" %}
+    </body>
+</html>

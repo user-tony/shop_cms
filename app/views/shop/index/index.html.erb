@@ -1,0 +1,5 @@
+商品
+<% @hot_shop_products.each do |product|%>
+  <%= link_to product.full_name, shop_product_path(product) %>
+<%end%>
+套餐

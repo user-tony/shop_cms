@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>商城{{cms["web_name"]}}</title>
+        {% render "head" %}
+        <script type="text/javascript" src="/skin/default/javascripts/wowoj_slide.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){      
+                $('#pic_show').wowoj_slide({
+                    delay : 4000,
+                    width: 720,
+                    height: 252
+                    //hoverPause: false
+                });
+            });
+        </script>
+    </head>
+    <body>    
+        {% render "channel" %}
+        {{time}}
+        {% render "search_category"%}
+        <div class="g-ltw s-ltw s-ltwm">
+            <div class="g-ltw g-ltr s-grid2">
+
+                <div class="g-ltw g-ltc s-ltwm s-cwrapper s-shop-index-top">   
+                    <ol id="pic_show">
+                        <li><a href="http://www.baidu.com"><img src="/skin/default/images/demo1.jpg" alt="banner1" /></a></li>
+                        <li><a href="http://www.baidu.com"><img src="/skin/default/images/demo2.jpg" alt="banner2" /></a></li>
+                        <li><a href="http://www.baidu.com"><img src="/skin/default/images/demo3.jpg" alt="banner3" /></a></li>
+                        <li><a href="http://www.baidu.com"><img src="/skin/default/images/demo4.jpg" alt="banner4" /></a></li>
+                        <li><a href="http://www.baidu.com"><img src="/skin/default/images/demo5.jpg" alt="banner5" /></a></li>
+                    </ol>
+                </div> 
+                      <div class="g-ltw g-ltc s-ltwm s-cwrapper s-shop-index">    
+                        <h2 class="s-title">经典套餐</h2>
+                        
+                        <div class="gm-pros-img-list s-big-img-list">
+                            <ul>
+                              {% cms_ShopProduct product in limit:3 recommend:3 %}
+                                    <li>
+                                        <a href="/shop/show/{{product.id}}" title="{{product.name}}" class="simg"><img alt="{{product.name}}" src="{{product.product_attachments.first | thumb:'s4'}}" /></a>
+                                        <div class="pros-info">
+                                            <input type="hidden" name="product_id" id="product_id"  value="{{product.id}}"  />
+                                            <a href="/shop/show/{{product.id}}" title="{{ product.name}}" class="pros-link">{{product.name | truncate:13}}</a>
+                                            <p><span class="vip">会员价</span>
+                                                <span class="vip-cost">{{ product.price | string_format:"float","%.2f"}}</span>
+                                                <br />
+                                            <del>市场价:<span class="cost">{{ product.market_price | string_format:"float","%.2f"}}</span></del>
+                                            </p>
+                                            <a href="/shop_products/add_product" class="add-cart" id="add-cert" title="添加到购物车"></a>
+                                        </div>
+                                    </li>
+                               {% endcms_ShopProduct %}
+                            </ul>
+                        </div>
+                    </div>
+               <div class="g-ltw g-ltc s-cwrapper s-shop-index">    
+                    <h2 class="s-title">最新商品</h2>                            
+                    <div class="gm-pros-img-list">
+                        <ul>
+                            {% cms_ShopProduct product in DESC limit:8 %}
+                            <li>
+                                <a href="/shop/show/{{product.id}}" title="{{product.name}}" class="simg"><img alt="{{product.name}}" src="{{product.product_attachments.first | thumb:'s2'}}" /></a>
+                                <div class="pros-info">
+                                    <input type="hidden" name="product_id" id="product_id"  value="{{product.id}}"  />
+                                    <a href="/shop/show/{{product.id}}" title="{{ product.name}}" class="pros-link">{{product.name | truncate:13}}</a>
+                                    <p><span class="vip">会员价</span>
+                                        <span class="vip-cost">{{ product.price | string_format:"float","%.2f"}}</span>
+                                        <br />
+                                    <del>市场价:<span class="cost">{{ product.market_price | string_format:"float","%.2f"}}</span></del>
+                                    </p>
+                                    <a href="/shop_products/add_product" class="add-cart" id="add-cert" title="添加到购物车"></a>
+                                </div>
+                            </li>
+                            {%endcms_ShopProduct%}
+                        </ul>
+                    </div>
+                    
+                </div> 
+
+                {%cms_list collection in ShopProduct page_size:8%}
+                           <div class="g-ltw g-ltc s-cwrapper s-shop-index">    
+                               <h2 class="s-title">推荐商品</h2>                            
+                               <div class="gm-pros-img-list">
+                                   <ul>
+                                           {%for product in collection%}
+                                       <li>
+                                           <a href="/shop/show/{{product.id}}" title="{{product.name}}" class="simg"><img alt="{{product.name}}" src="{{product.product_attachments.first | thumb:'s2'}}" /></a>
+                                           <div class="pros-info">
+                                               <input type="hidden" name="product_id" id="product_id"  value="{{product.id}}"  />
+                                               <a href="/shop/show/{{product.id}}" title="{{ product.name}}" class="pros-link">{{product.name | truncate:13}}</a>
+                                               <p><span class="vip">会员价</span>
+                                                   <span class="vip-cost">{{ product.price | string_format:"float","%.2f"}}</span>
+                                                   <br />
+                                               <del>市场价:<span class="cost">{{ product.market_price | string_format:"float","%.2f"}}</span></del>
+                                               </p>
+                                               <a href="/shop_products/add_product" class="add-cart" id="add-cert" title="添加到购物车"></a>
+                                           </div>
+                                       </li>
+                                         {%endfor%}
+                                   </ul>
+                               </div>
+                             <div class="pagination">
+                                {{paginate_html}}
+                             </div> 
+                           </div>
+                     {%endcms_list%}    
+            </div>
+            <script type="text/javascript">
+                //添加购物车
+               add_cert_list();
+
+            </script>
+
+            {% render "shop_left" %}
+        </div>
+        {% render "footer" %}
+
+    </body>
+</html>

@@ -1,0 +1,36 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "content"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/content"%>
+<% end %>
+
+<h2 class="s-title-head"><%=image_tag("icon/warning.png") %> 招聘信息管理</h2>
+<div class="gm-tabs s-h-wrapper">
+  <div class="gm-tabs-head">
+    <a href="#"  class="current">招聘信息管理</a>
+  </div>
+  <div class="gm-tabs-content current" id ="zhaopin_body">
+    <%= render :partial => "list" %>
+  </div>
+
+</div>
+
+<script type ="text/javascript" >
+  function load_content(){
+    $('#tree_load_content').load("/admin/zhaopins/<%= params[:id] %>/channel_index");
+  }
+  $().ready(function(){
+    $.jqmIframe({
+    overlay: 70,
+    trigger: '.add-zhaopin-tlj',
+    refreshAfterClose: true //重载页面
+  });
+  $(".jqmClose").click(function(){
+    load_content();
+  });
+  })
+
+  
+
+</script>

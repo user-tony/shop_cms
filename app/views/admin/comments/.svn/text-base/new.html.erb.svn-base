@@ -1,0 +1,53 @@
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      编辑评论
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <% content_for :error_message do %>
+      <br />
+      <% error_messages(@comment).each do |err| %>
+        <%= err %><br />
+      <% end %>
+    <% end %>
+    <%= form_for @comment, :url => (@comment.new_record? ? admin_comments_path : admin_comment_path(@comment)), :html => {:id => "new_comment"} do |f| %>
+      <!-- form -->
+      <div class="s-input">
+        <%= f.label :item_type, "对象类型:" %>
+        <%= @comment.item_type_cn %>
+      </div>
+      <br />
+
+      <div class="s-input">
+        <%= f.label :member, "评论用户:" %>
+        <%= @comment.member.present? ? @comment.member.nick_name : "匿名用户"  %>
+      </div>
+      <br />
+
+      <div class="s-input">
+        <%= f.label :created_at, "评论时间:" %>
+        <%= current_time_format(@comment.created_at, true) %>
+      </div>
+      <br />
+
+      <div class="s-input">
+        <%= f.label :status, "审核状态:" %>
+        <%= f.select :status, Comment::SELECT_STATUS %>
+      </div>
+      <br />
+      
+      <div class="s-input">
+        <%= f.label :content, "内容:" %>
+        <%= f.text_area :content, :size => "50x10" %>
+      </div>
+      <br />
+
+      <div class="s-input">
+        <%= f.submit "保存" %>
+      </div>
+      <!-- end form -->
+    <% end %>
+  </div>
+</div>

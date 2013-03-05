@@ -1,0 +1,25 @@
+        .num-input{
+            overflow: hidden;
+        }
+        .num-input span{
+            float: left;
+        }
+        .num-input .reduce,.num-input .plus{
+            padding: 6px;
+            width: 10px;
+            height: 10px;
+            cursor: pointer;
+        }
+        .num-input .reduce{
+            background: url(../images/icon_nreduce.gif) center center no-repeat;
+        }
+        .num-input .plus{
+            background: url(../images/icon_nplus.gif) center center no-repeat;
+        }
+        .num-input .ninput input{
+            border: solid 1px #D4D4D4;
+            padding: 1px;
+            width: 30px;
+            color: #888888;
+            text-align: right;
+        }

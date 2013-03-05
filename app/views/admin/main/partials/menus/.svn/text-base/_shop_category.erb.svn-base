@@ -1,0 +1,142 @@
+<% content_for :head  do %>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var config = {
+        treeURL : "<%= tree_info_admin_shop_categories_path %>",
+        editURL : "/admin/shop_categories/_id_/edit",
+        addURL : "/admin/shop_categories/_id_/new_category"
+      };
+
+      //右键菜单
+      var rMenuActions = {
+        'add':function(){
+          var parents = window.MangocmsTree.getSelectedNodes();
+          $('#tree_load_content').load(replaceGetURL(parents[0],config.addURL));
+        },
+        'edit' : function(){
+          var parents = window.MangocmsTree.getSelectedNodes();
+          $('#tree_load_content').load(replacePostURL(parents[0],config.editURL));
+
+        }
+      };
+
+      function replaceGetURL(node,url){
+        return url.replace('_id_',node.id);
+      }
+
+      function replacePostURL(node,url){
+        return url.replace('_id_',node.path_customize);
+      }
+
+      //设置文件
+      var setting = {
+        async: {
+          enable: true,
+          type: "get",
+          url:config.treeURL,  //请求地址
+          autoParam:["id", "name=n", "level=lv"], //提交请求时的参数
+          otherParam:{"otherParam":"zTreeAsyncTest"}  //其他自定义参数
+        },
+        callback: {
+          onRightClick: OnRightClick,
+          onClick: onClickNode
+        }
+      };
+
+      window.MangocmsTree = $.fn.zTree.init($("#treeField"), setting);
+      checkOpen();
+
+
+      function openRoot(){
+        var nodes = window.MangocmsTree.getNodes();
+
+        if (nodes.length>0) {
+            window.MangocmsTree.expandNode(nodes[0], true, true, true);
+            window.MangocmsTree.reAsyncChildNodes(nodes[0], "refresh");
+            return true;
+        }
+        return false;
+      }
+      
+      function checkOpen(){
+        window.setTimeout(function(){
+          if(!openRoot()){
+            checkOpen();
+          }
+        },1000)
+      }
+
+
+      //右键菜单
+      function OnRightClick(event, treeId, treeNode) {
+        if (!treeNode && event.target.tagName.toLowerCase() != "button" && $(event.target).parents("a").length == 0) {
+          window.MangocmsTree.cancelSelectedNode();
+          //showRMenu("root", event.clientX, event.clientY);
+        } else if (treeNode && !treeNode.noR) {
+          window.MangocmsTree.selectNode(treeNode);
+            showRMenu("node", event.clientX, event.clientY);
+            if(treeNode.id !== 1){
+              $("#rMenu .edit").show();
+            }else{
+              $("#rMenu .edit").hide();
+            }
+
+            if(!treeNode.isParent){
+              $("#rMenu .add").hide();
+            }else{
+              $("#rMenu .add").show();
+            }
+        }
+      }
+
+      //左键菜单
+      function onClickNode(event, treeId, treeNode){
+        if(!treeNode.isParent){
+          $('#tree_load_content').load(treeNode.loadURL);
+        }else{
+          window.MangocmsTree.expandNode(treeNode);
+        }
+      }
+
+      function showRMenu(type, x, y) {
+        $("#rMenu").show();
+        $("#rMenu").css({"top":y+"px", "left":x+"px", "visibility":"visible"});
+
+        $("body").bind("mousedown", onBodyMouseDown);
+      }
+
+      function hideRMenu() {
+        $("#rMenu").hide();
+        $("body").unbind("mousedown", onBodyMouseDown);
+      }
+      function onBodyMouseDown(event){
+        if (!(event.target.id == "rMenu" || $(event.target).parents("#rMenu").length>0)) {
+          $("#rMenu").hide();
+        }
+      }
+
+      $('<div class="treeRMenu" id="rMenu"><ul><li class="add">添加子分类</li><li class="edit">编辑分类</li></ul></div>').appendTo(document.body).click(function(e){
+        var ele = e.target;
+        if(ele.nodeName == 'LI'){
+          hideRMenu();
+          if(rMenuActions[ele.className]){
+            rMenuActions[ele.className]();
+          }
+        }
+      });
+
+
+      //添加节点
+      function addNode(parent,newNodes){
+        alert(parent);
+        window.MangocmsTree.addNodes(parent, newNodes);
+      }
+
+    });
+
+  </script>
+<% end %>
+
+<div class="s-rail g-ltw">
+  <ul id="treeField" class="ztree"></ul>
+</div>

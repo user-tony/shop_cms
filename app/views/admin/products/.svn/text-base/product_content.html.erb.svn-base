@@ -1,0 +1,100 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "product"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/product"%>
+<% end %>
+
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      产品内容管理
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <%= simple_form_for  :product, :url => content_create_admin_product_path(@product.id), :html => { :method => :post }  do |f| %>
+       <%#*iframe标记%>
+      <% if params[:iframe] %>
+        <%= hidden_field_tag "iframe", "true" %>
+      <% end %>
+      <p>上传的附件图片</p>
+      注：本图片是为下面产品内容添加的图片
+      <div class="update_attachment" id="update_attachment">
+
+        <% @images.each do |image| %>
+          <div class="addon-img-wrapper">
+            <%= image_tag image.thumb.url,  :addonid => image.id    %>
+            <span class="addon-img-insert" addonid="<%=image.id %>">插入</span>
+            <span class="addon-img-delete" addonid="<%=image.id %>">删除</span>
+          </div>
+        <% end %>
+
+      </div>
+      <iframe id="add_attachment_frame" width="600" height="30" src="<%= frame_form_admin_product_path(@product.id)%> " frameborder="no" scrolling="no" resizable="no" allowtransparency="true" cellspacing="0" border="0"></iframe>
+      <%=  fields_for @product_content  do |p| %>
+        <div class="s-input">
+          <%= p.cktext_area :content, :toolbar => 'Tlj', :customConfig => "/skin/default/javascripts/custom_ckeditor.js", :width => 800, :height => 400 , :language => "zh-cn" , :namespace => "admin" , :id => "product_content" %>
+        </div>
+        <br />
+      <% end %>
+      <div class="s-input">
+        <%= f.submit "下一步" %>
+      </div>
+      <br />
+    <% end %>
+  </div>
+</div>
+
+<%=content_for :head do%>
+  <%= javascript_include_tag "ckeditor/init" %>
+  <script type ="text/javascript">
+    $(function(){
+      $("#edit_product_<%=@product.id%>").validate({
+        //debug:true,　//测试时打开
+        rules: {
+          "product[product_content][content]": {
+            required: true,
+            min: 10
+          }
+        },
+        messages:{
+          "product[product_content_attributes][content]": {
+            required: "产品描述不能为空",
+            min: "产品描述不能小于10个字符"
+          }
+        },
+        submitHandler:function(form){
+          $(form).hide().data('submiting','true');
+          var loading = $('<p> <%= image_tag("loading.gif") %>正在提交，请稍后...</p>');
+          $(form).after(loading);
+          form.submit();
+        }
+      });
+
+      $("#update_attachment").click(function(e){
+        if(e.target.nodeName == 'SPAN'){
+          if(e.target.className == 'addon-img-insert'){
+            CKEDITOR.instances.product_content_content.insertHtml('<img src="'+$(e.target).parent().find('img').attr('src')+'" />');
+          }
+
+          if(e.target.className == 'addon-img-delete'){
+            
+            $.ajax({
+              type: "POST",
+              url: "<%=delete_product_image_admin_products_path %> ",
+              data: "id="+e.target.getAttribute('addonId'),
+              success:function(){
+                $(e.target).parent().remove();
+              }
+            });
+
+          }
+        }
+      });
+    });
+
+
+
+  </script>
+<% end %>

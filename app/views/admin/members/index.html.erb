@@ -1,0 +1,84 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "member"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/member"%>
+<% end %>
+
+<div class="gm-tabs s-h-wrapper">
+  <div class="gm-tabs-head">
+    <a href="#"  class="current">用户列表</a>
+    <a href="#" >搜索</a>
+  </div>
+  <div class="gm-tabs-content current">
+    <div class="s-table">
+      <table>
+        <thead>
+          <tr>
+            <th>选项</th>
+            <th>用户ID</th>
+            <th>用户名</th>
+            <th>昵称</th>
+            <th>邮箱</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% unless @members.blank? %>
+            <% @members.each do |member| %>
+              <tr>
+                <td>
+                  <div class="s-input">
+                    <input type="checkbox" value="<%= member.id%>" />
+                  </div>
+                </td>
+                <td><%= member.id %></td>
+                <td> <%= link_to member.login, admin_member_path(member.id) %></td>
+                <td> <%= member.nick_name %> </td>
+                <td> <%= member.email %> </td>
+                <td class="edit">
+                  <%= link_to image_tag("icon/edit.png"), edit_admin_member_path(member.id) %>
+                  <%= link_to image_tag("icon/delete.png"), admin_member_path(member.id), :method => "delete" ,:confirm => "你确定要删除吗？" %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <!-- pagination -->
+    <div class="gm-pagination">
+      <%= paginate @members %>
+    </div>
+  </div>
+  <div class="gm-tabs-content">
+    <%= form_tag admin_members_path, :method => "get" %>
+    <div class="s-table">
+      <table>
+        <tbody>
+          <tr>
+            <td width="120"> <label for="">用户名：</label></td>
+            <td>
+              <div class="s-input">
+                <%= text_field_tag "login" %>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td width="120"> <label for="">昵 称：</label></td>
+            <td>
+              <div class="s-input">
+                <%= text_field_tag "nick_name" %>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+    <div class="s-input">
+      <%= submit_tag "搜索" %>
+    </div>
+    </p>
+  </div>
+</div>

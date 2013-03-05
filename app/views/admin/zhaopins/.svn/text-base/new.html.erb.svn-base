@@ -1,0 +1,52 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "content"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/content"%>
+<% end %>
+
+
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      发布招聘信息
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <%= simple_form_for  @zhaopin, :url => admin_zhaopins_path ,:remote => true  do |f| %>
+      <%= render :partial =>"form", :locals =>{:f => f } %>
+    <% end %>
+  </div>
+</div>
+
+
+<%= content_for :head do   %>
+  <script type ="text/javascript">
+
+    $(function(){
+      $("#new_zhaopin").validate({
+        //debug:true,　//测试时打开
+        rules: {
+          "zhaopin[position]": {
+            required:true,
+            rangelength:[2,30]
+          },
+          "zhaopin[channel_id]": {
+            required:true
+          } 
+        },
+        messages:{
+          "zhaopin[position]": {
+            required:"招聘职位不能为空",
+            rangelength:"文字应在2-30之间"
+          },
+          "zhaopin[channel_id]": {
+            required:"秘属栏目不能为空"
+          }
+        }
+      });
+    });
+
+  </script>
+<% end %>

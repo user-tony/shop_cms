@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{{cms["web_name"]}}</title>
+      	{% render "head" %}
+    </head>
+    <body>
+     {% render "channel" %}
+        <div class="g-ltw s-ltw s-ltwm">
+            <div class="gm-step-nav s-step-nav">
+                <img src="/skin/default/images/cart_step3.gif" alt="步骤" />
+            </div>
+            <div class="gm-cart-content s-step-sw">
+                <div class="cert-big-tip">
+                    <span class="success">{{notice}}</span>
+                </div>
+                <p class="cert-title">后续步骤</p>
+                <div class="gm-cart-table">
+                    您好，您的订单已提交成功。 之后您可以通过下方的银行信息进行付款。 在收到货款之后，我们会马上为您发货。
+                </div>
+                <p class="cert-title">订单信息</p>            
+                <div class="gm-cart-table">
+                    <div class="item">
+                        <div class="gm-address-list">
+                            <ul>
+                                <li>订单号：<strong><a href="#">{{order.scode}}</a></strong></li>
+                                <li>商品名称：<strong>{{shop_product}}</strong></li>
+                                <li>数量：<strong>{{order.order_products.first.item_count}}</strong></li>
+                                <li>总价：<strong>{{order.amount}}</strong></li>
+                                <li>收货人：<strong>{{order.recipient_name}}</strong></li>
+                                <li>联系电话：<strong>{{order.phone}}</strong></li>
+                                <li>收货地址：<strong>{{order.address}}</strong></li>
+                                <li>下单时间：<strong>{{order.created_at |  date: "%Y-%m-%d %H:%M"}}</strong></li>
+                                <li>支付状态：{{payment_status_cn}}</li>
+                                {% if order.payment_status == 0%}
+                                <li><a href="/payment/alipay/get_page/?id={{order.id}}">在线支付</a></li>
+                                {%endif%}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="cert-title">汇款信息：</p> 
+                <div class="gm-cart-table">
+                    <ul class="banks-remit-info">
+                        <li class="b-list">
+                            <ul>
+                                <li class="title"><img src="/skin/default/images/icon_bank1.gif" alt="中国工商银行" />中国工商银行</li>
+                                <li>银行帐号：0000 0000 0000 000</li>
+                                <li>开户名：Xx</li>
+                                <li>开户行：XXXXXXXX</li>
+                            </ul>
+                        </li>
+                        <li class="b-list">
+                            <ul>
+                                <li class="title"><img src="/skin/default/images/icon_bank1.gif" alt="中国工商银行" />中国工商银行</li>
+                                <li>银行帐号：0000 0000 0000 000</li>
+                                <li>开户名：Xx</li>
+                                <li>开户行：XXXXXXXX</li>
+                            </ul>
+                        </li>
+                        <li class="b-list">
+                            <ul>
+                                <li class="title"><img src="/skin/default/images/icon_bank1.gif" alt="中国工商银行" />中国工商银行</li>
+                                <li>银行帐号：0000 0000 0000 000</li>
+                                <li>开户名：Xx</li>
+                                <li>开户行XXXXXXXXX</li>
+                            </ul>
+                        </li>
+                        <li class="b-list">
+                            <ul>
+                                <li class="title"><img src="/skin/default/images/icon_bank1.gif" alt="中国工商银行" />中国工商银行</li>
+                                <li>银行帐号：0000 0000 0000 000</li>
+                                <li>开户名：Xx</li>
+                                <li>开户行：XXXXXXXXX</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <script type="text/javascript" src="javascripts/lib.js"></script>
+    </body>
+</html>

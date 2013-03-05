@@ -1,0 +1,63 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "template"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/template"%>
+<% end %>
+<%=content_for :head do%>
+  <%= stylesheet_link_tag  "/assets/liquid-codemirror/lib/codemirror.css", "/assets/liquid-codemirror/theme/rubyblue.css" %>
+  <%= javascript_include_tag "/assets/liquid-codemirror/lib/codemirror.js", "/assets/liquid-codemirror/mode/xml/xml.js" %>
+  <%= javascript_include_tag "/assets/liquid-codemirror/mode/css/css.js", "/assets/liquid-codemirror/mode/javascript/javascript.js" %>
+  <%= javascript_include_tag "/assets/liquid-codemirror/mode/htmlmixed/htmlmixed.js"%>
+  <%= javascript_include_tag "/assets/liquid-codemirror/jquery.hotkeys.js"%>
+
+  <style type="text/css">
+    .CodeMirror {
+      border: 1px solid black;
+      width: 800px;
+    }
+    .CodeMirror-scroll {
+        height: 500px;
+      }
+  </style>
+  
+  <script type="text/javascript">
+    $(function(){
+      //代码高亮渲染
+       var editor = CodeMirror.fromTextArea(document.getElementById("content"), {
+          mode: "<%=extname_view(@extname)%>",
+          lineNumbers: true
+        });
+       editor.setOption("theme", "rubyblue");
+       $.hotkeys.add('Ctrl+s', function (){$("#form").submit();});
+    });    
+  </script>
+<%end%>
+<div class="s-table">
+            <table>
+              <tbody>
+                   <tr>
+                      <td width="90">当前文件路径：</td>
+                      <td class="picture">
+                         <%="#{@path}/#{@name}"%>
+                        <%=hidden_field_tag "path", @path%>
+                        <%=hidden_field_tag "name", @name%>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td><label for="">模板：<br/>（键盘的Ctrl+s可以快速提交。）</label></td>
+                      <td>
+                        <%= text_area_tag :content, @content, :size => "100x20" %>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+      <p>
+          <div class="s-input">
+              <%=submit_tag "提交"%>
+              &nbsp;&nbsp;
+              <%=link_to "返回", admin_skins_path(:path => @path)%>
+          </div>
+      </p>
+    

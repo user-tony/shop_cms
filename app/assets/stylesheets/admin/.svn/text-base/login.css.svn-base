@@ -1,0 +1,77 @@
+html, body {
+	height : 100%;
+	margin : 0;
+	padding : 0;
+	text-align : left;
+	overflow : hidden;
+    background: #9FBE01 url(../bg_login_w.gif) center top no-repeat;
+    font-family: 'Arial';
+    color: #7B9A00;
+    font-size: 14px;
+}
+
+#shim{
+	visibility : hidden;
+	width : 100%;
+	height : 50%;
+	margin-top : -145px;/* 半个容器高度 */
+	float : left;
+}
+
+#wrapper {
+	overflow : hidden;
+	height : 290px;
+	/* 容器高度 */
+	clear : both;
+	background : url(../bg_login.png) center top no-repeat;
+	margin : auto;
+	text-align: center;
+	position : relative;
+	top : -145px;
+	/* 半个容器高度 */
+	position : static;
+}
+#iwrapper{
+    width : 1024px;
+    text-align : left;
+    margin: auto;
+}
+h1{
+    height: 130px;
+    text-indent: -9999px;
+}
+#login-field{
+    position: relative;
+    width: 320px;
+    overflow: hidden;
+    margin-left: 520px;
+}
+#login-field .left-field{
+    width: 220px;
+    float: left;
+}
+#login-field form p{
+    margin: 18px 0;
+}
+.tinput{
+    border: solid 1px #DDDCDC;
+    padding: 5px;
+    width: 150px;
+    border-radius: 3px;
+    color: #666;
+}
+#submit{
+    width: 83px;
+    height: 84px;
+    float: left;
+    margin: 0;
+    padding: 0;
+    margin-top: 14px;
+    border: none;
+    background: url(../btn_login.png) center top no-repeat;
+}
+#login-field .tip{
+    clear: both;
+    font-size: 12px;
+    color: #FF6A03;
+}

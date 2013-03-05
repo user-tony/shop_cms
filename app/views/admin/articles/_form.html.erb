@@ -1,0 +1,164 @@
+<div class="gm-bloc s-h-wrapper <%=@article.new_record? ? "" : "hide" %> ">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      文章基本信息
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <div class="s-input">
+      <label class="text optional control-label"> 文章标题(文章列表页显示标题)</label>
+      <div class="input string  optional">
+        <%= f.text_field :title %>
+      </div>
+    </div>
+    <br/>
+
+    <div class="s-input">
+      <label class="text  optional control-label"> 栏目</label>
+
+      <div class="input string  optional">
+        <%= f.select :channel_id, nested_set_options(@channels) { |i| "#{'┠' * i.level} #{i.name}" } %>
+      </div>
+      <p class="help-block"> 文章所属栏目(类似分类)</p>
+    </div>
+    <br/>
+
+    <div class="s-input">
+      <label class="select optional control-label">推荐等级(推荐等级是根据显示位置不同设定)</label>
+
+      <div class="input integer optional">
+        <%= f.select :recomment, Article::RECOMMENT %>
+      </div>
+    </div>
+    <br/>
+
+
+    <div class="s-input">
+      <label class="select optional control-label">文章来源</label>
+      <div class="input select optional">
+        <%= f.text_field :source  %>
+      </div>
+    </div>
+    <br/>
+
+    <div class="s-input">
+      <label class="select optional control-label">审核状态(文章审核状态:未审核文章不显示)</label>
+
+      <div class="input select optional">
+        <%= f.select :article_status, Article::STATUS %>
+      </div>
+    </div>
+    <br/>
+
+    <% if @article.thumb.present? %>
+        <div class="s-input" id="article-image">
+          <label class="select optional control-label">己上传的图片</label>
+          <div class="input integer optional">
+            <%= image_tag @article.thumb.url, :style => "width:100px;heigth:100px" %> 
+          </div>
+        </div>
+        <br/>
+        <div><span><%= link_to "删除图片", delete_article_image_admin_articles_path(:id => @article.id), :confirm => "确认删除图片吗？", :remote => "true" %> </span></div>
+    <% end %>
+    <div class="s-input">
+      <label class="select optional control-label">文章图片(文章显示页显示的图片)</label>
+
+      <div class="input integer optional">
+        <%= f.file_field :thumb %>
+      </div>
+    </div>
+    <br/>
+
+    <div class="s-input">
+
+      <label class="select optional control-label" for="tag-id">文章标签(添加标签可以根据标签查找到该文章)</label>
+
+      <div class="input string optional">
+        <%= text_field_tag :tag, @article.tag_list || "", :id => "tag-id" %>
+      </div>
+    </div>
+    <br/>
+
+    <div class="s-input">
+      <label class="select optional control-label">摘要信息(文章摘要、在文章显示不全时显示)</label>
+
+      <div class="input text optional">
+        <%= f.text_area :description, :size => "60x5" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="gm-bloc s-h-wrapper lock">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      文章详细信息
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <!-- form -->
+    <% if @article.present? && @article.id.present? %>
+        <p style="width:140px;margin-right: 20px;text-align: right;color:#2C2C2C;font-weight:bold;">上传的附件图片</p>
+
+        <div style="margin-left:160px;">
+          <p>上传图片附件是指插入文章内容里的图片</p>
+
+          <div class="update_attachment" id="update_attachment">
+            <% @images.each do |image| %>
+                <div class="addon-img-wrapper">
+                  <%= image_tag image.thumb.url, :addonid=> image.id %>
+                  <span class="addon-img-insert" addonid="<%= image.id %>">插入</span>
+                  <span class="addon-img-delete" addonid="<%= image.id %>">删除</span>
+                </div>
+            <% end %>
+          </div>
+          <iframe id="add_attachment_frame" width="600" height="30" src="<%= frame_form_admin_article_path(@article.id) %>" frameborder="no" scrolling="no" resizable="no" allowtransparency="true" cellspacing="0" border="0"></iframe>
+        </div>
+        <%= fields_for @article_content do |p| %>
+            <div class="s-input">
+              <label>文章内容</label>
+              <div style="margin-left: 160px;">
+              <%= p.cktext_area :content, :height => 400, :toolbar => 'Tlj', :customConfig => "/skin/default/javascripts/custom_ckeditor.js", :language => "zh-cn", :namespace => "ckeditor" %>
+            </div>
+            </div>
+            <br/>
+        <% end %>
+    <% end %>
+
+    <div class="s-input">
+      <div class="input integer optional">
+        <%= f.submit @article.new_record? ? "下一步" : "保存文章" %>
+      </div>
+    </div>
+    <br/>
+    <!-- end form -->
+    <style type="text/css">
+        
+    </style>
+  </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        $("#update_attachment").click(function(e) {
+            if (e.target.nodeName == 'SPAN') {
+                if (e.target.className == 'addon-img-insert') {
+                    CKEDITOR.instances.article_content_content.insertHtml('<img src="' + $(e.target).parent().find('img').attr('src') + '" />');
+                }
+
+                if (e.target.className == 'addon-img-delete') {
+
+                    $.ajax({
+                        type: "POST",
+                        url: "<%=delete_product_image_admin_products_path %> ",
+                        data: "id=" + e.target.getAttribute('addonId'),
+                        success:function() {
+                            $(e.target).parent().remove();
+                        }
+                    });
+                }
+            }
+        });
+    });
+</script>

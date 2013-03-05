@@ -1,0 +1,18 @@
+ 
+<html>
+  <head></head>
+  <body>
+    <script type ="text/javascript"> 
+      (function(){
+<% if @type %>
+      window.parent.$.jqmClose();
+      window.parent.load_content();
+      alert('产品保存成功了');
+<% else %>
+      alert('保存产品出错了');
+      histoty.back();
+<% end %>
+  })(); 
+    </script>
+  </body>
+</html>

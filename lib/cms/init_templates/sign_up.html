@@ -1,0 +1,27 @@
+<div class="g-ltw s-ltw s-ltwm s-page-login-w">
+    <div class="s-page-login">
+        <p class="title-signup">用户注册</p>
+        <div class="s-login-wrapper s-signup-wrapper g-ltw g-ltc">
+            <form accept-charset="UTF-8" action="/members" class="simple_form new_member" id="member_sign_up" method="post">
+                <div style="margin:0;padding:0;display:inline">
+                    <input name="utf8" type="hidden" value="?" />
+                    <p>
+                        <label class="s-login-label" for="member_login">用户名：</label><input class="s-login-input required" name="member[login]" type="text" minlength="6" maxlength="40" remote="/member_infos/judge_member" /></p>
+                    <p>
+                        <label class="s-login-label" for="member_nick_name">昵称：</label><input class="s-login-input required" name="member[nick_name]" minlength="2" type="text" /></p>
+                    <p>
+                        <label class="s-login-label" for="member_password">密码：</label><input id="password" class="s-login-input" name="member[password]"  minlength="6" maxlength="40" type="password"/></p>
+                    <p>
+                        <label class="s-login-label" for="member_password_confirmation">确认密码：</label><input class="s-login-input required" name="member[password_confirmation]" minlength="6" equalto="#password" type="password" /></p>
+                    <p>
+                        <label class="s-login-label" for="member_email">邮箱：</label><input class="s-login-input required email" name="member[email]" maxlength="40" type="email"  remote="/member_infos/judge_useremail" /></p>
+                    <p class="p-submit">
+                        <input class="signup-submit" type="submit" value=" " /></p>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('#member_sign_up').validate();
+    </script>
+</div>

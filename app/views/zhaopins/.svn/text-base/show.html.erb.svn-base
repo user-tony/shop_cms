@@ -1,0 +1,6 @@
+<h1>Zhaopins#show</h1>
+<p>Find me in app/views/zhaopins/show.html.erb</p>
+
+<% errors.each do |f| %>
+<%= f.message %>
+<% end %>

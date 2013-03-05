@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>我的订单{{cms["web_name"]}}</title>
+        {% render "head" %}
+        <script type="text/javascript" src="/skin/default/javascripts/jquery.ujs.js"></script>
+        {% if error_message %}
+        <script>alert('{{error_message}}');</script>
+        {%endif%}
+    </head>
+    <body>
+        {% render "channel"%}
+        {% render "search_category"%}
+        <div class="g-ltw s-ltw s-ltwm">
+            <div class="g-ltw g-ltc s-ltwm s-cwrapper s-order-table-w">
+                <h2 class="s-title">我的订单</h2>
+                <div class="gm-order-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="text-align:left;">商品名称</th>
+                                <th width="100">价格(元)</th>
+                                <th width="50">数量</th>
+                                <th width="100">实付款</th>
+                                <th width="100">支付状态</th>
+                                <th width="100">其他操作</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    {% for order in orders %}
+                    <div class="gm-order-overview">
+                        <div class="gm-order-overview-title">
+                            <span class="order-id">订单编号：<a href="/my/orders/{{order.id}}">{{ order.scode}}(查看订单)</a></span>
+                            <span class="order-time">下单时间：{{ order.created_at | date:"%Y-%m-%d %H:%M"}}</span>
+                            <span class="order-state">交易状态：
+                                {% if order.order_status < 1 %}
+                                <span class="red">{{ order.order_status_cn}}</span>
+                                {%else%}
+                                <span class="green">{{ order.order_status_cn}}</span>
+                                {%endif%}
+                            </span>
+                        </div>
+
+
+                        <div class="gm-cart-table-body">
+                            <div class="item">
+                                <table>
+                                    <tbody>
+                                        {% for order_product in order.order_products%}
+                                          <tr>
+                                              <td>
+                                                  <a href="/shop/show/{{order_product.item_id}}" class="view-img"><img src="{{order_product.item.product_attachments.first | thumb:'s3'}}" alt="{{order_product.item.name}}" width="48px" height="48px" /></a>
+                                                  <span class="title">
+                                                      <a href="/shop/show/{{order_product.item_id}}">{{order_product.item.name}}</a>
+                                                      {{order_product.item.description | truncate:35}}
+                                                  </span>
+                                              </td>
+                                              <td width="100">{{order_product.price | string_format:"float","%.2f"}}</td>
+                                              <td width="50">{{order_product.item_count}}</td>
+                                              {%if forloop.index == 1%}
+                                              <td width="100" rowspan="{{order.order_products | size}}">
+                                                  <span class="cost">{{order.amount | string_format:"float","%.2f"}}</span>
+                                                  <br />(运费：0 元)
+                                              </td>
+                                              <td width="100" rowspan="{{order.order_products | size}}">
+                                                {{order.payment | string_format:"float","%.2f"}}
+                                                {%if order.payment_status == 0 && order.payment < order.amount %}
+                                                <a href="/my/orders/{{order.id}}/payment"><img src="/skin/default/images/btn_scpay.gif" alt="" /></a>
+                                                {%endif%}
+                                              </td>
+                                              <td width="100" rowspan="{{order.order_products | size}}">
+                                                  {%if order.order_status == 0 && order.payment_status == 0 %}
+                                                  <a href="/my/orders/{{order.id}}/delete" class="delete" data-confirm="确定要删除订单吗？">删除订单</a> <br />
+                                                  {%endif%}
+                                                  {%if order.order_status >  1 %}
+                                                  <a href="/my/orders/{{order.id}}#logistics">查看物流</a>
+                                                  {%endif%}
+                                              </td>
+                                              {%endif%}
+                                          </tr>
+                                        {%endfor%}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {%endfor%}
+                </div>
+
+                <!-- pagination -->
+                <div class="gm-pagination g-ltr">
+                    <div class="pagination">
+                        {{orders | paginate}}
+                    </div>
+                </div>
+            </div >
+        </div>
+
+        {% render "footer" %}
+    </body>
+</html>

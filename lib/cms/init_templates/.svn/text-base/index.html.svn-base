@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{{cms["web_name"]}}</title>
+        <meta name="description" content="{{cms['meta_description']}}" />
+        <meta name="keywords" content="{{cms['meta_keyword']}}" />
+        <!-- description -->
+        {% render "head" %}
+        <script type="text/javascript" src="/skin/default/javascripts/wowoj_slide.js" > </script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('#pic_show').wowoj_slide({
+                    delay : 4000,
+                    width: 300,
+                    height: 230                //hoverPause: false
+                });
+            });
+        </script>
+
+    </head>
+    <body>
+        {% render "channel" %}
+        <div class="g-ltw s-ltw s-ltwm">
+            <div class="g-ltw g-ltl s-grid2">
+                <div class="g-ltw s-grid6 g-ltr">
+                    <div class="s-cwrapper g-ltw s-index-cnews sindex-topnews-fixed">
+                        {% cms_Article u in limit:1 recomment:1%}
+                        <div class="s-index-topnews s-topnews-top">
+                            <h2 class="title"><a href="{{forloop.url}}" title="{{u.title}}">{{u.title | truncate:18}}</a></h2>
+                            <p> {{u.description}}<a href="{{forloop.url}}" title="{{u.title}}">&lt;详细&gt;</a></p>
+                        </div>
+                        {% endcms_Article%}
+                        {% cms_Article u in limit:1 recomment:2%}
+                        <div class="s-index-topnews">
+                            <h2 class="title"><a href="{{forloop.url}}" title="{{u.title}}">{{u.title}}</a></h2>
+                            <p>{{u.description}} <a href="{{forloop.url}}" title="{{u.title}}">&lt;详细&gt;</a></p>
+                        </div>
+                        {% endcms_Article%}
+                        <div class="s-wlist-wrapper g-ltw">
+                            <ul class="s-list-title g-ltw">
+                                {% cms_Article u in limit:6%}
+                                <li><a href="{{forloop.url}}" title="{{u.title}}">{{u.title | truncate:14}} </a></li>{% endcms_Article%}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="g-ltw s-ltwm s-grid5">
+                    <div class="s-index-slide">
+
+                        <ol id="pic_show">
+                            {% cms_Article u in limit:5 image:true%}
+                            <li><a href="{{forloop.url}}" title="{{u.title}}"><img src="{{u | thumb:'s2'}}" alt="{{u.title}}" />{{u.title}}</a></li>
+                            {% endcms_Article%}
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="g-ltw s-grid5">
+                    <div class="s-cwrapper g-ltw sindex-artip-fixed">
+                        <h2 class="s-title">特别推荐</h2>
+                        <div class="s-wlist-wrapper">
+                            <ul class="s-list-title g-ltw">
+                                {% cms_Article u in limit:6 recomment:all%}
+                                <li><a href="{{forloop.url}}" title="{{u.title}}">{{u.title}}</a> <span class="meta-date">{{u.created_at | date:"%Y-%m-%d"}}</span></li>
+                                {% endcms_Article%}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="g-ltw g-ltr s-grid1">
+                <div class="g-ltw g-ltc s-ltwm s-cwrapper sindex-login-fixed">
+                    {% if session["current_nick_name"]  %}
+                            <h2 class="s-title">用户状态</h2>
+                            <div class="gm-suser-info">
+                                <div class="gm-suser-person-info">
+                                    <ul>
+                                        <li><a href="#" class="u-name">{{ session["current_nick_name"] }}</a></li>
+                                    </ul>
+                                </div>
+                                <div class="gm-suser-type-info">
+                                    <ul>
+                                        <li class="cert">购物车：<a href="/shop_products/my_cart">{{ cookies | get_cart_total_count }}</a>件商品</li>
+                                    </ul>
+                                </div>    
+                                <p class="btn_field"><a class="p-order" href="/my/orders">我的订单</a></p>
+                            </div>
+                             {% else %}
+                    <h2 class="s-title">用户登录</h2>
+                    <div class="s-login-wrapper g-ltw g-ltc">
+                        <form accept-charset="UTF-8"  action="/members/sign_in" method="post" novalidate="novalidate"><input name="utf8" type="hidden" value="&#x2713;" />
+                            <input name="authenticity_token" type="hidden" value="G3a6sq9SM71JaQwoIG95/DI7YfaSuG6p+KZA2/mfUCM=" />
+                            <p><label for="member_login" class="s-login-label">用户名：</label><input type="text" class="s-login-input" name="member[login]" /></p>
+                            <p><label for="member_password" class="s-login-label">密 码：</label><input type="password" class="s-login-input" name="member[password]" /></p>
+                            <p class="auto-login"><input name="member[remember_me]" type="hidden" value="0" /><label for="member_remember_me"><input class="fixed-input" id="member_remember_me" name="member[remember_me]" type="checkbox" value="1" />记住我的账户，下次访问自动登录</label></p>
+                            <p class="p-submit"><input type="submit" value="立即登陆" class="login-submit" /> <!-- <a href="/members/password/new" class="rem-pw">忘记密码?</a> --></p>
+                        </form>
+                        <p class="regedit-tip">还没有网站帐号？<a href="/members/sign_up" title="sign_up">立即注册一个</a></p>
+                    </div>
+                     {% endif %}
+                </div>
+                <div class="g-ltw g-ltc s-cwrapper sindex-artip-fixed">
+                    <h2 class="s-title">阅读排行</h2>
+                    <div class="s-list-wrapper">
+                        <ul class="s-list-title g-ltw">
+                            {% cms_Article u in limit:6 order:"view_count desc"%}
+                            <li><a href="{{forloop.url}}" title="{{u.title}}">{{u.title | truncate:13}}</a></li>
+                            {% endcms_Article%}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="g-ltw s-ltw s-ltwm">
+            <a href="#"><img src="/skin/default/images/banner.gif" alt="980 x 60广告位" target="_blank" /></a>
+        </div>
+
+        <div class="g-ltw s-ltw s-ltwm">
+            <div class="g-ltw g-ltl s-grid2">
+                <div class="g-ltw g-ltc s-ltwm s-cwrapper sindex-imglist-fixed">
+                    <h2 class="s-title">图文资讯</h2>
+
+                    <div class="gm-img-list s-img-list">
+                        <ul>
+                            {% cms_Article u in image:true limit:8%}
+                            <li><a href="{{forloop.url}}" title="{{u.title}}"><img src="{{u | thumb:'s1'}}" alt="{{u.title}}" />{{u.title | truncate:16}}</a></li>
+                            {% endcms_Article%}
+                        </ul>
+                    </div>
+                    <a href="#" class="more">更多&gt;&gt;</a>
+                </div>
+
+                <div class="s-bloc-wrapper g-ltw g-ltc s-grid4">
+                    {% cms_Channel c in channel_id:1 single_page:false%}
+                    <div class="g-ltw s-ltwm s-cwrapper sindex-ad-fixed s-bloc-item s-grid3">
+                        <h2 class="s-title">{{c.name}}</h2>
+
+                        <div class="s-wlist-wrapper">
+                            <ul class="s-list-title g-ltw">
+                                {% cms_Article u in channel_id:c.id level:true limit:8%}
+                                <li><a href="{{forloop.url}}" title="{{u.title}}">{{u.title  | truncate:10}}</a> <span class="meta-date">{{u.created_at | date:"%Y-%m-%d"}}</span></li>
+                                {% endcms_Article%}
+                            </ul>
+                        </div>
+                        <a href="{{c | channel_url}}" class="more">更多&gt;&gt;</a>
+                    </div>
+                    {% endcms_Channel%}
+
+                </div>
+
+            </div>
+
+            <div class="g-ltw g-ltr s-grid1">
+                <div class="g-ltw g-ltc s-ltwm s-cwrapper sindex-imglist-fixed">
+                    <h2 class="s-title">热门点击</h2>
+                    <div class="s-list-wrapper">
+                        <a href="#" class="s-side-top-ad s-ltwm"><img src="/skin/default/images/ad2.jpg" width="228" height="78"  alt="" /></a>
+                        <ul class="s-list-title s-sort-list g-ltw">
+                            {% cms_Article u in limit:10 order:"view_count desc"%}
+                            <li><a href="{{forloop.url}}" title="{{u.title}}"><span class="meta-index{% if forloop.index < 4%} meta-hot{%endif%}">{{forloop.index}}</span> {{u.title}}</a></li>
+                            {% endcms_Article%}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="g-ltw g-ltc s-ltwm s-bwrapper sindex-ad-fixed">
+                    <a href="#" target="blank"><img src="/skin/default/images/banner_side.gif" alt="248 x 248 广告位" /></a>
+                </div>
+
+                <div class="g-ltw g-ltc s-cwrapper sindex-ad-fixed">
+                    <h2 class="s-title">热门资讯</h2>
+                    <div class="s-harts-wrapper">
+                        {% cms_Article u in limit:1 order:"view_count desc"%}
+                        <div class="s-head s-ltwm">
+                            <a href="{{forloop.url}}" class="s-head-link" title="{{u.title}}"><img src="{{u | thumb:"s1"}}" width="104" height="84" alt="{{u.title}}" /></a>
+                            <a href="{{forloop.url}}" class="s-head-intro" title="{{u.title}}">{{u.title}}</a>
+                            <span class="meta-date">{{u.created_at | date:"%Y-%m-%d"}}</span>
+                        </div>
+                        <p class="g-ltw g-ltc s-body">{{u.description}}</p>
+                        {% endcms_Article%}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="g-ltw s-ltw s-ltwm">
+            <div class="g-ltw g-ltl s-grid2"><a href="#"><img src="/skin/default/images/ad1.jpg" alt="ad1" /></a></div>
+            <div class="g-ltw g-ltr s-grid1"><a href="#"><img src="/skin/default/images/ad2.jpg" alt="ad2" /></a></div>
+        </div>
+       	{% render "footer" %} 
+    </body>
+</html>

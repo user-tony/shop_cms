@@ -1,0 +1,73 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "system"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/system"%>
+<% end %>
+<%content_for :head do%>
+  <script>
+    $(function(){
+      $("#form").validate({
+        rules: {        
+          "info_model[name]": {
+            required: true
+          },
+          "info_model[model_name]": {
+            required: true
+          }
+        },
+        messages: {
+          "info_model[name]": {
+            required: "请输入模型名称"
+          },
+          "info_model[model_name]": {
+            required: "请输入rails模型名称"
+          }
+        },
+        errorPlacement: function(error, element) {
+          error.appendTo(element.parent());
+        }
+      });
+    });
+  </script>
+<%end%>
+<div class="s-table">
+  <table>
+    <tbody>
+      <tr>
+        <td width="80"><%= f.label :name, "模型名称："%></td>
+        <td>
+          <div class="s-input">
+            <%= f.text_field :name %>
+          </div></td>
+      </tr>                                  
+      <tr>
+        <td><%= f.label :model_name, "rails模型名："%></td>
+        <td class="s-input">
+          <%= f.select :model_name, InfoModel::INFO_MODEL_NAME.collect{|desc, name| [desc, name]}, {:selected => "Article"} %>
+        </td>
+      </tr>
+      <tr>
+        <td><%= f.label :description, "模型描述："%></td>
+        <td>
+          <div class="s-input">
+            <%= f.text_area :description, :size => "80x4" %>
+          </div></td>
+      </tr> 
+      <tr>
+        <td><%= f.label :info_model_status, "状态："%></td>
+        <td>                       
+          <%= f.select :info_model_status, InfoModel::INFO_MODEL_STATUS.collect{|k, v| [v, k]} %>
+          &nbsp;此处起到开关的作用
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+<div class="s-input">
+  <%=f.submit "提交"%>
+  &nbsp;&nbsp;
+  <%=link_to "返回", admin_info_models_path%>
+</div>
+</p>

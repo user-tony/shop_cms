@@ -1,0 +1,53 @@
+ 
+<!-- form -->
+<div class="s-input">
+  <%= f.input :parent_id, :as => "select", :collection => nested_set_options(ShopCategory,@shop_category) {|i| "#{'-' * i.level} #{i.name}" }, :label => "上级分类:", :disable => true , :required => false, :include_blank => false%>
+  <% if ProductCategory.count == 0 %>
+    <span style ="color:red" > 首次添加为根节点   注：不可修改 </span>
+  <% end %>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :name, :label => "分类名称:" ,:required => true, :input_html => { :size => "50"} %>
+  <p class="help-block"> 分类显示名称</p>
+</div>
+<br />
+
+
+<div class="s-input">
+  <% if  @shop_category.new_record? %>
+    <label class="string required control-label">是否为父级：</label>
+    <%= f.check_box :parent_node %>
+  <% else %>
+  <label class ="string required control-label">节点类型 </label>
+   <%= @shop_category.parent_node ? "本分类是父节点不可以添加产品" : "本分类是子节点可以添加产品"   %>
+ <% end %>
+  <p class="help-block"> 父级分类不可以添加产品</p>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :keyword, :label=>"关键词：" %>
+  <p class="help-block">页面的keyword显示</p>
+</div>
+<br />
+<div class="s-input">
+  <%= f.input :path_customize, :label=>"自定义url：",:input_html=>{:id=>"path_customize", :class => "required custom_url"} %>
+  <p class="help-block">填写拼音或英文单词(可用栏目名称的拼音全称），作用：替代地址上的ID)</p>
+</div>
+<br />
+
+
+<div class="s-input">
+  <%= f.input :description , :as => "text", :label => "分类描述:" ,:input_html => { :size => "50x5"} %>
+  <p class="help-block"> 分类描述，可为空</p>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.submit "保存" %>
+</div>
+<br />
+
+<!-- end form -->

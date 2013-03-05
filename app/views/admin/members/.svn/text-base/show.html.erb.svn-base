@@ -1,0 +1,87 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "member"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/member"%>
+<% end %>
+
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      用户显示页面
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <% unless @member.blank? %>
+      基本信息>>
+      <br />
+      <div class="s-input">
+        用户名：
+        <%= @member.login %>
+      </div>
+      <br />
+      <div class="s-input">
+        昵称：
+        <%= @member.nick_name %>
+      </div>
+      <br />
+      <%#*<div class="s-input">%>
+        <%#*类别：%>
+        <%#= @member.member_type %>
+      <%#*</div>%>
+      <%#*<br />%>
+      <div class="s-input">
+        E-mail：
+        <%= @member.email %>
+      </div>
+      <br />
+    <% end %>
+    <% unless @member_info.blank? %>
+      <hr />
+      详细信息>>
+      <br />
+      <div class="s-input">
+        姓名：
+        <%= @member_info.name %>
+      </div>
+      <br />
+      <div class="s-input">
+        性别：
+        <%= @member_info.gender ? "女" : "男" %>
+      </div>
+      <br />
+      <div class="s-input">
+        出生日期：
+        <%= @member_info.birthday %>
+      </div>
+      <br />
+      <div class="s-input">
+        电话：
+        <%= @member_info.tel %>
+      </div>
+      <br />
+      <div class="s-input">
+        地址：
+        <%= @member_info.address %>
+      </div>
+      <br />
+      <div class="s-input">
+        个人说明：
+        <%= @member_info.description %>
+      </div>
+      <br />
+    <% end %>
+    <% unless @order_addresses.blank? %>
+      <hr />
+      订单地址>>
+      <% @order_addresses.each do |addr| %>
+        <div class="s-input">
+          <%= order_area(addr.area_country_id) %><br />
+          <%= addr.address %><br />
+        </div>
+      <% end %>
+    <% end %>
+
+  </div>
+</div>

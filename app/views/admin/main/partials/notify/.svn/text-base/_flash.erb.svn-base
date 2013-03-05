@@ -1,0 +1,18 @@
+<div id="flash_success" class="s-notif s-success" style="display:<%=flash[:success] ? "block" : "none"%>">
+  <strong>成功: </strong><span><%=flash[:success]%></span>
+  <div>
+    <%= yield :error_message %>
+  </div>
+</div>
+<div id="flash_error" class="s-notif s-error" style="display:<%=flash[:error] ? "block" : "none"%>">
+  <strong>错误: </strong><span><%=flash[:error]%></span>
+  <div>
+    <%= yield :error_message %>
+  </div>
+</div>
+<div id="flash_notice" class="s-notif s-warning" style="display:<%=flash[:notice] ? "block" : "none"%>">
+  <strong>警告: </strong><span><%=flash[:notice]%></span>
+  <div>
+    <%= yield :error_message %>
+  </div>
+</div>

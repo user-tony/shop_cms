@@ -1,0 +1,52 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "system"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/system"%>
+<% end %>
+
+<div class="gm-tabs s-h-wrapper">
+  <div class="gm-tabs-head">
+    <%@categories.each do |category|%>
+      <a href="#" class="current"><%= category.name %></a>
+    <%end%>
+  </div>
+  <%= form_tag update_all_admin_global_variables_path do %>
+    <%@categories.each do |category|%>
+      <div class="gm-tabs-content current">
+        <div class="s-table">
+          <%
+          children = category.children
+          if children.present?
+          %>
+            <%children.each do |child_category|%>
+              <h1><%= child_category.name %></h1>
+              <%= render :partial =>"/admin/global_variables/partials/variable_trs",:locals =>{:category => child_category} %>
+            <%end%>
+          <%else%>
+            <%= render :partial =>"/admin/global_variables/partials/variable_trs",:locals =>{:category => category} %>
+          <%end%>
+        </div>
+      </div>
+    <%end%>
+    <div class="s-input">
+      <%=  submit_tag "提交" %>
+    </div>
+  <%end%>
+</div>
+
+
+<script type="text/javascript">
+  $.jqmIframe({
+    overlay: 70,
+    trigger: 'a.thickbox',
+    refreshAfterClose: true //重载页面
+  });
+  $().ready(function(){
+    $(".jqmClose").click(function(){
+      location.reload();
+    });
+  })
+</script>
+
+

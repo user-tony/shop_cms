@@ -1,0 +1,17 @@
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      添加模板
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <%= form_for @template ,:url => admin_templates_path(@template), :html => {:id => "new_template"} do |f| %>
+      <%=render :partial =>"form", :locals =>{:f => f } %>
+    <%end%>
+  </div>
+</div>
+  <script type ="text/javascript">
+    //验证表单
+    gm_formValidateSubmit('new_template');
+  </script>

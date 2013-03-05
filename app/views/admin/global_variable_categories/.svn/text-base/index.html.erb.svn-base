@@ -1,0 +1,81 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "system"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/system"%>
+<% end %>
+<div class="gm-tabs s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      配置分类管理
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-tabs-head">
+    <a href="#"  class="current">分类列表</a>
+  </div>
+  <div class="gm-tabs-content current">
+    <div class="gm-toolbar">
+      <ul>
+        <li><%=link_to "添加分类", new_admin_global_variable_category_path ,:title => "添加分类" %></li>
+      </ul>
+    </div>
+    <div class="s-table">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:50px;">选项</th>
+            <th>分类名</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="objs">
+          <% @categories.each do |category|  %>
+            <tr id="obj_<%= category.id %>">
+              <td>
+                <div class="s-input">
+                  <input type="checkbox" value="<%= category.id%>" />
+                </div>
+              </td>
+              <td> <%= link_to category.depth_name, edit_admin_global_variable_category_path(category)  %>  </td>
+              <td class="edit">
+                <%= link_to image_tag("icon/edit.png"), edit_admin_global_variable_category_path(category),:title => "编辑" %>
+                <%= link_to image_tag("icon/delete.png"), admin_global_variable_category_path(category), :method => :delete ,:confirm => "配置项也会被删除，你确定要删除吗？" ,:title => "删除"%>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+ $(function(){
+    sortList("objs","tr");//调用排序方法，对post对行排序
+})
+
+//排序方法,可实现多次调用，obj:要排序的model复数名，item：排序元素，jqeury官方文发写的是对li进行排序，但可以对表格排序，具体访谈录请参考jquery ui文档
+function sortList(obj,item)
+{
+  $('#'+obj).sortable({
+    axis: 'y',
+    dropOnEmpty: false,
+    //handle: '.handle',
+    cursor: 'crosshair',
+    items: item,
+    opacity: 0.4,
+    scroll: true,
+    update: function(){
+      $.ajax({
+        type: 'post',
+        data: $('#'+obj).sortable('serialize'),
+        dataType: 'script',
+        complete: function(request){
+          $('#'+obj).effect('highlight');
+          },
+          url: "<%= sort_admin_global_variable_categories_path%>"
+        });
+     }
+  });
+}
+</script>

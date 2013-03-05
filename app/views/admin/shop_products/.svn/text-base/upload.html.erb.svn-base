@@ -1,0 +1,78 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "shop_category"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/shop_category"%>
+<% end %>
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      缩略图管理
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <%= form_for  @shop_product, :url => attachment_admin_shop_product_path(@shop_product), :html => { :multipart => true, :method => :post }  do |f| %>
+      <div class="s-input">
+        商品图片管理（商品小图）<br />
+        图片比例: 1 x 1 <br />
+        图片应大于 368 X 368<br />
+        上传缩略图：<input type="file" name="product_imgs[]"/>
+        <span id ="thumb" ></span> <br/> &nbsp;&nbsp;&nbsp;
+        <%= link_to "添加", "#", :onclick =>"add_thumb();return false;" %>
+        <%@shop_product.product_attachments.each do |attachment|%>
+          <div id="img_<%=attachment.id%>">
+            <span>浏览：</span>
+            <span><img src="<%=attachment.thumb.url(:s1)%>" height="60"/>&nbsp;<a href="javascript:removeimg('<%=attachment.id%>');"  onclick = "return (confirm('确定删除此图片吗?'))">删除</a></span>
+          </div>
+        <%end%>
+      </div>
+      <br />
+      <div class="s-input">
+        <%= f.submit "保存" %>
+      </div>
+      <br />
+    <% end %>
+  </div>
+</div>
+
+<%=content_for :head do%>
+  <script type ="text/javascript">
+    $(function(){
+      $("#new_product").validate({
+        //debug:true,　//测试时打开
+        rules: {
+        },
+        messages:{
+        },
+        submitHandler:function(form){
+          $(form).hide().data('submiting','true');
+          var loading = $('<p> <%= image_tag("/images/loading.gif") %>正在提交，请稍后...</p>');
+          $(form).after(loading);
+          form.submit();
+        }
+      });
+    });
+
+    var img_index=0;
+    function add_thumb(){
+      var html="<div id=\"thumb_"+img_index+"\">上传缩略图：<input type=\"file\" name=\"product_imgs[]\"/>&nbsp;<a href=\"javascript:removeline('"+img_index+"');\">删除</a></div>";
+      $("#thumb").before(html);
+      img_index++;
+    }
+    //删除行
+    function removeline(id){
+      $("#thumb_"+id).remove();
+    }
+    //删除图片
+    function removeimg(id){
+      $.get("<%=delete_attachment_admin_products_path%>", {id:id}, function (data, textStatus){
+        if(data==1){
+          $("#img_"+id).remove();
+        }else{
+          alert("图片删除失败。");
+        }
+      });
+    }
+  </script>
+<% end %>

@@ -1,0 +1,49 @@
+
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      编辑回复
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <%= simple_form_for @answer,  :url => admin_answer_path ,:remote => true  do |f| %>
+      <%= render :partial =>"form", :locals =>{:f => f } %>
+    <% end %>
+  </div>
+</div>
+
+<%= content_for :head do  %>
+  <script type ="text/javascript">
+    $(function(){
+      $("#edit_answer_<%=@answer.id %>").validate({
+        //debug:true,　//测试时打开
+        rules: {
+          "answer[title]": {
+            required:true,
+            rangelength:[2,30]
+          },
+          "answer[content]": {
+            rangelength:[2,200]
+          },
+          "answer[approval_count]": {
+           digits:true  
+          }
+        },
+        messages:{
+          "answer[title]": {
+            required: "问题标题不能为空",
+            rangelength:"问题标题应在2-30个汉字"
+          },
+          "answer[content]": {
+            rangelength:"问题描述应在2-200个汉字"
+          },
+          "answer[approval_count]": {
+            digits:"赞成数只能输入整数！"
+          }
+        }
+      });
+    });
+
+  </script>
+<% end %>

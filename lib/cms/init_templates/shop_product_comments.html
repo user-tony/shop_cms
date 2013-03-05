@@ -1,0 +1,32 @@
+<div class="mall_comments_text">
+  {%if comments != empty%}
+  {%for comment in comments%}
+  <div class="aright_text_list1">
+    <div class="message_text width1">{{comment.content}}<span class="span">{{comment.member.nick_name}}&nbsp;&nbsp;{{comment.created_at | date:"%Y-%m-%d %H:%M"}}</span></div>
+      <div class="newclear"></div>
+  </div>
+  {%endfor%}
+  {%else%}
+  没有评论
+  {%endif%}
+</div>
+{{comments | paginate:page_param}}
+{%if show_comment_form%}
+<div class="s-products-intro-wrapper">
+  <form action="/shop_products/comment_save" method="post" id="comment_save">
+    <input type="hidden" name="id" value="{{id}}" />
+    <textarea name="content" cols="5" rows="10" ></textarea>
+    <span style="padding-left:92px;">评论字数限制为10-500之间</span>
+    <input type="submit" value="提交评论" />
+  </form>
+</div>
+{%endif%}
+<script type="text/javascript">
+  $('#comment_save').submit(function(e){
+    var textarea = $('textarea',this).first();
+    if(textarea.val().length < 10 || textarea.val().length > 500){
+      alert('字数限制为10-500个字符');
+      return false;
+    }
+  });
+</script>

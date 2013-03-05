@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>网页模板</title>
+
+    <!-- description -->
+    <meta name="description" content="内容说明" />
+
+    <!-- favorite icon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="bookmark" href="/favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
+  <style type="text/css">
+    body{
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      font-size: 12px;
+      line-height: 22px;
+      color: #A5A5A5;
+      background: #fff;
+    }
+    form,p{
+      margin: 0;
+      padding: 0;
+    }
+    p{
+      margin: 10px 0;
+    }
+    .validate{
+      width: 220px;
+      height: 209px;
+      padding: 0 14px;
+      overflow: hidden;
+    }
+    .vinput{
+      padding:4px 2px;
+      width: 200px;
+      color: #333;
+      background: #fff;
+      border: solid 1px #C3C3C3;
+    }
+    .submit{
+      display: block;
+      margin: auto;
+      width: 100px;
+      height: 37px;
+      border: none;
+      font-size: 14px;
+      font-weight: bold;
+      color: #FFFC00;
+      text-align: center;
+      margin-top: 10px;
+      background: url(/skin/default/images/bg_v_submit.gif) center top no-repeat;
+    }
+    p.title{
+      height: 30px;
+      overflow: hidden;
+      text-indent: -9999px;
+      background: url(/skin/default/images/v_title.gif) center top no-repeat;
+    }
+    strong{
+      color: #FF6A00;
+      font-weight: bold;
+    }
+    .note{
+      border-top: dotted 1px #C4C4C4;
+      margin-top: 20px;
+      padding-top: 10px;
+    }
+  </style>
+  <div class="top-validate">
+    <%= form_tag url_for(:action => "verify_save") do%>
+      <p class="title">验证序列号</p>
+      <div class="top-cont">
+        <%= text_field_tag "number", "", :class => "vinput" %>
+        <%= submit_tag "立即验证", :class => "submit" %>
+      </div>
+    <%end%>
+    <p class="note"><strong>官网郑重声明：</strong>凡购买正版睡脉通均能在官网验证，否则为盗版。</p>
+  </div>
+</body>
+</html>

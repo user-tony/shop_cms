@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>芒果CMS系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- description -->
+    <meta name="description" content="芒果CMS系统" />
+    <%= javascript_include_tag "admin.js" %>
+    <style type="text/css">
+      body{margin:0;padding:0;font-size: 12px;}
+    </style>
+    <script type ="text/javascript">
+        <%if @imageId.present? %>
+         var imgInfo = "<%= @imageId.thumb.url %> <%= @imageId.id %>";
+        <% else %>
+          var imgInfo = "";
+        <% end %>
+          
+        if($.trim(imgInfo)){
+          var imgInfoAry = imgInfo.split(' ');
+          var url = imgInfoAry[0];
+          var imgId = imgInfoAry[1];
+
+          var doc = window.parent.document;
+
+          var imgWrapper = doc.createElement('div');
+          imgWrapper.className = 'addon-img-wrapper';
+          imgWrapper.appendChild(createImg(url,imgId,doc));
+
+          var insertImg = doc.createElement('span');
+          insertImg.innerHTML = '插入';
+          insertImg.className = 'addon-img-insert';
+          insertImg.setAttribute('addonId',imgId);
+
+          var deleteImg = doc.createElement('span');
+          deleteImg.innerHTML = '删除';
+          deleteImg.className = 'addon-img-delete';
+          deleteImg.setAttribute('addonId',imgId);
+
+          imgWrapper.appendChild(insertImg);
+          imgWrapper.appendChild(deleteImg);
+         doc.getElementById('update_attachment').appendChild(imgWrapper);
+        }
+
+        function createImg(url,id,doc){
+          var img = doc.createElement('img');
+        img.src = url;
+          img.setAttribute('addonId',id);
+          return img;
+        }
+
+        $(document).ready(function(){
+          $('.fsubmit').css('display','none');
+
+          $('form').submit(function(){
+            $(this).hide();
+            $('<span>正在上传图片...</span>').appendTo(document.body);
+          });
+
+          $('.fileInput').change(function(e){
+            var names = this.value.split('.');
+            var extName = names[names.length-1].toLowerCase();
+            var patterns = {'jpg':true,'gif':true,'png':true};
+            if(patterns[extName]){
+              $('.fsubmit').css('display','');
+            }else{
+              $('.fsubmit').css('display','none');
+              alert('不支持的文件格式');
+            }
+          })
+
+        })
+    </script>
+  </head>
+  <body>
+    <%= form_for @attachedpictrue, :url => frame_add_attachment_admin_articles_path(:id => @article.id), :html => {:method => :post, :multipart => true} do |f|  %>
+      选择图片(只支持JPG,GIF,PNG格式)：<%= f.file_field :thumb, :class => "fileInput" %>
+      <%=f.submit "上传" , :class => "fsubmit" %>
+    <% end %>
+   
+  </body>
+</html>

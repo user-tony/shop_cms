@@ -1,0 +1,70 @@
+/* default
+设置默认样式
+************************************/
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, p, blockquote, th, td{
+	margin: 0;
+	padding: 0;
+}
+body{
+    overflow: auto; /* for ie */
+}
+object,textarea,img{vertical-align: top;}   /* space bug */
+
+h1, h2, h3, h4, h5, h6{
+	font-size: 100%;
+}
+ol, ul{
+	list-style: none;
+}
+address, caption, cite, code, dfn, em, strong, th, var{
+	font-style: normal;
+	font-weight: normal;
+}
+table{
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+fieldset, img, a img{
+	border: 0;
+}
+caption, th{
+	text-align: left;
+}
+q:before, q:after{
+	content: '';
+}
+a{
+    text-decoration: none;
+}
+a:visited{
+    color: #999;
+}
+a img{
+    border: none;
+}
+
+
+/* global
+设置全局样式 
+以 g- 开头
+************************************/
+.g-ltw{   /* 容器 global layout wrapper */
+    position: relative;
+    overflow: hidden;
+}
+.g-ltl{   /* 左浮动 global layout left */
+    float: left;
+}
+.g-ltr{   /* 右浮动 global layout right */
+    float: right;
+}
+.g-ltc{   /* 清除浮动 global layout clear */
+    clear: both;
+}
+
+.fixed-checkbox{
+    position: relative;
+    top: 2px;
+    margin-right: 2px;
+    margin-left: 2px;
+}

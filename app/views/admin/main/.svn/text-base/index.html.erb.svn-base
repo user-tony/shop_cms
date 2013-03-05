@@ -1,0 +1,71 @@
+<div class="s-h-wrapper">
+  <div style="width: 49.5%; float: left; margin-right: 1%;" class="gm-bloc">
+    <div class="gm-bloc-head">
+      <h3 class="gm-bloc-title">
+        商品信息
+      </h3>
+       <a class="toggle" href="#"></a>
+    </div>
+    <div class="gm-bloc-body">
+      <p><span>商品共计<%= @shop_total_count %>个</span></p>
+
+      <p><span>上架商品：<%= @shop_up_state_count %>个</span></p>
+
+      <p><span>未上架商品：<%= @shop_down_state_count %>个</span></p>
+
+      <p><span>试用商品： <%= @shop_try_count%>个</span></p>
+    </div>
+  </div>
+
+  <div style="width: 49.5%; float: left;" class="gm-bloc">
+    <div class="gm-bloc-head">
+      <h3 class="gm-bloc-title">
+        会员信息
+      </h3>
+      <a class="toggle" href="#"></a>
+    </div>
+    <div class="gm-bloc-body">
+      <p>会员总数：<span><%= @member_count %>  </span></p>
+      <p>今日登陆用户：<span><%= @member_day_count %>  </span></p>
+
+    </div>
+  </div>
+</div>
+<div class="s-h-wrapper">
+  <div style="width: 49.5%; float: left; margin-right: 1%;" class="gm-bloc">
+    <div class="gm-bloc-head">
+      <h3 class="gm-bloc-title">
+        订单信息
+      </h3>
+       <a class="toggle" href="#"></a>
+    </div>
+    <div class="gm-bloc-body">
+      <p> 未支付： <span> <%= @order_not_payment %>  </span></p>
+
+      <p> 已支付： <span>  <%= @order_payment_count %>  </span></p>
+
+      <p> 未处理： <span> <%= @order_status_default_count %> </span></p>
+
+      <p> 审核通过： <span> <%= @order_status_audit_count %>  </span></p>
+
+      <p> 己发货： <span> <%= Order.get_payment_status(Order::ORDER_STATUS_SEND).count %> </span></p>
+
+      <p> 总订单数： <span><%= Order.count %>  </span></p>
+
+      <p> 今天订单： <span> <%= Order.today.count %>  </span></p>
+    </div>
+  </div>
+  <div style="width: 49.5%; float: left;" class="gm-bloc">
+    <div class="gm-bloc-head">
+      <h3 class="gm-bloc-title">
+        系统设置
+      </h3>
+      <a class="toggle" href="#"></a>
+    </div>
+    <div class="gm-bloc-body">
+      <p> 网站默认标题：<span> <%= GlobalVariable.find_by_key_name("web_name").first.content %> </span></p>
+      <p> 默认报错邮箱：<span><%= GlobalVariable.find_by_key_name("bug_mail").first.content %>  </span></p>
+      <p> 系统版本：<span><%= $cms_global_variable["version"] %>  </span></p>
+    </div>
+  </div>
+</div>

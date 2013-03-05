@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <!-- description -->
+        <meta name="description" content="内容说明" />
+        <title>{{c.name}}{{cms["web_name"]}}</title>
+   	    {% render "head" %} 
+    </head>
+    <body>
+      {% render "channel" %}
+
+        <div class="g-ltw s-ltw s-ltwm">
+            <a href="#"><img src="/skin/default/images/banner.gif" alt="980 x 60广告位" target="_blank" /></a>
+        </div>
+
+        <div class="g-ltw s-ltw s-ltwm">
+            <div class="g-ltw g-ltl s-grid2">
+                <div class="g-ltw s-ltwm g-ltc s-snav">
+                    <a href="#">首页</a>
+                    {% cms_Channel u in channel:channel top_node:true%}
+                    &gt; {% if forloop.last%}{{u.name}}{%else%} <a href="{{forloop.url}}" title="{{u.name}}">{{u.name}}</a>{%endif%}
+                    {% endcms_Channel%}
+                </div>
+
+                <div class="s-bloc-wrapper g-ltw g-ltc s-grid4">
+                    {% cms_Channel c in pid:channel.id%}
+                    <div class="g-ltw s-ltwm s-cwrapper s-bloc-item s-grid3">
+                        <h2 class="s-title">{{c.name}}</h2>
+
+                        <div class="s-wlist-wrapper">
+                            <ul class="s-list-title g-ltw">
+                                {% cms_Article u in channel_id:c.id limit:8%}
+                                <li><a href="{{forloop.url}}" title="{{u.title}}">{{u.title}}</a> <span class="meta-date">{{u.created_at | date:"%Y-%m-%d"}}</span></li>
+                                {% endcms_Article%}
+                            </ul>
+                        </div>
+                    </div>
+                    {% endcms_Channel%}
+                </div>
+
+
+            </div>
+
+            <div class="g-ltw g-ltr s-grid1">
+
+                <div class="g-ltw g-ltc s-ltwm s-bwrapper">
+                    <a href="#" target="blank"><img src="/skin/default/images/banner_side.gif" alt="248 x 248 广告位" /></a>
+                </div>
+
+                <div class="g-ltw g-ltc s-ltwm s-cwrapper">
+                    <h2 class="s-title">推荐内容</h2>
+
+                    <div class="s-list-wrapper">
+                        <ul class="s-list-title g-ltw">
+                            {% cms_Article u in limit:10 recomment:all %}
+                            <li><a href="{{forloop.url}}" title="{{u.title}}">{{u.title}}</a></li>
+                            {% endcms_Article %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% render "footer" %} 
+    </body>
+</html>

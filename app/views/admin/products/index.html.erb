@@ -1,0 +1,152 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "product"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/product"%>
+<% end %>
+
+
+<h3 class="s-title-head"><img src="/assets/icon/warning.png" alt="" />信息管理 > 产品信息管理 </h3>
+
+<div class="gm-tabs s-h-wrapper">
+  <div class="gm-tabs-head">
+    <a href="#"  class="current">产品信息管理</a>
+    <a href="#" >搜索条件</a>
+  </div>
+  <div class="gm-tabs-content current"  id ="product_body">
+
+    <div class="gm-toolbar">
+      <ul>
+        <li><%#=link_to "添加产品", new_admin_product_path , :title => "添加产品" %></li>
+      </ul>
+    </div>
+
+    <div class="s-table">
+      <table>
+        <thead>
+          <tr>
+            <th>选项</th>
+            <th>序号</th>
+            <th>产品分类</th>
+            <th>产品名</th>
+            <th>描述</th>
+            <th>创建时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody >
+          <% @products.each do |product|  %>
+            <tr class ="product_tr_<%=product.id %> ">
+              <td>
+                <div class="s-input">
+                  <input type="checkbox" value="<%= product.id%>" />
+                </div>
+              </td>
+              <td><%=  product.id%></td>
+              <td> <%= product.product_category.name  %>  </td>
+              <td> <%= link_to product.name, "", "data-iframe-src" => edit_admin_product_path(product, :iframe => true), :title => "编辑", :class => "add-product-tlj" %> </td>
+              <td> <%= truncate_u(product.description,80) %></td>
+              <td><%= current_time_format(product.created_at) %></td>
+              <td class="edit">
+               <%= link_to image_tag("icon/pic.png"), "", "data-iframe-src" => upload_admin_product_path(product, :iframe => true), :title => "图片管理", :class => "add-product-tlj" %>
+            <%= link_to image_tag("icon/edit.png"), "", "data-iframe-src" => edit_admin_product_path(product, :iframe => true), :title => "编辑", :class => "add-product-tlj" %>
+            <%= link_to image_tag("icon/delete.png"), admin_product_path(product), :method => :delete, :remote => true, :confirm => "你确定要删除吗？", :title => "删除" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <!-- pagination -->
+    <div class="gm-pagination">
+      <%= paginate @products %>
+    </div>
+  </div>
+  <div class="gm-tabs-content">
+    <%= form_for @product, :url => search_admin_products_path , :html => {:method => :get}, :remote => true do |f| %>
+      <div class="s-table">
+        <table>
+          <tbody>
+            <tr>
+              <td width="120"> <label for="">产品分类：</label></td>
+              <td>
+                <div class="s-input">
+                  <%=f.select :product_category_id, ProductCategory.parent_node(false).map{|category| [category.name,category.id] }.unshift(["请选择", 0]) %>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td width="120"> <label for="">产品名称：</label></td>
+              <td>
+                <div class="s-input">
+                  <%=f.text_field :name %>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td width="120"> <label for="validBeforePicker">开始时间：</label></td>
+              <td>
+                <div class="s-input">
+                  <%= text_field_tag :start_time,"", :class => "date required date-picker" ,:id => "validBeforePicker"%>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td width="120"> <label for="validAfterPicker">结束时间：</label></td>
+              <td>
+                <div class="s-input">
+                  <%= text_field_tag :end_time,"", :class => "date required date-picker", :id => "validAfterPicker" %>
+                </div>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+      <p>
+      <div class="s-input">
+        <%= f.submit "查询" ,:title => "查询" %>
+      </div>
+      </p>
+    <% end %>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  $(function(){
+    // Document is ready
+    $('.gm-tabs').jqtab();
+    $('#validBeforePicker,#validAfterPicker').datepick({
+      onSelect: customRange});
+  });
+  
+
+  function customRange(dates) {
+    if (this.id == 'validBeforePicker') {
+      $('#validAfterPicker').datepick('option', 'minDate', dates[0] || null);
+    }
+    else {
+      $('#validBeforePicker').datepick('option', 'maxDate', dates[0] || null);
+    }
+  }
+
+  $.jqmIframe({
+    overlay: 70,
+    trigger: '.add-product-tlj',
+    onLoad : $.jqmFullWindow
+  });
+
+  function load_content(){
+    $('#tree_load_content').load("/admin/products/<%= params[:id] %>/channel_index#{?page=params[:page] if params[:page] }");
+
+  }
+
+  $().ready(function(){
+    $(".jqmClose").click(function(){
+      load_content();
+    });
+  })
+
+
+</script>

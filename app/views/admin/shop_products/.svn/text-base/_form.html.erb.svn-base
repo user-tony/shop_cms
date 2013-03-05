@@ -1,0 +1,146 @@
+<%= javascript_include_tag "ckeditor/init" %>
+
+<!-- form -->
+<div class="s-input">
+  <% if @not_product %>
+    对应的产品不存在
+  <% else %>
+  <%= f.input :product_id, :collection  => Product.ct_desc.map{|product| [product.name,product.id]}, :label => "产品", :include_blank => false %>
+  <% end %>
+  <span class="input-tips">  </span>
+</div>
+<br />
+
+<div class="s-input">
+  
+  <div class="mutil-products-tags input">
+    <label for="product_form" class="select optional control-label">商品分类</label>
+  <%@root_categories.each do |root_category|%>
+    <fieldset>
+      <legend style="font-size:16px; font-weight:bold"><%= root_category.name %></legend>
+      <p>
+      <%root_category.children.each do |category|%>
+      <label><input type="checkbox" value="<%= category.id %>" name="categories[]" <%= @categories.include?(category.id) ? "checked" : "" %> /><%= category.name %> </label>
+      <%end%>
+      </p>
+    </fieldset>
+  <%end%>
+   </div>
+  <span class="input-tips">  </span>
+</div>
+
+<style type="text/css">
+.mutil-products-tags fieldset{
+  display: block;
+  margin-left: 150px;
+}
+.mutil-products-tags fieldset legend{
+  overflow: hidden;
+}
+.mutil-products-tags fieldset legend p{
+  overflow: hidden;
+}
+.mutil-products-tags fieldset legend p label{
+  float: left;
+  padding-right: 10px;
+  white-space: pre;
+}
+
+</style>
+<br />
+<div class="s-input">
+  <%= f.input :name,  :label => "商品名称" %><p class="help-block"> *商品名称不能为空！ </p>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :market_price , :as => "float", :label => "市场价" %>
+  <span class="input-tips">  </span>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :price , :as => "float", :label => "会员价" %>
+  <span class="input-tips">  </span>
+</div>
+<br />
+
+<div class="s-input">
+
+
+  <div class="input radio_buttons optional">
+    <label for="product_form" class="radio_buttons optional control-label"> 是否为试用商品</label>
+    <label class="radio"><input type="radio" value="1" name="shop_product[try_price]" id="product_form" class="radio_buttons optional" />是</label>
+    <label class="radio"> <input type="radio" value="0" name="shop_product[try_price]" id="product_form" class="radio_buttons optional"  checked/>否</label>
+  </div>
+  <span class="input-tips">  </span>
+</div>
+<br />
+
+
+<div class="s-input">
+  <%= f.input :try_price , :as => "float", :label => "试用价" %>
+  <span class="input-tips">  </span>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :product_status , :collection => ShopProduct::SELECT_STATUS, :label => "上架状态", :include_blank => false %>
+  <span class="input-tips">  </span>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :recommend , :collection => 1..5, :label => "推荐等级", :include_blank => false %>
+  <span class="input-tips">  </span>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :stock , :as => "integer", :label => "库存"%>
+  <span class="input-tips">  </span>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :position , :as => "integer", :label => "排序"%>
+  <span class="input-tips">  </span>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :description , :as => "text", :label => "描述", :input_html => { :size => "50x5"}%>
+  <span class="input-tips">  </span>
+</div>
+<br />
+
+<a id="upload_img"> </a>
+<% unless @shop_product.new_record? %>
+  <p>上传附件图片</p>
+  注：本图片是为下面产品内容添加的图片
+  <div class="update_attachment" id="update_attachment">
+
+    <% @images.each do |image| %>
+      <div class="addon-img-wrapper">
+        <%= image_tag image.thumb.url,  :addonid=> image.id    %>
+        <span class="addon-img-insert" addonid="<%=image.id %>">插入</span>
+        <span class="addon-img-delete" addonid="<%=image.id %>">删除</span>
+      </div>
+    <% end %>
+  </div>
+  <iframe id="add_attachment_frame" width="600" height="30" src="<%= frame_form_admin_shop_product_path(@shop_product.id)%> " frameborder="no" scrolling="no" resizable="no" allowtransparency="true" cellspacing="0" border="0"></iframe>
+  <%= fields_for @product_content  do |p|    %>
+    <div class="s-input">
+      <label for="">商品详细内容</label>
+      <%= p.cktext_area :content, :toolbar => 'Tlj', :customConfig => "/skin/default/javascripts/custom_ckeditor.js", :width => '800', :height => '400' , :language => "zh-cn" , :namespace => "admin", :input_html =>{ :class => "required" ,:min => '10'} %>
+    </div>
+    <br />
+  <% end %>
+<% end %>
+
+<div class="s-input">
+  <%= f.button :submit, :value => "#{@shop_product.new_record? ? '添加详细信息': '保存' }" %>
+</div>
+
+
+<!-- end form -->

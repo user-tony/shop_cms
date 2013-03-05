@@ -1,0 +1,140 @@
+jqModal 方法
+jqm
+ 初始化一个元素作为 jqModal。接受一个参数对象。如果元素已经初始化，调用此方法会更新配置参数。
+
+ $('#dialog').jqm(); 
+ $('.dialogs').jqm({ajax:'@href',modal:true});
+  
+jqmShow
+ 显示 jqModal 元素。
+
+ $('#dialog').jqmShow(); 
+ $('.dialogs').jqmShow(); 
+ 
+jqmHide
+ 隐藏 jqModal 元素。
+
+ $('#dialog').jqmHide(); 
+ $('.dialogs').jqmHide(); 
+ 
+jqmAddTrigger
+ 添加一个元素作为显示按钮。点击这些元素会显示 jqModal。可接受的类型有：
+(string) jQuery 选择器
+(object) jQuery 容器
+(object) DOM 元素
+
+ $('#dialog').jqmAddTrigger('.openDialog'); 
+ $('.dialogs').jqmAddTrigger($('#openDialogs a')); 
+ 
+jqmAddClose
+ 添加一个元素作为隐藏按钮。点击这些元素会显示 jqModal。可接受的类型有：
+(string) jQuery 选择器
+(object) jQuery 容器
+(object) DOM 元素
+
+ $('#dialog').jqmAddClose('.hideDialog'); 
+ $('.dialogs').jqmAddClose($('#hideDialogs a')); 
+ 
+ 
+ 
+jqModal 参数 
+修改 $.jqm.params 会更改 jqModal 的默认属性
+
+
+overlay
+遮罩层的透明度。0 不使用遮罩层，可与背景页面进行交互。100 将会完全覆盖背景。
+
+(integer) - 默认值: 50
+
+
+overlayClass
+遮罩层的 css 类名称
+
+(string) - 默认值: 'jqmOverlay'
+
+
+closeClass
+当一个对话框显示的时候，点击 class 名为 closeClass 的元素会关闭对话框。 例如：如果对话框包含一个元素 
+<img class="closeClass" src="close.gif">，点击这个图片的时候会关闭对话框。 
+你也可以调用 $.jqmHide() 方法来关闭对话框。 
+
+(string|false) - 默认值: 'jqmClose'
+
+
+trigger
+ 匹配 trigger 的元素被点击的时候会显示对话框。这个 trigger 需要在调用 $.jqm() 初始化 jqModal 的时候指定。 可接受的类型为： 
+(string) jQuery 选择器
+(object) DOM 元素 (例如 $.jqm({trigger: document.getElementByID("showDialog")})
+(false)  声明 $.jqm() 没有指定显示按钮
+
+(string|object|false) - 默认值: '.jqModal'
+
+
+ajax
+如果指定，对话框内容会通过异步加载。可以指定一个 URL (例如 $.jqm({ajax:'remote/dialog.html'}) 或者通过提取显示按钮元素的属性来获得。例如 如果显示按钮为 <a href="foo/bar.html">Open Dialog</a>，那么 $(.jqm({ajax:'@href'}) 会获得 bar.html 这个URL。 如果需要更加复杂的操作， 可以通过 onShow() 回调方法来处理。
+ 
+(string|false) - 默认值: false
+
+
+ajaxText
+注意: ajaxText 只有在制定了 ajax 参数的时候才有效。
+用于显示在进行 ajax 操作的时候的提示信息。可以是 HTML 代码（比如一个 loading 图片）。例如： $.jqm({ajaxText: '<marquee style="width: 1.5em;">.. ... .</marquee>'});
+
+(string) - 默认值: ''
+
+
+target
+注意: target 只有在制定了 ajax 参数的时候才有效。
+ 如果指定，那么 ajax 返回内容将加载到 target 元素中。target 元素必须存在，而且是对话框的子节点。target 的可能值为：
+(string) jQuery 选择器
+(object) DOM 元素 (e.g. $.jqm({target: $('#dialog div.contents')[0]})
+(false) 返回内容直接设置为对话框的 innerHTML
+
+(string|false) - 默认值: false
+
+
+modal
+锁定对话框。如果设置为 false，并且具有 overlay 遮罩层，点击遮罩层会关闭对话框。
+
+(boolean) - 默认值: false
+
+
+toTop
+如果设置为 true，显示的时候会将对话框元素设置为 body 元素的直接子节点。 如果出现 z-index 问题，可以用这个参数来修复。 
+
+(boolean) - 默认值: false
+
+
+[Callbacks]
+回调方法可以实现高级的自定义 jqModal 对话框操作。 每一个回调方法都会取得一个参数，这个参数是一个 hash 对象。此对象包含如下属性： 
+w: (jQuery 对象) 对话框元素
+c: (object) 配置对象 (对话框的参数)
+o: (jQuery 对象) 遮罩层
+t: (DOM 对象) 触发此操作的元素
+
+
+onShow (callback)
+ 当一个对话框显示的时候执行。确认显示对话框
+ //onShow 实例: 显示并设置透明
+ var myOpen = function(hash){ hash.w.css('opacity',0.88).show(); }; 
+ $('#dialog').jqm({onShow:myOpen}); 
+ 
+(function|false) - 默认值: false
+
+
+onHide (callback)
+ 当一个对话框隐藏的时候执行。确认移除遮罩层（如果可以）
+ // onHide 实例: 淡出窗口，然后移除遮罩层
+ var myClose = function(hash) { hash.w.fadeOut('2000',function(){ hash.o.remove(); }); }; 
+ $('#dialog').jqm({onHide:myClose}); 
+
+(function|false) - 默认值: false
+
+
+onLoad (callback)
+ 成功加载 ajax 内容后执行
+ // onLoad 实例: 为返回的表单添加异步提交表单事件
+ var myLoad = function(hash){ $('form',hash.w).ajaxForm(); }; 
+ $('#dialog').jqm({onLoad:myLoad}); 
+
+(function|false) - 默认值: false

@@ -1,0 +1,27 @@
+<div class="s-head g-ltwg-ltc">
+  <a href="/" class="s-logo" title="芒果CMS管理系统"><img src="/assets/logo.png" alt=""/></a>
+  <% menu_type ||= "" %>
+  <div class="s-mainav g-ltw">
+    <div class="gm-nav-wrapper">
+      <ul>
+        <li><%= link_to "栏目管理", admin_channels_path, :class => "item1" %></li>
+        <li><%= link_to "用户管理", admin_members_path, :class => "item3" %></li>
+        <li><%= link_to "产品管理", admin_products_path, :class => "item7" %></li>
+        <li><%= link_to "商品管理", admin_shop_products_path, :class => "item8" %></li>
+        <li><%= link_to "订单管理", admin_shop_orders_path, :class => "item2" %></li>
+        <li> <%= link_to "模板管理", admin_templates_path, :class => "item5" %></li>
+        <li><%= link_to "序列号管理", admin_service_verifies_path, :class => "item4"%></li>
+        <li><%= link_to "评论管理", admin_comments_path, :class => "item7"%></li>
+        <li> <%= link_to "系统设置", admin_global_variables_path, :class => "item6" %></li>
+      </ul>
+    </div>
+  </div>
+  <div class="s-userinfo">
+    <% unless @manager_curr.blank? %>
+      <p><%= link_to @manager_curr.login, edit_admin_manager_path(@manager_curr), :class => 'user' %>
+        | <%= link_to "退出", logout_admin_manager_path(@manager_curr), :class => 'exit' %> </p>
+    <% end %>
+    <p class="s-shortcut"><a href="/admin/main" class="set">管理首页</a> |
+      <a href="/" class="preview" target="_blank">网站预览</a></p>
+  </div>
+</div>

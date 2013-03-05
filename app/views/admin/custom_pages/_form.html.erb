@@ -1,0 +1,80 @@
+<%= javascript_include_tag "ckeditor/init" %>
+<style type="text/css">
+    .CodeMirror {
+      border: 1px solid black;
+      width: 800px;
+    }
+    .CodeMirror-scroll {
+      height: 500px ;
+    }
+  </style>
+<!-- form -->
+<div class="s-input">
+  <%= f.input :name,  :label => "名称" , :input_html => { :calss => "required" } %>
+</div>
+<p class="help-block"> 自定义页名称在列表页显示</p>
+<br />
+
+<div class="s-input1">
+  <%= f.input :description, :as => "text",  :label => "摘要", :input_html => { :size => "47x5" } %>
+</div>
+<p class="help-block"> 自定义页面在列表页显示的摘要</p>
+<br />
+
+
+ 
+
+<br />
+<%= f.fields_for :custom_page_content  do |p|    %>
+  <div class="s-input">
+    <label> 自定义内容</label>
+    <%= p.text_area :content , :size => "590x600" %>
+  </div>
+<p class="help-block"> 自定义页面内容信息</p>
+  <br />
+<% end %>
+<div class="s-input">
+  <%= f.button :submit, :value => "保存" %>
+</div>
+ 
+<!-- end form -->
+
+
+<script type="text/javascript">
+  $(function(){
+    $("#update_attachment").click(function(e){
+      if(e.target.nodeName == 'SPAN'){
+        if(e.target.className == 'addon-img-insert'){
+          CKEDITOR.instances.custom_page_custom_page_content_attributes_content.insertHtml('<img src="'+$(e.target).parent().find('img').attr('src')+'" />');
+        }
+
+        if(e.target.className == 'addon-img-delete'){
+
+          $.ajax({
+            type: "POST",
+            url: "<%=delete_product_image_admin_products_path %> ",
+            data: "id="+e.target.getAttribute('addonId'),
+            success:function(){
+              $(e.target).parent().remove();
+            }
+          });
+
+        }
+      }
+    });
+  });
+</script>
+
+  <script type="text/javascript">
+    $(function(){
+      //代码高亮渲染
+      var editor = CodeMirror.fromTextArea(document.getElementById("custom_page_custom_page_content_attributes_content"), {
+        mode: "text/html",
+        lineNumbers: true
+      });
+      editor.setOption("theme", "rubyblue");
+ 
+      $.hotkeys.add('Ctrl+s', function (){$("#edit_custom_page_1").submit();});
+    }); 
+    
+  </script>

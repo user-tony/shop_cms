@@ -1,0 +1,8 @@
+<% if member_signed_in? %>
+  欢迎 <%= link_to current_member.nick_name, edit_member_registration_path %>|<%= link_to "注 销", destroy_member_session_path, :method => "delete" %>
+<% else %>
+  <%= link_to "登 录", new_member_session_path %>|<%= link_to "注 册", new_member_registration_path %>
+<% end %>
+ <% session.each do |k, v| %>
+<%= k %>============<%= v %><br />
+<%end%>

@@ -1,0 +1,57 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "system"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/system"%>
+<% end %>
+<div class="gm-tabs s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      管理员管理
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-tabs-head">
+    <a href="#"  class="current">管理员列表</a>
+  </div>
+  <div class="gm-tabs-content current">
+    <div class="gm-toolbar">
+      <ul>
+        <li><%=link_to "添加管理员", new_admin_manager_path ,:title => "添加管理员" %></li>
+      </ul>
+    </div>
+    <div class="s-table">
+      <table>
+        <thead>
+          <tr>
+            <th>选项</th>
+            <th>用户名</th>
+            <th>邮箱</th>
+            <th>创建时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% unless @managers.blank? %>
+            <% @managers.each do |manager|  %>
+              <tr>
+                <td>
+                  <div class="s-input">
+                    <input type="checkbox" value="<%= manager.id%>" />
+                  </div>
+                </td>
+                <td> <%= link_to manager.login, edit_admin_manager_path(manager)  %>  </td>
+                <td> <%= manager.email  %>  </td>
+                <td><%= current_time_format(manager.created_at) %></td>
+                <td class="edit">
+                  <%= link_to image_tag("icon/edit.png"), edit_admin_manager_path(manager),:title => "编辑" %>
+                  <%= link_to image_tag("icon/delete.png"), admin_manager_path(manager), :method => :delete ,:confirm => "你确定要删除吗？" ,:title => "删除"%>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

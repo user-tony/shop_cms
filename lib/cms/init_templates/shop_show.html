@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{{shop_product.name}}{{cms["web_name"]}}</title>
+        {% render "head" %}
+        <script type="text/javascript" src="/skin/default/javascripts/wm_items_slide.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('#pslide').wm_items_slide();
+            });
+        </script>
+
+    </head>
+    <body>
+        {% render "channel" %}
+        {{notice}}
+        {%render "search_category"%}
+      
+        <div class="g-ltw s-ltw s-ltwm">
+            <div class="g-ltw g-ltr s-grid2">
+                <div class="g-ltw s-ltwm g-ltc s-snav">
+                    <a href="/" title="首页">首页</a>
+                    {% cms_Channel channel in channel:channel top_node:true nopre_channel:true%}
+                    &gt;  <a href="{{forloop.url}}">{{channel.name}}</a>
+                    {% endcms_Channel%} &gt; {{shop_product.name}}
+                </div>
+                  <div class="g-ltw g-ltc s-products-details">
+                  {% cms_list shop_product_pictures in ProductAttachment shop_id:shop_product.id %}
+                    <div class="gm-big-img-view"  id="pslide">
+                        <div class="big">
+                            <img src="{{shop_product_pictures[0] | thumb:'s1')}}" alt="{{shop_product.name}}" />
+                        </div>
+                        <ul class="thumb">
+                            {% for picture in shop_product_pictures limit:4 %}
+                            <li ><img src="{{picture | thumb:'s1'}}" alt="{{shop_product.name}}" big-src="{{picture | thumb:'s1'}}"  /></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                  {% endcms_list%}
+                    <div class="s-products-intro">
+
+                        <form action="/shop_products/buy_product" method="post" data-remote="true" accept-charset="UTF-8"  >
+                            <h2 class="title">{{shop_product.name}}</h2>
+                            <input type="hidden" name="product_id" id="product_id"  value="{{shop_product.id}}"  />
+                            <input type="hidden" name="product_type"   value="shop_product"  />
+                            <p>市场价：<span class="green"><del>{{ shop_product.market_price | string_format:"float","%.2f"}}</del></span></p>
+                            <p>会员价：<span class="vip-cost">{{ shop_product.price | string_format:"float","%.2f"}}</span></p>
+                            <!--<p>浏览次数：230</p> -->
+                            <p>邮费：<span class="green"><del>￥0.00</del></span></p>
+                            <p>商品评价：<img src="/skin/default/images/star.gif" alt="" class="stars" /> 5.0分 <!--（<span class="orange">已有10人评论</span>）--></p>
+                            <p>购买数量：<input type="" name="quantity" class="num-input" id="product_num"  value="1"/> 件</p>
+                            <p class="intro">服务保障：我们的宗 旨是：“通过最优质服务，不断提高顾客的满意度”，为广大客户提供最好的商品及服务。</p>
+                            <p class="btn-field">
+                                {% if session["current_nick_name"]  %}
+                                <input type="submit"  class="buy jqModal" value="立即购买" />
+                                {% else %}
+                                <input type="submit"  class="buy jqModal pop_member_window" value="立即购买" />
+                                {% endif%}
+                                <a href="/shop_products/add_product" id="add-cert" class="add-cert">加入购物车</a>
+                            </p>
+                        </form>
+
+                    </div>
+                </div>
+                <div class="jqmWindow" id="ajax"> </div>
+                <div class="gm-tabs s-shop-wrapper" id="s-shop-wrapper">
+                    <div class="gm-tabs-head">
+                        <a href="#" class="current">产品信息</a>
+                        <a href="#">用户评价</a>
+                        <a href="#">交易记录</a>
+                    </div>
+                    <div class="gm-tabs-content current">
+                      <div class="s-products-intro-wrapper">
+                        {{shop_product.product_content.content}}
+                      </div>
+                    </div>
+                    <div class="gm-tabs-content">
+
+                    </div>
+                    <div class="gm-tabs-content">
+                    </div>
+                </div>
+
+            <script type="text/javascript" src="/skin/default/javascripts/jquery.tab.js"></script>
+            <script type="text/javascript">
+                $('.gm-tabs').jqtab({
+                    callback : function(tab){
+                        jqtabAutoScroll(tab);
+                    },
+                    ontab : function(thead,tcontent){
+                        if(!$(tcontent).data('tabLoaded')){
+                          if($(thead).attr('tindex') ==  1){//load comment
+                            $(tcontent).load('/shop_products/ajax_comments/{{shop_product.id}}',function(){
+                                $(tcontent).data('tabLoaded',true);
+                                bindPagination(tcontent);
+                            });
+                            return;
+                          }
+
+                           if($(thead).attr('tindex') ==  2){//load records
+                            $(tcontent).load('/shop_products/ajax_buy_logs/{{shop_product.id}}',function(){
+                                $(tcontent).data('tabLoaded',true);
+                              bindPagination(tcontent);
+                            });
+                            return;
+                          }
+
+                        }
+                    }
+                });
+
+              function bindPagination(content){
+                 $('.pagination a',content).click(function(e){
+                    $(content).load(this.href,function(){
+                        bindPagination(content);
+                     });
+                     return false;
+                  });
+              }
+
+                function jqtabAutoScroll(tab){
+                    var shopIntroWrapper = $(tab);
+                    var tabHead = $('.gm-tabs-head',shopIntroWrapper);
+                    window.setInterval(function(){
+                        if(getDocumentGeom().scrollTop > shopIntroWrapper.offset().top){
+                            tabHead.css('top',getDocumentGeom().scrollTop - shopIntroWrapper.offset().top);
+                        }else{
+                            tabHead.css('top',0);
+                        }
+                    },200);
+
+
+
+                    function getDocumentGeom(){
+                        if(/AppleWebKit/i.test(navigator.userAgent)){    //chrome,safari
+                            return {
+                                scrollTop : document.body.scrollTop,
+                                scrollLeft : document.body.scrollLeft,
+                                docHeight : document.documentElement.scrollHeight,
+                                docWidth : document.documentElement.scrollWidth,
+                                winHeight: document.documentElement.clientHeight,
+                                winWidth: document.documentElement.clientWidth
+                            };
+                        }else{  //others
+                            return {
+                                scrollTop : document.documentElement.scrollTop,
+                                scrollLeft : document.documentElement.scrollLeft,
+                                docHeight : document.documentElement.scrollHeight,
+                                docWidth : document.documentElement.scrollWidth,
+                                winHeight: document.documentElement.clientHeight,
+                                winWidth: document.documentElement.clientWidth
+                            };
+                         }
+                    }
+                }
+
+
+            </script>
+            </div>
+            {% render "shop_left"%}
+        </div>
+        {% render "footer"%}
+        <script type="text/javascript">
+            $('#ajax').jqm({
+                ajax: '/pop_sign?go_url=/shop_products/order_address',
+                trigger: '.pop_member_window',
+                onLoad:  function(){
+                    $.jqmResize("710","460");
+                }
+            });
+
+            // $('#dialog').jqm();
+            add_cert_show();
+
+         $('.gm-big-img-view .big').hover(function(){
+                    var view = $('<div class="bigpic_view"></div>').appendTo(document.body);
+                    var imgSrc = $('img',this).attr('src');
+                    $(this).data('view',view);
+                    $(this).data('imgSrc',imgSrc);
+
+                    //记录图像尺寸
+                    var tempImg = $('<img src="'+imgSrc+'" />').css('position','absolute').css('left','-9999px').css('top','0').appendTo(document.body);
+                    var scale = {
+                        x : tempImg.width()/$(this).width(),
+                        y : tempImg.height()/$(this).height()
+                    }
+                    $(this).data('scale',scale);
+                    tempImg.detach();
+
+                },function(){
+                    if($(this).data('view')){
+                        $(this).data('view').remove();
+                        $(this).removeData('view');
+                        $(this).removeData('imgSrc');
+                    }
+                }).mousemove(function(e){
+                    if($(this).data('view')){
+                        var view = $(this).data('view');
+                        var wrapper = $(this);
+
+                        view.css('left',e.pageX+10).css('top',e.pageY+10);
+                        var imgSrc = $(this).data('imgSrc');
+
+                        var wpos = wrapper.offset();
+
+                        var sx = e.pageX - wpos.left;
+                        var sy = e.pageY - wpos.top;
+                        var vw = view.width();
+                        var vh = view.height();
+                        var ww = wrapper.width();
+                        var wh = wrapper.height();
+
+                        var scale = $(this).data('scale');
+                        
+                        var cleft = sx*scale.x - vw/2;
+                        if(cleft < 0){
+                            cleft = 0;
+                        }
+                        if(cleft + vw > ww * scale.x){
+                            cleft = ww * scale.x - vw;
+                        }
+                        
+                        var ctop = sy*scale.y - vh/2;
+                        if(ctop < 0){
+                            ctop = 0;
+                        }
+                        if(ctop + vh > wh * scale.x){
+                            ctop = wh * scale.x - vh;
+                        }
+                        
+                        $(this).data('view').css('background','#fff url('+imgSrc+') -'+ cleft + 'px -' + ctop + 'px  no-repeat');
+                    }
+                });
+            </script>
+         <style type="text/css">
+            .bigpic_view{
+                position: absolute;
+                z-index: 200;
+                width: 200px;
+                height: 200px;
+                overflow: hidden;
+                left: 0;
+                top: 0;
+                border: solid 1px #ccc;
+                background-repeat: no-repeat;
+            }
+        </style>
+
+    </body>
+</html>

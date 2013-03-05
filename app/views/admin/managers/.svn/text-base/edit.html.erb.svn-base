@@ -1,0 +1,82 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "system"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/system"%>
+<% end %>
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      更改管理员信息
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <% content_for :error_message do %>
+    <% error_messages(@manager_curr).each do |err| %>
+      <%= err %><br />
+    <% end %>
+  <% end %>
+  <div class="gm-toolbar">
+    <ul>
+      <li><%= link_to "添加管理员", new_admin_manager_path %></li>
+      <li><%= link_to "修改密码", modify_password_admin_manager_path %></li>
+    </ul>
+  </div>
+  <div class="gm-bloc-body">
+    <%= form_for :manager, :url => admin_manager_path, :html => {:method => "put", :id => "edit_manager"} do |f| %>
+      <div class="s-input">
+        <%= f.label :login, "用户名：" %>
+        <br />
+        <%= f.text_field :login, :disabled => true %>
+        <p class="help-block">(管理员登录名称)</p>
+      </div>
+      <br />
+      <div class="s-input">
+        <%= f.label :manager_type, "类别：" %>
+        <br />
+        <%= f.text_field :manager_type, :disabled => true %>
+        <p class="help-block">(管理员类别，此项未启用)</p>
+      </div>
+      <br />
+      <div class="s-input">
+        <%= f.label :email, "E-mail：" %>
+        <br />
+        <%= f.text_field :email %>
+        <p class="help-block">(管理员邮箱地址)</p>
+      </div>
+      <br />
+      <div class="s-input">
+        <%= f.submit "提交" %>
+      </div>
+      <br />
+    <% end %>
+  </div>
+</div>
+
+
+<%=content_for :head do%>
+  <script type ="text/javascript">
+    $(function(){
+      $("#edit_manager").validate({
+        //debug:true,　//测试时打开
+        rules: {
+          "manager_curr[email]": {
+            required:true
+          }
+        },
+        messages:{
+          "manager_curr[email]": {
+            required: "邮箱不能为空！"
+          }
+        },
+        submitHandler:function(form){
+          $(form).hide().data('submiting','true');
+          var loading = $('<p>正在提交，请稍后...</p>');
+          $(form).after(loading);
+          form.submit();
+        }
+      });
+    });
+
+  </script>
+<% end %>

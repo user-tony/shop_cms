@@ -1,0 +1,55 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "content"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/product"%>
+<% end %>
+
+
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      编辑产品信息
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <%= simple_form_for  @product, :url => admin_product_path, :html => {  :multipart => true}  do |f| %>
+      <%= render :partial =>"form", :locals =>{:f => f } %>
+    <% end %>
+  </div>
+</div>
+
+<%=content_for :head do%>
+  <script type ="text/javascript">
+    $(function(){
+      $("#edit_product_<%=@product.id %> ").validate({
+        //debug:true,　//测试时打开
+        rules: {
+          "product[name]": {
+            required:true,
+            rangelength:[2,30]
+          },
+          "product[description]": {
+            rangelength:[2,200]
+          }
+        },
+        messages:{
+          "product[name]": {
+            required: "产品名称不能为空",
+            rangelength:"描述应在2-30个汉字"
+          },
+          "product[description]": {
+            rangelength:"描述应在2-200个汉字"
+          }
+        },
+        submitHandler:function(form){
+          $(form).hide().data('submiting','true');
+          var loading = $('<p>正在提交，请稍后...</p>');
+          $(form).after(loading);
+          form.submit();
+        }
+      });
+    });
+  </script>
+<% end %>

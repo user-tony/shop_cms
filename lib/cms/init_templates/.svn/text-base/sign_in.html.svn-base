@@ -1,0 +1,18 @@
+<div class="g-ltw s-ltw s-ltwm s-page-login-w">
+    <div class="s-page-login">
+        <p class="title-login">用户登录</p>
+        <div class="s-login-wrapper g-ltw g-ltc">
+            <form accept-charset="UTF-8" action="/members/sign_in" class="simple_form new_member" id="member_sign_in" method="post" novalidate="novalidate">
+                <input type="hidden" name="go_url" value="{{go_url}}" /> 
+                <p><label for="" class="s-login-label">用户名：</label><input type="text" name="member[login]"  class="s-login-input required" />  </p>
+                <p><label for="" class="s-login-label">密  码：</label><input type="password" name="member[password]" class="s-login-input required" />  </p>
+                <p class="auto-login"><label for=""><input type="checkbox" name="member[remember_me]" class="fixed-input" />记住我的账户，下次访问自动登录</label></p>
+                <p class="p-submit"><input type="submit" value="" class="login-submit" /> <a href="#" class="rem-pw">忘记密码?</a></p>
+            </form>
+            <p class="regedit-tip">还没有网站帐号？<a href="/members/sign_up">立即注册一个</a></p>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('#member_sign_in').validate();
+    </script>
+</div>

@@ -1,0 +1,16 @@
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      编辑模板
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <%= form_for @template ,:url => admin_template_path(@template), :html => {:id => "edit_template"} do |f| %>
+    <%=render :partial =>"form", :locals =>{:f => f } %>
+  <%end%>
+</div>
+
+<script type ="text/javascript">
+  //验证表单
+  gm_formValidateSubmit('edit_template');
+</script>

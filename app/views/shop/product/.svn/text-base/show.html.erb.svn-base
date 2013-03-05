@@ -1,0 +1,15 @@
+商品详细信息
+<%= link_to "加入购物车", add_to_cart_shop_product_path(@shop_product) %>
+名称：<%= @shop_product.full_name %>
+<br />
+市场价：<%= currency_price(@shop_product.market_price) %>
+<br />
+本站价：<%= currency_price(@shop_product.price) %>
+<br />
+库存数：<%= @shop_product.stock %>
+<br />
+详细内容：<%= @shop_product.product_contents.first.content %>
+<br />
+图片：<% @product.product_attachments.each do |attachment| %>
+<%= image_tag attachment.thumb.url(:thumb) %>
+<%end%>

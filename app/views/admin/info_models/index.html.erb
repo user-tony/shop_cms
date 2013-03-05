@@ -1,0 +1,67 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "system"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/system"%>
+<% end %>
+<div class="gm-tabs s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      模型管理
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-tabs-head">
+    <a href="#"  class="current">模型列表</a>
+  </div>
+  <div class="gm-tabs-content current">
+    <div class="gm-toolbar">
+      <ul>
+        <li><%= link_to "添加模型", new_admin_info_model_path %></li>
+      </ul>
+    </div>
+    <div class="s-table">
+      <table>
+        <thead>
+          <tr>
+            <th width="50">选项</th>
+            <th width="50">序号</th>
+            <th width="200">模型名</th>
+            <th width="100">rails模型名</th>
+            <th width="100">状态</th>
+            <th>模板描述</th>                    
+            <th width="110">更新时间</th>
+            <th width="100">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @list.each do |u| %>
+            <tr>
+              <td>
+                <div class="s-input">
+                  <input type="checkbox" value="<%=u.id%>" />
+                </div>
+              </td>
+              <td><%=u.id%></td>
+              <td><%=u.name%></td>
+              <td><%=u.model_name%></td>
+              <td><%=InfoModel::INFO_MODEL_STATUS[u.info_model_status]%></td>
+              <td><%=u.description%></td>
+              <td><%=u.updated_at.strftime("%Y-%m-%d %H:%M")%></td>
+              <td class="edit">
+                <%= link_to image_tag("icon/edit.png"), edit_admin_info_model_path(u) %>
+                &nbsp;&nbsp;
+                <%= link_to image_tag("icon/delete.png"), admin_info_model_path(u), :method => :delete ,:confirm => "你确定要删除吗？" %>
+              </td>
+            </tr>
+          <%end%>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="gm-pagination">
+
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,48 @@
+
+
+<!-- form -->
+
+<div class="s-input">
+  <%= f.input :channel_id, :as => "select" ,:collection => nested_set_options(@channels){|i| "#{'┠' * i.level} #{i.name}" }, :label => "栏目"  ,:required => true , :include_blank => false  %>
+  <p class="help-block"> （所属栏目，类似分类）</p>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :position,  :label => "招聘职位" %><p class="help-block"> （例：网络工程师）</p>
+</div>
+<br />
+<div class="s-input">
+  <%= f.input :education,  :label => "要求学历" %><p class="help-block">（例：大专以上）</p>
+</div>
+<br />
+<div class="s-input">
+  <%= f.input :age,  :label => "年龄" %><p class="help-block">（例：22岁以上）</p>
+</div>
+<br />
+<div class="s-input">
+  <%= f.input :experience,  :label => "经验" %><p class="help-block">（例：半年以上）</p>
+</div>
+<br />
+<div class="s-input">
+  <%= f.input :salary,  :label => "薪资" %><p class="help-block">（例：面议）</p>
+</div>
+<br />
+<div class="s-input">
+  <%= f.input :contact_user,  :label => "联系人" %><p class="help-block">（例：xxx）</p>
+</div>
+<br />
+<div class="s-input">
+  <%= f.input :contact_tel,  :label => "联系电话" %><p class="help-block">（例：139xxxxxxxx）</p>
+</div>
+<br />
+<div class="s-input">
+  <%= f.input :description,:as => "text" ,  :label => "工作描述" , :input_html => { :size => "40x6"} %>
+  <p class="help-block">（例：就职于网络公司前台，负责电话转接 ）</p>
+</div>
+<br />
+
+<div class="s-input" style ="margin-left: 120px">
+  <%= f.button :submit, :value => @zhaopin.new_record? ? "发布招聘信息" : "保存招聘信息" %>
+</div>
+<br />

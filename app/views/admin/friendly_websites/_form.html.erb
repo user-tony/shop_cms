@@ -1,0 +1,39 @@
+
+<!-- form -->
+<div class="s-input">
+  <%= f.label :name, "网站名称:" %>
+  <%= f.text_field :name %>
+  <span class="input-tips">  </span>
+  <p class="help-block">(友情链接显示的名称)</p>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.label :website_url, "网站地址:" %>
+  <%= f.text_field :website_url %> <p class="help-block">(格式：http://www.example.com)</p>
+
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.label :description, "描述信息:" %>
+  <%= f.text_area :description %> <p class="help-block">(对网站简短的说明)</p>
+</div>
+<br />
+
+
+
+
+<div class="s-input">
+  <%= f.submit "保存" %>
+</div>
+<br />
+
+<!-- end form -->
+
+
+
+
+
+
+

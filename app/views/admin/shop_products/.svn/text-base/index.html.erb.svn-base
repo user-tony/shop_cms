@@ -1,0 +1,105 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "shop_category"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/shop_category"%>
+<% end %>
+
+<div class="gm-tabs s-h-wrapper">
+  <div class="gm-tabs-head">
+    <a href="#"  class="current">商品信息管理</a>
+  </div>
+  <div class="gm-tabs-content current">
+    <div class="gm-toolbar">
+      <ul>
+        <li><%= link_to "添加商品", "" , "data-iframe-src" => new_admin_shop_product_path(:category_id=>params[:category_id]), :title => "添加商品" , :class => "add-shop-category" %></li>
+      </ul>
+    </div>
+    <div class="s-table">
+      <table>
+        <thead>
+          <tr>
+            <th width="50">选项</th>
+            <th width="50">序号</th>
+            <th width="150">产品名称</th>
+            <th width="150">商品名称</th>
+            <th width="80">价格</th>
+            <th width="80">市场价格</th>
+            <th width="50">库存量</th>
+            <th width="80">上架状态</th>
+            <th width="110">更新时间</th>
+            <th width="100">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @shop_products.each do |product| %>
+            <tr>
+              <td>
+                <div class="s-input">
+                  <input type="checkbox" value="<%=  product.id%>" />
+                </div>
+              </td>
+              <td><%= product.id  %> </td>
+              <td><%= product.product ? product.product.name : "产品不存在" %> </td>
+              <td>
+                <%= link_to product.name, edit_admin_shop_product_path(product), "data-iframe-src" => edit_admin_shop_product_path(product), :title => "编辑", :class => "add-shop-category"%>
+              </td>
+              <td><%= currency_price(product.price)  %> </td>
+              <td><%= currency_price(product.market_price)  %> </td>
+              <td><%= product.stock  %> </td>
+              <td><%= ShopProduct.product_status_cn(product.product_status)  %> </td>
+              <td><%= current_time_format(product.updated_at)%></td>
+              <td class="edit">
+                <%= link_to image_tag("icon/pic.png"), "" , "data-iframe-src" => upload_admin_shop_product_path(product, :iframe => true ),:title => "图片管理", :class => "add-shop-category" %>
+                <%= link_to image_tag("icon/edit.png"), "" , "data-iframe-src" => edit_admin_shop_product_path(product), :title => "编辑", :class => "add-shop-category"%>
+                <%= link_to image_tag("icon/delete.png"), admin_shop_product_path(product), :remote => true, :method => :delete ,:confirm => "你确定要删除吗？" %>
+              </td>
+            </tr>
+          <%end%>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="gm-pagination">
+      <%= paginate @shop_products %>
+    </div>
+
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+    // Document is ready
+    $('.gm-tabs').jqtab();
+    $('#validBeforePicker,#validAfterPicker').datepick({
+      onSelect: customRange});
+  });
+
+
+  function customRange(dates) {
+    if (this.id == 'validBeforePicker') {
+      $('#validAfterPicker').datepick('option', 'minDate', dates[0] || null);
+    }
+    else {
+      $('#validBeforePicker').datepick('option', 'maxDate', dates[0] || null);
+    }
+  }
+
+  $.jqmIframe({
+    overlay: 70,
+    trigger: '.add-shop-category',
+    onLoad : $.jqmFullWindow
+  });
+
+  function load_content(){
+    $('#tree_load_content').load("/admin/shop_products<%='?page=params[:page]' if params[:page]%>");
+  }
+
+  $().ready(function(){
+    $(".jqmClose").click(function(){
+      load_content();
+    });
+  })
+
+
+</script>

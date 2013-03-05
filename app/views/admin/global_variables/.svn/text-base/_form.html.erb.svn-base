@@ -1,0 +1,45 @@
+<div class="s-input">
+  <%= f.label :global_variable_category_id, "*所属分类：" %>
+  <br />
+
+  <%= f.select :global_variable_category_id, grouped_options_for_select(GlobalVariableCategory.get_options, @variable.global_variable_category_id), {:include_blank => false} %>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.label :var_type, "*变量类型：" %>
+  <br />
+
+  <%= f.select :var_type, options_for_select(GlobalVariable::VARIABLE_TYPES, @variable.var_type), {:include_blank => "请选择"} %>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.label :name, "*变量名称：" %>
+  <br />
+  <%= f.text_field :name %>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.label :key_name, "*键 名：" %>
+  <br />
+  <%= f.text_field :key_name %>
+  <br />
+  (键名不能包含特殊字符只能包含字母、数字、下划线)
+</div>
+<br />
+
+<div class="s-input" id="content">
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.label :description, "描述信息：" %>
+  <br />
+  <%= f.text_area :description, :size => "70x10" %>
+  <br />
+  (对变量的简短说明，此项为选填项)
+</div>
+<br />
+<%= f.submit "提交" %>

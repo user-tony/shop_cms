@@ -1,0 +1,97 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "channel"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/channel"%>
+<% end %>
+<h2 class="s-title-head"> 新建栏目</h2>
+    <%= simple_form_for @channel, :url=> admin_channels_path,:defaults=> {:input_html => {:id => "form_id"}} do |f|%>
+      <%=render :partial =>"form", :locals =>{:f => f } %>
+    <% end %>
+
+
+<script>
+  $(function(){
+    // Document is ready
+    $('.gm-tabs').jqtab();
+
+      $.validator.methods.url = function() {
+          return true;
+      };
+
+    //validate
+    $("#new_channel").validate({
+
+      rules: {
+        "channel[name]": {
+          required:true
+        },
+        "channel[path_customize]": {
+          required:true,
+          remote: '<%= exists_attach_admin_channels_path %>'
+        },
+        "channel[position]": {
+           number:true,
+           max:1000
+        }
+      },
+      messages: {
+        "channel[name]": {
+          required: "栏目名称不能为空"
+        },
+        "channel[path_customize]": {
+          required: "自定义URL字段不能为空",
+          remote: "自定义url已存在，请更换"
+        },
+        "channel[position]": {
+           number:"排序字段只能是数字",
+           max:"最大值不能超过1000"
+        }
+      },
+      lerrorPlacement: function(error, element) {
+         error.appendTo(element.parent());
+      }
+    });
+
+
+    //toggle input
+    (function(name){
+      var changeHandler = {
+        'c_1':function(select){ //hide input
+          $('input[name="channel[return_url]"]').parent().hide();
+          $('.model_id1').hide();
+          $('select[name="channel[info_model_id]"]').parent().show();
+          $('.model_id').show();
+          $('select[name="channel[template_id_index]"]').parent().show();
+          $('select[name="channel[template_id_list]"]').parent().show();
+          $('select[name="channel[template_id_detail]"]').parent().show();
+        },
+
+        'c_2':function(select){ //show input
+          $('input[name="channel[return_url]"]').parent().show();
+          $('.model_id1').show();
+          $('select[name="channel[info_model_id]"]').parent().hide()
+          $('.model_id').hide();
+          $('select[name="channel[template_id_index]"]').parent().hide();
+          $('select[name="channel[template_id_list]"]').parent().hide();
+          $('select[name="channel[template_id_detail]"]').parent().hide();
+        }
+      };
+
+      var sourceSelect = $('select[name="'+name + '"]');
+
+      sourceSelect.change(function(e){
+        if(changeHandler['c_' + this.value]){
+          changeHandler['c_' + this.value](this);
+        }
+      });
+
+      //init
+      var svalue = $('select[name="'+name + '"]').val();
+      if(changeHandler['c_' + svalue]){
+        changeHandler['c_' + svalue](sourceSelect);
+      }
+    })('channel[channel_type]');
+    
+  });
+</script>

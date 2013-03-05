@@ -1,0 +1,109 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "system"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/system"%>
+<% end %>
+
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      <%= @variable.new_record? ? "添加" : "编辑" %>属性
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <% content_for :error_message do %>
+    <% error_messages(@variable).each do |err| %>
+      <%= err %><br />
+    <% end %>
+  <% end %>
+  <div class="gm-bloc-body">
+    <%= form_for @variable, :url => (@variable.new_record? ? admin_global_variables_path : admin_global_variable_path(@variable)), :html => {:id => "new_variable" } do |f| %>
+      <%= render :partial => "form", :locals => {:f => f} %>
+    <% end %>
+  </div>
+</div>
+
+
+<%=content_for :head do%>
+  <script type ="text/javascript">
+    $(function(){
+      $("#<%= @variable.new_record? ? "new" : "edit" %>_variable").validate({
+        //debug:true,　//测试时打开
+        rules: {
+          "variable[var_type]": {
+            required:true
+          },
+          "variable[name]": {
+            required:true,
+            rangelength:[1,50]
+          },
+          "variable[key_name]": {
+            required:true,
+            remote: "<%= exists_attach_admin_global_variables_path %>",
+            rangelength:[1,50]
+          },
+          "variable[description]": {
+            rangelength:[4,255]
+          }
+        },
+        messages:{
+          "variable[var_type]": {
+            required: "类型不能为空！"
+          },
+          "variable[name]": {
+            required: "名称不能为空！",
+            rangelength: "名称长度应介于1-50"
+          },
+          "variable[key_name]": {
+            required: "键名不能为空！",
+            remote: '键名已经存在！',
+            rangelength: "键名长度应介于1-50"
+          },
+          "variable[description]": {
+            rangelength: "描述信息长度应介于4-255"
+          }
+        },
+        submitHandler:function(form){
+          $(form).hide().data('submiting','true');
+          var loading = $('<p>正在提交，请稍后...</p>');
+          $(form).after(loading);
+          form.submit();
+        }
+      });
+    });
+
+  </script>
+  <script>
+    $().ready(function(){
+      var var_type = $("#variable_var_type")
+      var_type.change(function(){
+        if (var_type.val() == 4)
+        {
+          $("#content").empty();
+          $("#content").append('<%= label_tag "请稍候添加附件" %>')
+        }
+        else if ( var_type.val() == 2 )
+        {
+          $("#content").empty();
+          $("#content").append('<%= label_tag "键值：" %><br /><%= radio_button_tag "variable[content]", "true", true %><%= label_tag "variable_content_true", "真" %>&nbsp;&nbsp;<%= radio_button_tag "variable[content]", "false" %><%= label_tag "variable_content_false", "假" %>');
+        }
+        else if ( var_type.val() == 3 )
+        {
+          $("#content").empty();
+          $("#content").append('<%= label_tag "键值：" %><br /><%= text_area_tag "variable[content]", nil, :size => "60x5" %>');
+        }
+        else if (var_type.val() != '' )
+        {
+          $("#content").empty();
+          $("#content").append('<%= label_tag "variable[content]","键值：" %><br /><%= text_field_tag "variable[content]", nil, :size => 30 %>');
+        }
+        else
+        {
+          $("#content").empty();
+        }
+      });
+    })
+
+  </script>
+<% end %>

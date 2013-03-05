@@ -1,0 +1,10 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "shop"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/shop"%>
+<% end %>
+<h2 class="s-title-head"><img src="/images/demo/warning.png" alt="" />编辑订单</h2>
+<%= simple_form_for @order, :url => admin_shop_order_path, :defaults => {  :input_html => {:id => "package_form"} } do |f| %>
+  <%= render :partial =>"form", :locals =>{:f => f } %>
+<% end %>

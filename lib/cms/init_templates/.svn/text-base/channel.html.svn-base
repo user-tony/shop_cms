@@ -1,0 +1,37 @@
+<div class="g-ltw s-ltw s-top">
+    <a href="/"><img src="/skin/default/images/logo.gif" alt="logo" /></a>
+     <div class="gm-user-list">
+     {% if session["current_nick_name"] %}
+       {{session["current_nick_name"]}}|
+      <a href="/members/sign_out">注销</a>
+     {% else %}
+            <a href="/sign_in">登录</a> <a href="/sign_up">注册</a>
+    {% endif %}
+    </div>
+
+</div>
+    <style type="text/css">
+        .gm-user-list{
+            position: absolute;
+            right: 10px;
+            top: 0;
+            color: #7FB100;
+            line-height: 3em;
+        }
+        .gm-user-list a{
+            padding: 0 8px;
+            background: url(/skin/default/images/bg_list_point_green.gif) left center no-repeat;
+        }
+        .gm-user-list a,.gm-user-list a:visited{
+            color: #7FB100;
+        }
+        
+    </style>
+<div class="g-ltw s-ltw s-ltwm s-nav">
+    <ul class="s-mainav g-ltw">
+        <li><a href="/" title="首页">首页</a></li>
+        {% cms_Channel u in order:"position DESC" %}
+        <li><a href="{{u | channel_url}}" {% if u.channel_type == 2%}target="_blank"{% endif%} {% if channel.id == u.id %}class="current"{% endif %}>{{u.name}}</a></li>
+        {% endcms_Channel%}
+    </ul>
+</div>

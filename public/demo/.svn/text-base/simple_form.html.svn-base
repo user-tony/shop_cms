@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>芒果CMS系统</title>
+    
+    <!-- description -->
+    <meta name="description" content="芒果CMS系统" />
+    
+    <!-- favorite icon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="bookmark" href="/favicon.ico" type="image/x-icon">
+    
+    <link rel="stylesheet" href="/assets/admin/global.css" media="all" type="text/css" />
+    <link rel="stylesheet" href="/assets/admin/mod.css" media="all" type="text/css" />
+    <link rel="stylesheet" href="/assets/admin/site.css" media="all" type="text/css" />
+    <link rel="stylesheet" href="../../app/assets/stylesheets/admin/jquery.datepick.css" media="all" type="text/css" />
+    
+    
+    <script type="text/javascript" src="/assets/admin/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/admin/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/assets/admin/jquery.form.js"></script>
+    <script type="text/javascript" src="/assets/admin/jquery.datepick.min.js"></script>
+    <script type="text/javascript" src="/assets/admin/jquery.datepick-zh-CN.js"></script>
+    <script type="text/javascript" src="/assets/admin/crm.global.js"></script>
+</head>
+<body>
+    <div class="s-head g-ltwg-ltc">head</div>
+    <div class="s-mainav g-ltw g-ltc">mainav</div>
+    <div class="s-container g-ltw g-ltc">
+        <div class="s-content g-ltw">
+            <div class="s-right-wrapper g-ltw">
+                <h2 class="s-title-head"><img src="../images/demo/warning.png" alt="" />简单表单</h2>
+            
+                <!-- simple form -->
+                <div class="gm-bloc s-h-wrapper">
+                    <div class="gm-bloc-head">
+                        <h3 class="gm-bloc-title">
+                            简单表单样式
+                        </h3>
+                        <a href="#" class="toggle"></a>
+                    </div>
+                    <div class="gm-bloc-body">
+                        <form action="" class="simple_form" id="simple_form">
+                
+                            <div class="input string required">
+                                <label class="string required control-label" for="channel_name1">
+                                    <abbr title="required">*</abbr> 栏目名称：
+                                </label>
+                                <input class="string required" id="channel_name1" name="channel_name1" size="50" type="text" />
+                                <p class="help-block">输入提示信息</p>
+                            </div>
+                            
+                            <div class="input string required disabled">
+                                <label class="string required control-label" for="channel_name2">
+                                    <abbr title="required">*</abbr> 栏目名称：
+                                </label>
+                                <input class="string required" id="channel_name2" name="channel_name2" size="50" type="text" disabled="disabled" />
+                                <p class="help-block">不可用的输入框</p>
+                            </div>
+                            
+                            <div class="input string required">
+                                <label class="string required control-label" for="channel_name3">
+                                    <abbr title="required">*</abbr> 密码框：
+                                </label>
+                                <input class="string required" id="channel_name3" name="channel_name3" size="50" type="password" />
+                            </div>
+                            
+                            <div class="input select required">
+                                <label class="select required control-label" for="channel_channel_type">
+                                    <abbr title="required">*</abbr> 栏目类型：
+                                </label>
+                                <select class="select required" name="channel_channel_type" id="channel_channel_type">
+                                    <option value="1">原创内容</option>
+                                    <option value="2">跳转</option>
+                                </select>
+                            </div>
+
+                            <div class="input string required">
+                                <label class="file required control-label" for="channel_file">
+                                    <abbr title="required">*</abbr> 选择图片：
+                                </label>
+                                <input class="file required" size="50" type="file" name="channel_file" id="channel_file" />
+                            </div>
+                            
+                            <div class="input string required">
+                                <label class="string required control-label" for="channel_date">
+                                    <abbr title="required">*</abbr> 输入日期：
+                                </label>
+                                <input class="date required date-picker" id="channel_date" name="channel_date" size="50" type="text" />
+                            </div>
+                            
+                            <div class="input string required">
+                                <label class="string required control-label" for="channel_date">
+                                    <abbr title="required">*</abbr> 日期范围：
+                                </label>
+                                <input class="required date-range" id="channel_date2" name="channel_date2" size="50" type="text" />
+                            </div>
+                            
+                            <div class="input string required">
+                                <label class="string required control-label" for="validBeforePicker">
+                                    <abbr title="required">*</abbr> 开始时间：
+                                </label>
+                                <input class="date required date-picker" id="validBeforePicker" name="validBeforePicker" size="50" type="text" />
+                            </div>
+                            <div class="input string required">
+                                <label class="string required control-label" for="validAfterPicker">
+                                    <abbr title="required">*</abbr> 结束时间：
+                                </label>
+                                <input class="date required date-picker" id="validAfterPicker" name="validAfterPicker" size="50" type="text" />
+                            </div>
+                            
+                            <div class="input text required">
+                                <label class="text required control-label" for="channel_description">
+                                    <abbr title="required">*</abbr> 栏目描述：
+                                </label>
+                                <textarea class="text required" cols="80" rows="10" name="channel_description" id="channel_description"></textarea>
+                                <p class="help-block">提示信息</p>
+                            </div>
+                            
+                            
+                            <div class="input boolean optional">
+                                <label for="article_published" class="boolean optional control-label"> 切换选择</label>
+                                <div class="controls">
+                                    <label class="checkbox">
+                                        <input type="checkbox" value="1" name="article_published" id="article_published" class="boolean optional required">
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="input check_boxes">
+                                <label class="check_boxes optional control-label"> 复选框</label>
+                                <div class="controls">
+                                    <label class="checkbox inline">
+                                        <input type="checkbox" value="Blog" name="article[content_type][]" id="article_content_type_blog" class="check_boxes">Blog
+                                    </label>
+                                    <label class="checkbox inline">
+                                        <input type="checkbox" value="Editorial" name="article[content_type][]" id="article_content_type_editorial" class="check_boxes">Editorial
+                                    </label>
+                                    <label class="checkbox inline">
+                                        <input type="checkbox" value="Announce" name="article[content_type][]" id="article_content_type_announce" class="check_boxes">Announce
+                                    </label>
+                                    <label class="checkbox inline">
+                                        <input type="checkbox" value="Advertisement" name="article[content_type][]" id="article_content_type_advertisement" class="check_boxes">Advertisement
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="input radio_buttons">
+                                <label class="radio_buttons optional control-label"> 单选框</label>
+                                <div class="controls">
+                                    <label class="radio inline">
+                                        <input type="radio" value="Blog" name="article[content_type]" id="article_content_type_blog" class="radio_buttons">Blog
+                                    </label>
+                                    <label class="radio inline">
+                                        <input type="radio" value="Editorial" name="article[content_type]" id="article_content_type_editorial" class="radio_buttons">Editorial
+                                    </label>
+                                    <label class="radio inline">
+                                        <input type="radio" value="Announce" name="article[content_type]" id="article_content_type_announce" class="radio_buttons">Announce
+                                    </label>
+                                    <label class="radio inline">
+                                        <input type="radio" value="Advertisement" name="article[content_type]" id="article_content_type_advertisement" class="radio_buttons">Advertisement
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="form-actions">
+                                <div class="s-input">
+                                    <input type="submit" value="提交表单" />
+                                </div>
+                                <div class="s-input">
+                                    <input type="reset" value="重置表单" class="uncen" />
+                                </div>
+                            </div>
+                            </form>
+                    </div>
+                </div>
+                
+                
+                
+            </div>
+        </div>
+        
+        <div class="s-rail g-ltw">
+            <div class="gm-accordion-container g-ltw">
+                <ul>
+                	<li><a href="#">menu</a>
+                        <ul>
+                        	<li><a href="#">hello</a></li>
+                            <li class="current"><a href="#">menu</a>
+                                <ul>
+                                	<li><a href="#">hello</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="current"><a href="#">current menu</a>
+                        <ul>
+                        	<li><a href="#">hello</a></li>
+                            <li class="current"><a href="#">menu</a>
+                                <ul>
+                                	<li><a href="#">hello</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="no-child"><a href="#">not a menu</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="s-copyright g-ltc">copyright</div>
+    
+    
+    <script type="text/javascript">
+        $('#simple_form').validate({
+           submitHandler: function(form) {
+             $(form).ajaxSubmit({
+                success: function(){
+                    alert('提交成功');
+                }
+             });
+           }
+        });
+        
+        $('.date-range').datepick({dateFormat: 'yyyy/mm/dd', rangeSelect: true, monthsToShow: 2});
+        
+        $('#validBeforePicker,#validAfterPicker').datepick({ 
+            onSelect: customRange}); 
+     
+        function customRange(dates) { 
+            if (this.id == 'validBeforePicker') { 
+                $('#validAfterPicker').datepick('option', 'minDate', dates[0] || null); 
+            } 
+            else { 
+                $('#validBeforePicker').datepick('option', 'maxDate', dates[0] || null); 
+            } 
+        }
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <title>支付信息页{{cms["web_name"]}}</title>
+    {% render "head" %}
+    
+</head>
+<body>
+    {% render "channel"%}
+  <script type="text/javascript" src="/skin/default/javascripts/jquery.tab.js"></script>
+
+    {% render "search_category"%}
+
+    <div class="g-ltw s-ltw s-ltwm">
+            <div class="gm-cart-content s-step-sw">
+            <div class="cert-big-tip">
+                <span class="{%if order.payment_status == 1%}success{%else%}error{%endif%}">{{order.payment_status_cn}}</span>
+            </div>
+            </div>
+
+
+            <div class="g-ltw g-ltc s-ltwm s-cwrapper">
+                <h2 class="s-title">我的订单</h2>
+
+                <div class="gm-cart-content">
+                    <div class="order-title">
+                        <p class="num">订单编号: <strong>{{order.scode}}</strong> <span>({{order.order_status_cn}})</span></p>
+                        <p class="state">下单时间: <strong>{{ order.created_at | date:"%Y-%m-%d %H:%M"}}</strong></p>
+                    </div>
+
+                    <p class="cert-title">收货地址信息</p>
+                        <div class="gm-address-list">
+                                <ul>
+                                    <li>收货人：{{order.recipient_name}}</li>
+                                    <li>联系电话：{{order.phone}}</li>
+                                    <li>收货地址：{{order.address}}</li>
+                                    <li>下单日期：{{ order.created_at | date:"%Y-%m-%d %H:%M"}}</li>
+                                    <li>总金额：{{order.amount | string_format:"float","%.2f"}}</li>
+                                    <li>已支付：{{order.payment | string_format:"float","%.2f"}}</li>
+                                    <li>留言信息：{{order.remark}}</li>
+                                </ul>
+                            </div>
+
+                    <div class="order-title g-ltc">
+                        <p class="num">商品数量: <strong>{{product_count}}</strong> 件，您需要支付的金额为：<strong>{{order.amount | string_format:"float","%.2f"}}</strong> 元，&nbsp;&nbsp;已支付：<strong>{{order.payment | string_format:"float","%.2f"}}</strong>元</p>
+                    </div>
+                        <div class="gm-tabs g-ltc">
+                            <div class="gm-tabs-head">
+                                <a href="#" class="current">在线支付</a>
+                                <a href="#">线下汇款</a>
+                            </div>
+                            <div class="gm-tabs-content current">
+                              <form id="payment_form" action="payment_save" target="_blank">
+                                <input type="hidden" name="goto_url" value="{{goto_url}}" />
+                                <input type="hidden" name="id" value="{{order.id}}" />
+                                <div class="gm-banks-wrap">
+                                  <ul class="ilist">
+                                      {%if cms["payment_alipay_enable"] == "true"%}
+                                      <li><input type="radio" name="payment_category" value="alipay" checked="checked" /><img src="/skin/default/images/payment_logo_alipay.gif" alt="" /></li>
+                                      {%endif%}
+                                      {%if cms["payment_chinabank_enable"] == "true"%}
+                                      <li><input type="radio" name="payment_category" value="chinabank" /><img src="/skin/default/images/payment_logo_chinabank.gif" alt="" /></li>
+                                      {%endif%}
+                                  </ul>
+                                </div>
+                                <div class="submit-field g-ltc">
+                                   <input type="submit" class="submit-form next-form" value="">
+                                </div>
+                              </form>
+                            </div>
+                            <div class="gm-tabs-content">
+                            <ul class="banks-remit-info">
+                                <li class="b-list">
+                                    <ul>
+                                    	<li class="title"><img src="/skin/default/images/icon_bank1.gif" alt="" />中国工商银行</li>
+                                        <li>银行帐号：6222 0242 0002 4242 366</li>
+                                        <li>开户名：樊娜</li>
+                                        <li>开户行：中国工商银行康平街支行</li>
+                                    </ul>
+                                </li>
+                                <li class="b-list">
+                                    <ul>
+                                    	<li class="title"><img src="/skin/default/images/icon_bank1.gif" alt="" />中国工商银行</li>
+                                        <li>银行帐号：6222 0242 0002 4242 366</li>
+                                        <li>开户名：樊娜</li>
+                                        <li>开户行：中国工商银行康平街支行</li>
+                                    </ul>
+                                </li>
+                                <li class="b-list">
+                                    <ul>
+                                    	<li class="title"><img src="/skin/default/images/icon_bank1.gif" alt="" />中国工商银行</li>
+                                        <li>银行帐号：6222 0242 0002 4242 366</li>
+                                        <li>开户名：樊娜</li>
+                                        <li>开户行：中国工商银行康平街支行</li>
+                                    </ul>
+                                </li>
+                                <li class="b-list">
+                                    <ul>
+                                    	<li class="title"><img src="/skin/default/images/icon_bank1.gif" alt="" />中国工商银行</li>
+                                        <li>银行帐号：6222 0242 0002 4242 366</li>
+                                        <li>开户名：樊娜</li>
+                                        <li>开户行：中国工商银行康平街支行</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            </div>
+                        </div>
+
+
+                </div>
+        </div>
+    </div>
+  <div id="dialog" class="jqmWindow alert" style="width:360px;">
+    <div class="order-popwin">
+          <p class="title">请在新打开的页面上完成付款！</p>
+          <p>付款完成前请不要关闭此窗口</p>
+          <p>完成付款后请根据您的情况点击下面的按钮：</p>
+          <p class="bfield"><a href="javascript:document.location.reload();">已完成付款</a> <a href="javascript:$.jqmClose();" class="note">选择其他支付方式</a></p>
+      </div>
+   </div>
+  <script type="text/javascript">
+    $('.gm-tabs').jqtab();
+
+    $("#payment_form").submit(function(){
+      $('#dialog').jqm({modal:true}).jqmShow();
+    });
+  </script>
+    {% render "footer" %}
+</body>
+</html>

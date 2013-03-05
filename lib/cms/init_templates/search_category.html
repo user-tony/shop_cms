@@ -1,0 +1,94 @@
+<div class="s-ltwm s-shop-top">
+    <div class="s-ltw s-shop-top-nav">
+        <div class="gm-icon-search">
+            <form action="" id="search_form">
+                <input type="text" class="search-text" id="search-text" value="{%if q %}{{q}}{%else%}搜索商品信息...{%endif%}" />
+                <input type="submit" class="search-submit" value="搜索" />
+            </form>
+        </div>
+        <div class="gm-tags-list">
+            <span class="title">热门搜索：</span>
+                    {%for key in cms["shop_hot_search_keys"]%}
+                        <a href="/shop/index/search/q-{{key}}">{{key}}</a>
+                    {%endfor%}
+        </div>
+        <div class="gm-sicon-list">
+            <ul>
+                <li id="top-cert"></li>
+                {% if session["current_nick_name"] %}
+                <li><a href="/my/orders" class="user">我的订单</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var sourceName = $('#search_form .search-text').val();
+    $('#search_form').submit(function(e){
+        var url = "/shop/index/search/";
+        var query =  $('.search-text', this).val();
+        var filterQuery = query.replace('/^\s/','').replace('/\s$/','').replace(/[\[\]'",_\-\|\\\/%@&#\.]/ig,'');
+        if(sourceName == query || filterQuery.length < 1){
+            alert('请输入查询内容！');
+        }else{
+            location.href = url + 'q-' + encodeURIComponent(filterQuery);
+        }
+        return false;
+    });
+    function autoInitInput(input, defaultValue){
+            var input = $(input);
+            var defaultValue = defaultValue || input.val();
+            input.focus(function(){
+                if(this.value.replace(/^\s*/,'').replace(/\s*$/,'') == defaultValue){
+                    this.value = '';
+                }
+            });
+
+            input.blur(function(){
+                if(this.value.replace(/\s/g,'') == ''){
+                    this.value = defaultValue;
+                }
+            });
+            return input;
+        }
+
+        autoInitInput('#search-text');
+
+    //弹出购物车菜单
+    $('#top-cert').hover(function(){
+        $(this).addClass('show-cert');
+        //load info
+    },function(){
+        $(this).removeClass('show-cert');
+    });
+
+    //购物车删除商品
+    $(document).delegate('#shop-cert-view .delete','click', function(){
+
+        var href = this.href;
+        var link = this;
+        var id = $(link).attr("product_id");
+      if(window.confirm("确定要删除该商品吗？")){
+        $.ajax({
+            url: href+'?id='+id ,
+            type: 'delete',
+            dataType: "script",
+            success : function(){
+                $(link).parents('li').first().detach();
+                $('#'+id).remove();
+                updateShopCert();
+            }
+        });
+     }
+        return false;
+    });
+
+    //更新购物车
+    function updateShopCert(){
+        $('#top-cert').load('/page/cart_list');
+    }
+    //加载购物车下拉框
+    updateShopCert();
+
+</script>

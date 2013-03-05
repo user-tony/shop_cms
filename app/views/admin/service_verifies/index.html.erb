@@ -1,0 +1,127 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "service_verify"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/service_verify"%>
+<% end %>
+
+<div class="gm-tabs s-h-wrapper">
+  <div class="gm-tabs-head">
+    <a href="#"  class="current">序列号管理</a>
+    <a href="#" >搜索条件</a>
+  </div>
+  <div class="gm-tabs-content current"  id ="service_verify_body">
+    <div class="s-table">
+      <table>
+        <thead>
+          <tr>
+            <th>选项</th>
+            <th>序列号分类</th>
+            <th>序列号</th>
+            <th>密码</th>
+            <th>状态</th>
+            <th>验证次数</th>
+            <th>验证时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody >
+          <% @service_verifies.each do |service_verify|  %>
+            <tr class ="service_verify_tr_<%=service_verify.id %> ">
+              <td>
+                <div class="s-input">
+                  <input type="checkbox" value="<%= service_verify.id%>" />
+                </div>
+              </td>
+              <td> <%= service_verify.service_category.name  %>  </td>
+              <td> <%= service_verify.serial_number  %>  </td>
+              <td> <%= service_verify.password %></td>
+              <td> <%= ServiceVerify.status_cn(service_verify.status) %></td>
+              <td> <%= service_verify.verify_num %></td>
+              <td><%= current_time_format(service_verify.verify_at) %></td>
+              <td class="edit">
+                <%= link_to "锁定", operation_admin_service_verify_path(service_verify, :act => "lock") %>
+                <%= link_to "解锁", operation_admin_service_verify_path(service_verify, :act => "unlock") %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <!-- pagination -->
+    <div class="gm-pagination">
+      <%= paginate @service_verifies %>
+    </div>
+  </div>
+  <div class="gm-tabs-content">
+    <%= form_for @service_verify, :url => admin_service_verifies_path , :html => {:method => :get} do |f| %>
+      <div class="s-table">
+        <table>
+          <tbody>
+            <tr>
+              <td width="120"> <label for="">序列号分类：</label></td>
+              <td>
+                <div class="s-input">
+                  <%=f.select :service_category_id, ServiceCategory.all.map{|category| [category.name, category.id]}, :include_blank => "请选择" %>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td width="120"> <label for="">序列号：</label></td>
+              <td>
+                <div class="s-input">
+                  <%=f.text_field :serial_number %>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+      <div class="s-input">
+        <%= f.submit "查询" ,:title => "查询" %>
+        <input type="reset" value="重置" />
+      </div>
+      </p>
+    <% end %>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  $(function(){
+    // Document is ready
+    $('.gm-tabs').jqtab();
+    $('#validBeforePicker,#validAfterPicker').datepick({
+      onSelect: customRange});
+  });
+  
+
+  function customRange(dates) {
+    if (this.id == 'validBeforePicker') {
+      $('#validAfterPicker').datepick('option', 'minDate', dates[0] || null);
+    }
+    else {
+      $('#validBeforePicker').datepick('option', 'maxDate', dates[0] || null);
+    }
+  }
+
+  $.jqmIframe({
+    overlay: 70,
+    trigger: '.add-service_verify-tlj',
+    onLoad : $.jqmFullWindow
+  });
+
+  function load_content(){
+    $('#tree_load_content').load("/admin/service_verifies/<%= params[:id] %>/channel_index#{?page=params[:page] if params[:page] }");
+
+  }
+
+  $().ready(function(){
+    $(".jqmClose").click(function(){
+      load_content();
+    });
+  })
+
+
+</script>

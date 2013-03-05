@@ -1,0 +1,93 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "template"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/template"%>
+<% end %>
+<%=content_for :head do%>
+  <style type="text/css">
+    .CodeMirror {
+      border: 1px solid black;
+      width: 800px;
+    }
+    .CodeMirror-scroll {
+      height: 600px;
+    }
+  </style>
+
+  <script type="text/javascript">
+    $(function(){
+      //代码高亮渲染
+      var editor = CodeMirror.fromTextArea(document.getElementById("template_content"), {
+        mode: "text/html",
+        lineNumbers: true
+      });
+      editor.setOption("theme", "rubyblue");
+      //验证
+      $("#edit_template").validate({
+        rules: {
+          "template[name]": {
+            required: true
+          }
+        },
+        messages: {
+          "template[name]": {
+            required: "请输入模板名称"
+          }
+        },
+        errorPlacement: function(error, element) {
+          error.appendTo(element.parent());
+        }
+      });
+      $.hotkeys.add('Ctrl+s', function (){$("#edit_template").submit();});
+    }); 
+    
+  </script>
+<%end%>
+<div class="s-table">
+  <table>
+    <tbody>
+      <tr>
+        <td width="140"><%= f.label :name, "模板名称："%></td>
+        <td>
+          <div class="s-input">
+            <%= f.text_field :name, :class => "required" %>&nbsp;模板名字
+          </div></td>
+      </tr>
+      <tr>
+        <td width="140"><%= f.label :template_type, "模板分类："%></td>
+        <td>
+          <div class="s-input">
+            <%= f.select :template_category_id ,  TemplateCategory.ct_desc.map{|category| [category.name,category.id]} , :class => "required" %> 模版所属分类
+          </div></td>
+      </tr>
+      <tr>
+        <td width="140"><%= f.label :template_name, "模板英文名称："%></td>
+        <td>
+          <div class="s-input">
+            <%= f.text_field :template_name , :class => "custom_template_name required" %>&nbsp;模板英文名字，引入模版时调用
+          </div></td>
+      </tr>
+      <tr>
+        <td width="140" ><%= f.label :description, "模板描述："%></td>
+        <td>
+          <div class="s-input">
+            <%= f.text_area :description, :size => "80x4" %>&nbsp;模板的详细描述信息
+          </div></td>
+      </tr>                 
+      <tr>
+        <td width="140" style="white-space: pre;"><label for="">模板：<br/>（键盘的Ctrl+s可以快速提交。）</label></td>
+        <td>
+          <%= f.text_area :content, :size => "100x20" %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>
+<div class="s-input">
+  <%=f.submit "提交"%>
+  &nbsp;&nbsp;
+  <%=link_to "返回", admin_templates_path%>
+</div>
+</p>

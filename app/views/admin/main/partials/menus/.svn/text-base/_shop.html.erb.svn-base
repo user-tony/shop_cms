@@ -1,0 +1,8 @@
+<div class="s-rail g-ltw">
+  <div class="gm-accordion-container g-ltw">
+    <ul>
+      <!-- <li><%#= link_to "套餐管理", admin_shop_packages_path %></li> -->
+      <li><%= link_to "订单管理", admin_shop_orders_path %></li>
+    </ul>
+  </div>
+</div>

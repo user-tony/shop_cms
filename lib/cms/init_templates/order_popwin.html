@@ -1,0 +1,79 @@
+    <div class="s-quick-order-form-field">
+        <form action="/shop_products/submit_order" method="post" data-remote="true" accept-charset="UTF-8"  id="quick_order_form">
+            <input name="authenticity_token" type="hidden" value="6lmpxQ2Cjd81kzoScriags+M4IGvKHLuHG4lVh0y+O8=" />
+            <input name="order[item_id]" value="{{shop_product.id}}" hidden="true" />
+            <p><label for="">*品名:</label> <strong class="red">{{shop_product.name}}</strong></p>
+            <p><label for="">*联系人:</label> <input type="text" name="order[recipient_name]" class="text" /></p>
+            <p><label for="">*联系电话:</label> <input type="text" name="order[phone]" class="text" /></p>
+            <p><label for="">*QQ:</label> <input type="text" name="order[qq]" class="text" /></p>
+            <p class="long"><label for="">*投递地址:</label> <input type="text" name="order[address]" class="text" size="55" /></p>
+            <p><label for="">*订购数量:</label> <input type="text" name="order[item_count]" class="text" value="1" size="5" /></p>
+            <p><label for="">*留言:</label> <textarea name="order[remark]" class="comment" cols="50"></textarea></p>
+
+            <p class="note"><span class="red">注</span>：为确保我们的工作人员准确及时的将货品送到，请保持电话在工作日有人接听。</p>
+            <p><input type="submit" class="submit" /></p>
+        </form>
+    </div>
+
+
+<script src="/assets/jquery_ujs.js?body=1" type="text/javascript"></script>
+<script src="/assets/admin/jquery.validate.js?body=1" type="text/javascript"></script>
+
+<script type ="text/javascript">
+    $.validator.methods.mobile = function(value){
+        var reg = /^1[3458]\d{9}$/i
+        return reg.test(value)
+    };
+    $("#quick_order_form").validate({
+        //debug:true,　//测试时打开
+        rules: {
+            "order[recipient_name]": {
+                required:true,
+                rangelength:[2,50]
+            },
+            "order[phone]": {
+                required:true,
+                mobile: true,
+                rangelength:[11,11]
+            },
+            "order[address]": {
+                required:true,
+                rangelength:[10,50]
+            },
+            "order[item_count]": {
+                required:true
+            },
+            "order[remark]": {
+                rangelength:[4,255]
+            }
+        },
+        messages:{
+            "order[recipient_name]": {
+                required:"联系人不能为空！",
+                rangelength:"联系人姓名长度不能小于2！"
+            },
+            "order[phone]": {
+                required:"电话不能为空！",
+                mobile: "手机格式不正确!",
+                rangelength:"请输入正确的手机号码！"
+            },
+            "order[address]": {
+                required:"地址不能为空！",
+                rangelength:"地址长度不能小于10个字！"
+            },
+            "order[item_count]": {
+                required:"数量不能为空！"
+            },
+            "order[remark]": {
+                rangelength:"留言不能小于4个字符"
+            }
+        },
+        submitHandler:function(form){
+            $(form).hide().data('submiting','true');
+            var loading = $('<p>正在提交，请稍后...</p>');
+            $(form).after(loading);
+            form.submit();
+        }
+    });
+</script>
+

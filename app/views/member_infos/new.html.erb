@@ -1,0 +1,98 @@
+
+<%= form_for :member_info, :url => member_infos_path, :html => { :method => "post", :id => "new_member_info" } do |f| %>
+  <% unless @member_info.blank? %>
+    <div class="s-input">
+      <%= f.label :name, "姓 名：" %>
+      <%= f.text_field :name %>  </div>
+    <br />
+    <div class="s-input">
+      <%= f.label :gender, "性 别：" %>
+      <%= radio_button_tag "member_info[gender]", "false",(true if !@member_info.blank? and @member_info.gender == false) %>
+      <%= label_tag "member_info[gender][false]","男" %>
+      <%= radio_button_tag "member_info[gender]", "true", (true if !@member_info.blank? and @member_info.gender == true) %>
+      <%= label_tag "member_info[gender][true]","女" %>
+    </div>
+    <br />
+
+        <div class="s-input">
+          <%= label_tag "member_info[birthday]", "出生日期：" %>
+      <%= text_field_tag "member_info[birthday]" , nil, :id =>  "validBeforePicker" %>
+    </div>
+    <br />
+
+    <div class="s-input">
+      <%= f.label :tel, "电 话：" %>
+      <%= f.text_field :tel %>
+    </div>
+    <br />
+    <div class="s-input">
+      <%= f.label :address, "住 址：" %>
+      <%= f.text_field :address %>
+    </div>
+    <br />
+
+    <div class="s-input">
+      <%= f.label :description, "个人说明：" %>
+      <%= f.text_area :description %>
+    </div>
+    <br />
+  <% end %>
+  <div class="s-input">
+    <%= f.submit "提交" %>
+  </div>
+  <br />
+<% end %>
+
+
+
+<%= content_for :head do  %>
+
+  <script type="text/javascript">
+    $(function(){
+      // Document is ready
+      $('#validBeforePicker').datepick({
+        onSelect: customRange});
+    });
+  
+
+    function customRange(dates) {
+      if (this.id == 'validBeforePicker') {
+        $('#validAfterPicker').datepick('option', 'minDate', dates[0] || null);
+      }
+      else {
+        $('#validBeforePicker').datepick('option', 'maxDate', dates[0] || null);
+      }
+    }
+  </script>
+  <script type ="text/javascript">
+    $(function(){
+      $("#new_member_info").validate({
+        //debug:true,　//测试时打开
+        rules: {
+          "member_info[name]": {
+            required:true,
+            rangelength:[2,18]
+
+          }
+        },
+        messages:{
+          "member_info[name]": {
+            required:"姓名不能为空！",
+            rangelength:"姓名长度应介于2-18！"
+
+          }
+        },
+        submitHandler:function(form){
+          $(form).hide().data('submiting','true');
+          var loading = $('<p> <%= image_tag("/images/loading.gif") %>正在提交，请稍后...</p>');
+          $(form).after(loading);
+          form.submit();
+        }
+      });
+    });
+
+  </script>
+
+<% end  %>
+
+

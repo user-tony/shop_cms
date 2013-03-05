@@ -1,0 +1,5 @@
+<p>您好！ <%= @resource.nick_name %>!</p>
+
+<p>你可以通过下面的链接确认您的帐户的电子邮件:</p>
+
+<p><%= link_to '确认帐号', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token) %></p>

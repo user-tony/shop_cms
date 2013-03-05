@@ -1,0 +1,167 @@
+<div class="s-h-wrapper">
+  <div style="width: 49.5%; float: left; margin-right: 1%;" class="gm-bloc">
+    <div class="gm-bloc-head">
+      <h3 class="gm-bloc-title">
+        订单基本信息
+      </h3>
+    </div>
+    <div class="gm-bloc-body">
+      <div class="gm-tabs-content current">
+        <div class="s-input">
+          下单时间：
+          <%= current_time_format(@order.created_at, true) %>
+        </div>
+        <br />
+
+        <div class="s-input">
+          <%= f.input :amount, :value => currency_price(@order.amount), :label => "订单金额" %>
+        </div>
+        <br />
+
+        <div class="s-input">
+          已付金额：
+          <%= f.input :payment, :value => currency_price(@order.payment), :label => "已付金额" %>
+        </div>
+        <br />
+
+        <div class="s-input">
+          <%= f.input :order_status, :collection  => Order::SELECT_ORDER_STATUS, :label => "订单状态", :include_blank => false %>
+        </div>
+        <br />
+
+        <div class="s-input">
+          <%= f.input :payment_status, :collection  => Order::SELECT_PAYMENT_STATUS, :label => "支付状态", :include_blank => false %>
+        </div>
+        <br />
+
+        <div class="s-input">
+          备注信息：
+          <%= @order.remark %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div style="width: 49.5%; float: left;" class="gm-bloc hide">
+    <div class="gm-bloc-head">
+      <h3 class="gm-bloc-title">
+        物流信息
+      </h3>
+      <a class="toggle" href="#"></a>
+    </div>
+    <div class="gm-tabs-content current">
+      <div class="s-input">
+        <%= label_tag "logistic[logistic_com]", "物流公司" %>
+        <%= select("logistic", "logistic_com", options_for_select(Logistic::LOGISTIC_COM, :selected => @logistic.logistic_com), {:include_blank => "请选择"}) %>
+      </div>
+      <br />
+      <div class="s-input">
+        <%= label_tag "logistic[logistic_num]", "货运单号" %>
+        <%= text_field_tag "logistic[logistic_num]", @logistic.logistic_num %>
+      </div>
+
+    </div>
+  </div>
+
+
+
+  <div style="width: 49.5%; float: left;" class="gm-bloc hide">
+    <div class="gm-bloc-head">
+      <h3 class="gm-bloc-title">
+        客户信息
+      </h3>
+      <a class="toggle" href="#"></a>
+    </div>
+    <div class="gm-tabs-content current">
+      <%if @order.member%>
+        <div class="s-input">
+          用户ID：
+          <%= @order.member_id %>
+        </div>
+        <br />
+      <%end%>
+      <div class="s-input">
+        用户名：
+        <%= @order.member.present? ? @order.member.login : "匿名用户" %>
+      </div>
+      <%if @order.member%>
+        <br />
+        <div class="s-input">
+          昵称：
+          <%= @order.member.nick_name %>
+        </div>
+      <%end%>
+      <br />
+      <div class="s-input">
+        电话：
+        <%= @order.phone %>
+      </div>
+      <br />
+      <div class="s-input">
+        收货人：
+        <%= @order.recipient_name %>
+      </div>
+    </div>
+  </div>
+
+  <div style="width: 49.5%; float: left;" class="gm-bloc hide">
+    <div class="gm-bloc-head">
+      <h3 class="gm-bloc-title">
+        收货地址
+      </h3>
+      <a class="toggle" href="#"></a>
+    </div>
+    <div class="gm-tabs-content current">
+      <div class="s-input">
+        <%if @order.order_address%>
+          <%= order_area(@order.order_address.area_country_id) %>
+          <%= @order.order_address.address %>
+        <%end%>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="gm-bloc-head">
+  <h3 class="gm-bloc-title">
+    订单产品
+  </h3>
+  <a href="#" class="toggle"></a>
+</div>
+<div class="s-table">
+  <table>
+    <thead>
+      <tr>
+        <th width="50">商品类型</th>
+        <th width="50">商品名称</th>
+        <th width="50">价格</th>
+        <th width="50">数量</th>
+        <th width="80">金额</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @order.order_products.each do |product| %>
+        <tr>
+          <td><%= product.type_cn  %> </td>
+          <td><%= product.item.present? ? product.item.full_name : "商品不存在"%></td>
+          <td><%= currency_price(product.price)  %> </td>
+          <td><%= product.item_count  %> </td>
+          <td><%= currency_price(product.price * product.item_count)%> </td>
+        </tr>
+      <%end%>
+    </tbody>
+  </table>
+</div>
+<div class="s-input">
+  <%= f.submit "保存" %>
+  <%= link_to "返回", admin_shop_orders_path, :class => "button" %>
+</div>
+
+<style>
+  .simple_form .input{margin:0;}
+  .simple_form label.control-label {
+    width:auto;
+  }
+</style>
+<!-- end form -->

@@ -1,0 +1,145 @@
+<%= javascript_include_tag "ckeditor/init" %>
+
+<!-- form -->
+<div class="s-input">
+  <%= f.input :name,  :label => "套餐名称" %>
+</div>
+<br />
+
+<div class="s-input">
+  <label class="string control-label" for="shop_product_ids">所含商品</label>
+  <span id="allGoods"><%= @shop_package.shop_product_package_relations.map{|r| [r.shop_product.full_name]}.join(',') %></span>
+  <%= hidden_field_tag :shop_product_ids %> 
+  <span class="input-tips">  </span>
+  <%if action_name == "new"%>
+    <p class="help-block"><a id="openSelectGood" class="jqModal" href="#">选择商品</a>  <a href="#" id="clearBtn" href="#">清空所选</a></p>
+  <%end%>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :market_price , :as => "float", :label => "市场价" %>
+  <span class="input-tips">  </span>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :price , :as => "float", :label => "售价" %>
+  <span class="input-tips">  </span>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :product_status , :collection => ShopProduct::SELECT_STATUS, :label => "状态", :include_blank => false %>
+  <span class="input-tips">  </span>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :stock , :as => "integer", :label => "库存"%>
+  <span class="input-tips">  </span>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :position , :as => "integer", :label => "排序"%>
+  <span class="input-tips">  </span>
+</div>
+<br />
+
+<%= f.fields_for :product_contents  do |p|    %>
+  <%= p.input :item_type , :as => "hidden", :input_html => {:value => "ShopPackage"} %>
+  <div class="s-input">
+    <p>上传的附件图片</p>
+      注：本图片是为下面产品内容添加的图片
+      <div class="update_attachment" id="update_attachment">
+
+        <% @images.each do |image| %>
+          <div class="addon-img-wrapper">
+            <%= image_tag image.thumb.url,  :addonid=> image.id    %>
+            <span class="addon-img-insert" addonid="<%=image.id %>">插入</span>
+            <span class="addon-img-delete" addonid="<%=image.id %>">删除</span>
+          </div>
+        <% end %>
+
+      </div>
+      <iframe id="add_attachment_frame" width="600" height="30" src="<%= frame_form_admin_shop_package_path(5)%> " frameborder="no" scrolling="no" resizable="no" allowtransparency="true" cellspacing="0" border="0"></iframe>
+    <label for="">套餐详细内容</label>
+    <%= p.cktext_area :content, :toolbar => 'Tlj', :customConfig => "/skin/default/javascripts/custom_ckeditor.js", :width => 800, :height => 400, :namespace => "admin", :language => "zh-cn" %>
+  </div>
+  <br />
+<% end %>
+
+<div class="s-input">
+  <%= f.button :submit, :value => "保存" %>
+</div>
+
+<div class="s-input">
+  <%= link_to "返回", admin_shop_packages_path, :class => "button"   %>
+</div>
+<!-- end form -->
+<div class="jqmWindow" id="dialog">
+  <div class="head">
+    <a href="#" class="jqmClose">关闭</a>
+
+    商品列表
+  </div>
+  <div class="body">
+    <div class="goods-wrapper" id="goods-wrapper">
+      <div class="gm-img-list s-goods-list">
+        <ul>
+          <% ShopProduct.get_product_to_package.each do |product| %>
+            <li>
+              <%= image_tag(product.get_images) %>
+              <div class="check-wrapper">
+                <input type="checkbox" value="<%= product.id %>" /><%= product.full_name %></div></li>
+          <%end%>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+  <div class="foot">
+    <div class="s-input">
+      <a id="selectGoodsBtn" href="#" class="button jqmClose">确定</a>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $('#selectGoodsBtn').click(function(){
+    var checks = $('#goods-wrapper input:checked');
+    var sel = [];
+    var str = [];
+    checks.each(function(index,ele){
+      sel.push(ele.value);
+      str.push($(ele).parent().text());
+    });
+
+    $('#shop_product_ids').val(sel.join(','));
+    $('#allGoods').html(str.join(','));
+  });
+
+  $('#clearBtn').click(function(){
+    $('#shop_product_ids').val('');
+    $('#allGoods').html('');
+  });
+
+  $('#goods-wrapper li').click(function(e){
+    if(e.target.nodeName !== 'INPUT'){  //toggle input
+      if($('input',this).attr('checked')){
+        $('input',this).removeAttr('checked');
+      }else{
+        $('input',this).attr('checked','checked');
+      }
+    }
+
+
+    if($('input',this).attr('checked')){
+      $(this).addClass('selected');
+    }else{
+      $(this).removeClass('selected');
+    }
+  });
+
+  $('#dialog').jqm();
+</script>

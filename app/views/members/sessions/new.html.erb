@@ -1,0 +1,47 @@
+<h2>登 录</h2>
+<%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:id => "member_sign_in"}) do |f| %>
+  <div class="inputs">
+    <%= f.input :login, :label => "用户名", :required => false, :autofocus => true %>
+    <%= f.input :password, :label => "密 码", :required => false %>
+    <%= f.input :remember_me, :label => "下次自动登录", :as => :boolean if devise_mapping.rememberable? %>
+  </div>
+
+  <div class="actions">
+    <%= f.button :submit, "登 录" %>
+  </div>
+<% end %>
+
+  <%= render "members/links" %>
+
+<%= content_for :head do %>
+  <script type ="text/javascript">
+    $(function(){
+      $("#member_sign_in").validate({
+        //debug:true,　//测试时打开
+        rules: {
+          "member[login]": {
+            required:true
+          },
+          "member[password]": {
+            required:true
+          }
+        },
+        messages:{
+          "member[login]": {
+            required: "用户名不能为空！"
+          },
+          "member[password]": {
+            required: "密码不能为空！"
+          }
+        },
+        submitHandler:function(form){
+          $(form).hide().data('submiting','true');
+          var loading = $('<p> <%= image_tag("/images/loading.gif") %>正在提交，请稍后...</p>');
+          $(form).after(loading);
+          form.submit();
+        }
+      });
+    });
+
+  </script>
+<% end %>

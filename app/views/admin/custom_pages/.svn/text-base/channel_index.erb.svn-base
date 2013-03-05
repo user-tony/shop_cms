@@ -1,0 +1,60 @@
+
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "content"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/content"%>
+<% end %>
+
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      自定义页信息管理
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <div class="gm-toolbar">
+      <ul>
+        <li><%=link_to "添加自定义页", new_admin_custom_page_path %></li>
+      </ul>
+    </div>
+    <div class="s-table">
+      <table>
+        <thead>
+          <tr>
+            <th>选项</th>
+            <th>序号</th>
+            <th>栏目</th>
+            <th>名称</th>
+            <th>创建时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @custom_pages.each do |custom|  %>
+            <tr>
+              <td>
+                <div class="s-input">
+                  <input type="checkbox" value="<%= custom.id%>" />
+                </div>
+              </td>
+              <td><%=  custom.id%></td>
+              <td> <%= custom.channel.name %>  </td>
+              <td> <%= custom.name  %>    </td>
+              <td><%= current_time_format(custom.created_at) %></td>
+              <td class="edit">
+                <%= link_to image_tag("icon/edit.png"), edit_admin_custom_page_path(custom) %>
+                <%= link_to image_tag("icon/delete.png"), admin_custom_page_path(custom), :method => :delete ,:confirm => "你确定要删除吗？" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <!-- pagination -->
+    <div class="gm-pagination">
+      <%= paginate @custom_pages %>
+    </div>
+  </div>
+</div>

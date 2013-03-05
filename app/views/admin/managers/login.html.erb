@@ -1,0 +1,22 @@
+<div id="shim"></div>
+<div id="wrapper">    
+  <div id="iwrapper">
+    <h1>芒果 CMS 后台管理系统</h1>
+    <div id="login-field">
+      <%= form_tag check_login_admin_managers_path %>
+      <div class="left-field">
+        <p>帐 号: 
+          <%= text_field_tag "keyword[login]" , "", :class => "tinput" %>
+        </p>
+        <p>密 码: 
+          <%= password_field_tag "keyword[password]", "",:class => "tinput" %>
+        </p>
+      </div>
+      <input type="submit" id="submit" value="" />
+      <p class="tip">
+        <%= flash[:error] %>
+        <%= flash[:success] %>
+      </p>
+    </div>
+  </div>
+</div>

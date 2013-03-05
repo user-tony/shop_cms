@@ -1,0 +1,38 @@
+
+<a href="/shop_products/my_cart" class="cart" id="my_cert">我的购物车<span  id="cart_total_count">({{ cookies | get_cart_total_count }})</span></a>
+<div class="shop-cert-view" id="shop-cert-view">
+
+    {%  if cookies["shop_product"].size  > 0 %}
+    <p class="title">最近添加的物品 ：</p>
+    <ul class="s-glist">
+        {% for hash in cookies["shop_product"] limit:5 %}
+        <li>
+            {% cms_ShopProduct shop_product in id:hash[0] %}
+            <a href="#" class="img-view"><img src="{{shop_product..product_attachments.first | thumb:'s2'}}" alt="{{shop_product.name}}" /></a>
+            <div class="intro">
+                <a href="/shop/show/{{shop_product.id}}" title="{{ shop_product.nam}}" > {{ shop_product.name |truncate:12}} </a>
+                <span> x {{hash[1]["count"]}}</span>
+            </div>
+            <div class="operate">
+                <span class="cost">{{ cookies | get_cart_item_price:hash[0]}}</span>
+                <a href="/shop_products/destroy_product" title="删除" product_id="{{shop_product.id}}" date-remote="true" date-confirm="确定要删除吗？" class="delete">删除</a>
+            </div>
+            {% endcms_ShopProduct%}
+        </li>
+        {% endfor %}
+    </ul>
+    <p class="go-cert"><a href="/shop_products/my_cart">查看购物车</a></p>
+     {% else %}
+     <p class="title">购物车暂无<a href="/shop_products/index">商品</a> ：</p>
+     <p class="go-cert"><a href="/shop">去商城购物</a></p>
+    {% endif %}
+</div>
+
+<script type="text/javascript">
+$('#my_cert').click(function(){
+   //if($('#cart_total_count').html()=="(0)"){
+    return false;
+  // }
+    
+});
+</script>

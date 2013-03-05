@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>芒果CMS系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- description -->
+    <meta name="description" content="芒果CMS系统" />
+    <!-- favorite icon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"></link>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"></link>
+    <link rel="bookmark" href="/favicon.ico" type="image/x-icon"></link>
+    <%= stylesheet_link_tag   "admin.css" %>
+    <%= stylesheet_link_tag   "admin/login.css" %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>

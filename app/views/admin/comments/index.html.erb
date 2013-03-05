@@ -1,0 +1,69 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "comments"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/comments"%>
+<% end %>
+
+<div class="gm-tabs s-h-wrapper">
+  <div class="gm-tabs-head">
+    <a href="#"  class="current">评论管理</a>
+  </div>
+  <div class="gm-tabs-content current">
+    <div class="s-table">
+      <%=  form_tag batch_act_admin_comments_path, :method => :get , :onsubmit => "return form_validate(this);" do%>
+      <table>
+        <thead>
+          <tr>
+            <th width="50"><input type="checkbox" class="selectAll" >全/反选</input></th>
+            <th width="50">对象类型</th>
+            <th width="50">评论用户</th>
+            <th width="50">内容预览</th>
+            <th width="50">状态</th>
+            <th width="50">评论时间</th>
+            <th width="100">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @comments.each do |comment| %>
+            <tr>
+              <td>
+                <div class="s-input">
+                  <input type="checkbox" value="<%=  comment.id%>" name="ids[]" />
+                </div>
+              </td>
+              <td><%= comment.item_type_cn  %> </td>
+              <td><%= comment.member.present? ? comment.member.nick_name : "匿名用户"  %> </td>
+              <td><%= truncate(comment.content, :length => 20) %></td>
+              <td><%= comment.status_cn %></td>
+              <td><%= current_time_format(comment.created_at, true) %></td>
+              <td class="edit">
+                <%= link_to image_tag("icon/edit.png"), edit_admin_comment_path(comment), :title => "修改" %>
+                <%= link_to image_tag("icon/delete.png"), admin_comment_path(comment), :method => "delete", :title => "删除", :confirm => "是否确认删除？" %>
+              </td>
+            </tr>
+          <%end%>
+        </tbody>
+      </table>
+      <div class="s-input">
+        <input type="submit" name="act_passed" value="审核通过"/>
+        <input type="submit" name="act_not_passed" value="审核未通过"/>
+        <input type="submit" name="act_batch_delete" value="批量删除"/>
+      </div>
+      <%end%>
+    </div>
+
+    <div class="gm-pagination">
+      <%= paginate @comments %>
+    </div>
+
+  </div>
+</div>
+<script type="text/javascript">
+  function form_validate(form){
+    if($('tbody :checked',form).length < 1){
+      alert('没有任何选择项');
+      return  false;
+    }
+  }
+</script>

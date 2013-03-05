@@ -1,0 +1,11 @@
+<div class="s-rail g-ltw">
+  <div class="gm-accordion-container g-ltw">
+    <ul>
+      <li><%= link_to "网站设置", admin_global_variables_path %> </li>
+      <li><%= link_to "网站设置分类", admin_global_variable_categories_path %> </li>
+      <li><%= link_to "友情链接设置", admin_friendly_websites_path %> </li>
+      <li><%= link_to "管理员管理", admin_managers_path %> </li>
+      <li><%= link_to "模型管理", admin_info_models_path %> </li>
+    </ul>
+  </div>
+</div>

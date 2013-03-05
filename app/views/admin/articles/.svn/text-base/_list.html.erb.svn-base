@@ -1,0 +1,51 @@
+
+
+
+<div class="gm-toolbar">
+  <ul>
+    <% if params[:id].present? %>
+      <li><%=link_to "添加文章", "" , "data-iframe-src" => new_article_admin_article_path(params[:id]) ,:title => "添加文章" , :class => "add-article-tlj" %></li>
+    <% end %>
+  </ul>
+</div>
+<div class="s-table">
+  <table>
+    <thead>
+      <tr>
+        <th>选项</th>
+        <th>序号</th>
+        <th>文章标题</th>
+        <th>栏目</th>
+        <th>推荐级别</th>
+        <th>文章状态</th>
+        <th>创建时间</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @articles.each do |article|  %>
+        <tr class="article_tr_<%=article.id%>">
+          <td>
+            <div class="s-input">
+              <input type="checkbox" value="<%=article.id%>" />
+            </div>
+          </td>
+          <td><%=  article.id%></td>
+          <td> <%= article.title  %>  </td>
+          <td> <%= article.channel.name  %>  </td>
+          <td> <%= article.get_recomment_type %></td>
+          <td> <%= article.get_article_status %></td>
+          <td><%= current_time_format(article.created_at) %></td>
+          <td class="edit">
+            <%= link_to image_tag("icon/edit.png"), "" , "data-iframe-src" => edit_admin_article_path(article),:title => "编辑", :class => "add-article-tlj" %>
+            <%= link_to image_tag("icon/delete.png"), admin_article_path(article), :method => :delete, :remote => true ,:confirm => "你确定要删除吗？" ,:title => "删除" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<!-- pagination -->
+<div class="gm-pagination">
+  <%= paginate @articles, :params => {:controller => "/admin/articles", :action => "search", :channel_id => @channel.id} , :remote => true %>
+</div>

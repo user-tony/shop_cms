@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>芒果CMS系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- description -->
+    <meta name="description" content="芒果CMS系统" />
+    <!-- favorite icon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="bookmark" href="/favicon.ico" type="image/x-icon" />
+
+    <%= stylesheet_link_tag   "admin.css" %>
+    <%= javascript_include_tag "admin.js" %>
+    <%= csrf_meta_tags %>
+    <%= yield :head %>
+
+  </head>
+  <body>
+    <%= render :partial => "admin/main/partials/admin_header/header" %>
+    <div class="s-container g-ltw g-ltc">
+      <div class="s-content g-ltw" id="tree_load_content">
+        <!-- <div class="g-ltw g-ltc s-snav">
+           您当前所在位置：<%#= link_to "首页", admin_main_index_path %> >> <%#= yield :curr_channel  %>  >> <%#= yield :curr_localtion %>
+         </div>
+        -->
+        <div class="s-right-wrapper g-ltw g-ltc" id="flash_prompt">
+          <%= render :partial => "admin/main/partials/notify/flash", :locals => {:flash => flash} %>
+          <%= yield %>
+        </div>
+      </div>
+      <%= yield :sider_menu %>
+    </div>
+    <%= render :partial => "admin/main/partials/admin_footer/footer" %>
+  </body>
+</html>

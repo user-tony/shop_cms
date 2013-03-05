@@ -1,0 +1,32 @@
+<div class="g-ltw g-ltl s-grid1">
+   
+    <div class="g-ltw g-ltc s-ltwm s-shop-tags">
+      {% cms_ShopCategory  category in cate_id:1 oreder:"created_at ASC" %}
+        <div class="s-shop-tag">
+            <p class="title"><a href="/shop/index/search/q-{{category.name}}" title="{{category.name}}">{{category.name}}</a></p>
+            <ul class="tags-list">
+                {% cms_ShopCategory cate in cate_id:category.id %}
+                <li><a href="/shop/index/search/q-{{cate.name}}" title="{{cate.name}}">{{cate.name}}</a></li>
+                {% endcms_ShopCategory %}
+            </ul>
+        </div>
+        {% endcms_ShopCategory %}
+    </div>
+ 
+    <div class="g-ltw g-ltc s-cwrapper">
+        <h2 class="s-title">热门商品</h2>
+        <div class="s-ipros-views">
+            {% cms_ShopProduct product in limit:6 %}
+            <div class="gm-ilink-prev">
+                <a href="/shop/show/{{product.id}}" title="{{product.name}}" class="img">
+                    <img src="{{product.product_attachments.first | thumb:'s2'}}" alt="{{product.name}}" />
+                </a>
+                <p><a href="/shop/show/{{product.id}}" title="{{product.name}}">{{product.name}}</a></p>
+                <!-- <p>已成交 <span class="num">160</span> 笔</p> -->
+                <p>市场价：<span class="cost"> <del> {{ product.market_price | string_format:"float","%.2f"}}</del></span></p>
+                <p>会员价：<span class="cost">{{ product.price | string_format:"float","%.2f"}}</span></p>
+            </div>
+            {% endcms_ShopProduct %} 
+        </div>
+    </div>
+</div>

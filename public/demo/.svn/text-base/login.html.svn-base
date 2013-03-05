@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>芒果CMS系统</title>
+    
+    <!-- description -->
+    <meta name="description" content="芒果CMS系统" />
+    
+    <!-- favorite icon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="bookmark" href="/favicon.ico" type="image/x-icon">
+    
+    <link rel="stylesheet" href="/assets/admin/global.css" media="all" type="text/css" />
+    <link rel="stylesheet" href="/assets/admin/login.css" media="all" type="text/css" />
+</head>
+<body>
+    <div id="shim"></div>
+    <div id="wrapper">    
+        <div id="iwrapper">
+            <h1>芒果 CMS 后台管理系统</h1>
+            <div id="login-field">
+                <form action="">
+                <div class="left-field">
+                    <p>帐 号: <input type="text" id="uname" class="tinput" autofocus="true" /></p>
+                    <p>密 码: <input type="password" id="upw" class="tinput" /></p>
+                </div>
+                <input type="submit" id="submit" value="" />
+                </form>
+                <p class="tip">用户名或密码错误，请重新输入</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

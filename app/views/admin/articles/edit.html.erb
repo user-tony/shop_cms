@@ -1,0 +1,48 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "content"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/content"%>
+<% end %>
+
+
+    <%= form_for  @article, :url => update_article_admin_article_path(@article.id) , :html => { :id => "edit_article_form" ,  :multipart => true } do |f| %>
+      <%= render :partial =>"form", :locals =>{:f => f } %>
+    <% end %>
+
+<%= content_for :head do   %>
+  <script type ="text/javascript">
+
+    $(function(){
+      $("#edit_article_form").validate({
+        //debug:true,　//测试时打开
+        rules: {
+          "article[title]": {
+            required:true,
+            rangelength:[2,30]
+          },
+          "article[channel_id]": {
+             required:true
+          },
+          "article[recomment]": {
+             required:true
+          }
+        },
+         messages:{
+           "article[title]": {
+            required:"文章标题不能为空",
+            rangelength: "文章标题应在2-30之间"
+          },
+          "article[channel_id]": {
+             required:"所属栏目不能为空"
+          },
+          "article[recomment]": {
+             required:"推荐等级不能为空"
+          }
+        }
+      });
+    });
+
+  </script>
+
+<% end %>

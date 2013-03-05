@@ -1,0 +1,47 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "shop"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/shop"%>
+<% end %>
+
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      添加商品分类
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-bloc-body">
+    <%= simple_form_for @shop_category,  :url => admin_shop_categories_path,:validate => true  do |f| %>
+      <%= render :partial =>"form", :locals =>{:f => f } %>
+    <% end %>
+  </div>
+</div>
+
+  <script type ="text/javascript">
+    $(function(){
+      $("#new_shop_category").validate({
+        //debug:true,　//测试时打开
+        rules: {
+          "shop_category[name]": {
+            required:true,
+            rangelength:[2,30]
+          },
+          "shop_category[description]": {
+            rangelength:[2,200]
+          }
+        },
+        messages:{
+          "shop_category[name]": {
+            required: "商品分类标题不能为空",
+            rangelength:"描述应在2-30个汉字"
+          },
+          "shop_category[description]": {
+            rangelength:"描述应在2-200个汉字"
+          }
+        }
+      });
+    });
+
+  </script>

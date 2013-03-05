@@ -1,0 +1,6 @@
+#development: /tmp/redis.sock
+development: 192.168.0.243:6379
+test: 192.168.0.243:6379
+staging: redis1.se.github.com:6379
+fi: 192.168.0.243:6379
+production: redis1.ae.github.com:6379

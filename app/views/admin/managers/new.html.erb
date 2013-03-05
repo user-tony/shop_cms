@@ -1,0 +1,101 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "system"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/system"%>
+<% end %>
+<div class="gm-bloc s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      添加管理员
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <% content_for :error_message do %>
+    <% error_messages(@manager).each do |err| %>
+      <%= err %><br />
+    <% end %>
+  <% end %>
+
+  <div class="gm-bloc-body">
+    <%= form_for :manager, :url =>admin_managers_path, :html => { :id => "new_manager"} do |f| %>
+
+      <div class="s-input">
+        <%= f.label :login, "用户名：" %>
+        <br />
+        <%= f.text_field :login %>
+        <p class="help-block">(管理员登录名称)</p>
+      </div>
+      <br />
+      <div class="s-input">
+        <%= f.label :password, "密 码：" %>
+        <br />
+        <%= f.password_field :password %>
+        <p class="help-block">(管理员密码)</p>
+      </div>
+      <br />
+      <%= f.text_field :manager_type, :hidden => true %>
+      <div class="s-input">
+        <%= f.label :email, "E-mail：" %>
+        <br />
+        <%= f.text_field :email %>
+        <p class="help-block">(管理员邮箱地址)</p>
+      </div>
+      <br />
+      <div class="s-input">
+        <%= f.submit "提交" %>
+      </div>
+      <br />
+    <% end %>
+  </div>
+</div>
+
+
+<%=content_for :head do%>
+  <script type ="text/javascript">
+    $(function(){
+      $("#new_manager").validate({
+        //debug:true,　//测试时打开
+        rules: {
+          "manager[login]": {
+            required:true,
+            rangelength:[6,20],
+            remote: '<%= exists_attach_admin_managers_path %>'
+          },
+          "manager[password]": {
+            required:true,
+            rangelength:[6,20]
+          },
+          "manager[email]": {
+            required:true,
+            email:true
+          }
+        },
+        messages:{
+          "manager[login]": {
+            required: "用户名不能为空!",
+            rangelength: "用户名长度应介于6-20!",
+            remote: "用户名已存在！"
+          },
+          "manager[password]": {
+            required: "密码不能为空！",
+            rangelength: "密码长度应介于6-20!"
+          },
+          "manager[email]": {
+            required: "邮箱不能为空！",
+            email: "邮箱格式不正确！"
+          }
+        },
+        submitHandler:function(form){
+          $(form).hide().data('submiting','true');
+          var loading = $('<p>正在提交，请稍后...</p>');
+          $(form).after(loading);
+          form.submit();
+        }
+      });
+    });
+
+  </script>
+<% end %>
+
+

@@ -1,0 +1,40 @@
+<!-- favorite icon -->
+{% if cms['favicon']%}
+<link rel="icon" href="{{cms['favicon']}}" type="image/x-icon">
+<link rel="shortcut icon" href="{{cms['favicon']}}" type="image/x-icon">
+<link rel="bookmark" href="{{cms['favicon']}}" type="image/x-icon">
+{% endif %}
+{% if channel %}
+<meta name="description" content="{{channel.description}}" />
+<meta name="keywords" content="{{channel.keyword}}" />
+{%endif%}
+<link rel="stylesheet" href="/skin/default/stylesheets/global.css" media="all" type="text/css" />
+<link rel="stylesheet" href="/skin/default/stylesheets/site.css" media="all" type="text/css" />
+<link rel="stylesheet" href="/skin/default/stylesheets/mod.css" media="all" type="text/css" />
+<link rel="stylesheet" href="/skin/default/stylesheets/jqModal.css" media="all" type="text/css" />
+<link rel="stylesheet" href="/skin/default/stylesheets/wowoj_slide.css" media="all" type="text/css" />
+<link rel="stylesheet" href="/skin/default/stylesheets/tip-yellow.css" media="all" type="text/css" />
+<link rel="stylesheet" href="/skin/default/stylesheets/jquery.jgrowl.css" type="text/css"/>
+<script type="text/javascript" src="/skin/default/javascripts/jquery-1.5.2.min.js"></script>
+<script type="text/javascript" src="/skin/default/javascripts/jquery.poshytip.min.js"></script>
+<script type="text/javascript" src="/skin/default/javascripts/jquery.validate.js"></script>
+<script type="text/javascript" src="/skin/default/javascripts/wm_clickNum.js"></script>
+<script type="text/javascript" src="/skin/default/javascripts/jqModal.js"></script>
+<script type="text/javascript" src="/skin/default/javascripts/jquery.form.js"></script>
+<script type="text/javascript" src="/skin/default/javascripts/lib.js"></script>
+<script type="text/javascript" src="/skin/default/javascripts/jquery.jgrowl.js"></script>
+
+{% if flash_error %}
+<script type="text/javascript">
+ (function($){
+			$(document).ready(function(){
+				// This value can be true, false or a function to be used as a callback when the closer is clciked
+				$.jGrowl("{{flash_error}}");
+			});
+		})(jQuery);
+</script>
+{% endif %}
+ 
+
+ 
+

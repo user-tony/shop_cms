@@ -1,0 +1,151 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "question"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/channel"%>
+<% end %>
+<div class="gm-tabs s-h-wrapper">
+  <div class="gm-bloc-head">
+    <h3 class="gm-bloc-title">
+      回答问题管理
+    </h3>
+    <a href="#" class="toggle"></a>
+  </div>
+  <div class="gm-tabs-head">
+    <a href="#"  class="current">问题回答列表</a>
+    <a href="#">下载</a>
+  </div>
+  <div class="gm-tabs-content current">
+    <%= form_tag(batch_operation_admin_answers_path, :id => "answer_form", :remote => "true")  do %>
+    <div class="gm-toolbar">
+      <div class="s-input">
+        <%= submit_tag "审核", :name => "audit"%>
+      </div>
+    </div>
+    <div class="s-table">
+        <table>
+          <thead>
+            <tr>
+              <th style ="width:60px" ><input type="checkbox" class="selectAll" >全/反选</input></th>
+              <th>序号</th>
+            <th>标题</th>
+              <th>描述</th>
+              <th>状态</th>
+              <th>姓名</th>
+              <th>电话</th>
+              <th>赞成数</th>
+            <th>创建时间</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @answers.each do |answer|  %>
+              <tr id ="answer_tr_<%= answer.id %>">
+                <td>
+                  <div class="s-input">
+                    <input type="checkbox" name ="ids[]" value="<%= answer.id%>" />
+                  </div>
+                </td>
+                <td> <%= answer.id  %>  </td>
+                <td> <%= link_to  answer.title, "#" , :onclick=>"return false" , :title => answer.content  %>  </td>
+                <td> <%= truncate_u(answer.content,40) %>  </td>
+                <td> <span style="color:red" id ="answer_state_<%= answer.id  %>" > <%= answer.answer_status.to_i == 1 ? "已通过" : "未审核" %> </span> </td>
+                <td> <%= answer.name  %>  </td>
+                <td> <%= answer.phone  %>  </td>
+                <td> <%= answer.approval_count  %>  </td>
+                <td><%= current_time_format(answer.created_at) %></td>
+                <td class="edit">
+                  <%= link_to "#{answer.answer_status == 1 ? '关闭' : '审核'}", ajax_replay_answer_auth_admin_answer_path(answer), :remote => true, :title => "内容审核" , :id => "auth_#{answer.id}" %>
+                  <%= link_to "管理员回复" ,"", "data-iframe-src" => answer_admin_admin_answer_path(answer), :title => "管理员回复", :class => "add-admin-tlj" %>
+                  <%= link_to image_tag("icon/edit.png"),"", "data-iframe-src" => edit_admin_answer_path(answer), :title => "编辑" , :class => "add-admin-tlj" %>
+                  <%= link_to image_tag("icon/delete.png"), admin_answer_path(answer), :method => :delete ,:confirm => "你确定要删除吗？", :remote => true  ,:title => "删除" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+    </div>
+    <% end %>
+    <!-- pagination -->
+    <div class="gm-pagination">
+      <%= paginate @answers %>
+    </div>
+  </div>
+  <div class="gm-tabs-content">
+    <%= form_tag(batch_operation_admin_answers_path)  do %>
+      <div class="s-table">
+        <table>
+          <tbody>
+            <tr>
+              <td width="120"> <label for="">姓名：</label></td>
+              <td>
+                <div class="s-input">
+                  <%= text_field_tag :name %>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td width="120"> <label for="">标题：</label></td>
+              <td>
+                <div class="s-input">
+                  <%= text_field_tag :title %>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td width="120"> <label for="validBeforePicker">开始时间：</label></td>
+              <td>
+                <div class="s-input">
+                  <%= text_field_tag :start_time,"", :class => "date required date-picker" ,:id => "validBeforePicker"%>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td width="120"> <label for="validAfterPicker">结束时间：</label></td>
+              <td>
+                <div class="s-input">
+                  <%= text_field_tag :end_time,"", :class => "date required date-picker", :id => "validAfterPicker" %>
+                </div>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+      <p>
+      <div class="s-input">
+        <%= submit_tag "下载", :name => "download"%>
+      </div>
+      </p>
+    <% end %>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  $('.gm-tabs').jqtab();
+  $.jqmIframe({
+    overlay: 70,
+    trigger: '.add-admin-tlj',
+    onLoad : $.jqmFullWindow
+  });
+
+  function load_content(){
+    $('#tree_load_content').load("/admin/answers/<%= params[:id] %>/channel_index");
+  }
+  
+  $().ready(function(){
+    $(".jqmClose").click(function(){
+      load_content();
+    });
+  });
+  $('#validBeforePicker,#validAfterPicker').datepick({onSelect: customRange});
+  function customRange(dates) {
+    if (this.id == 'validBeforePicker') {
+      $('#validAfterPicker').datepick('option', 'minDate', dates[0] || null);
+    }
+    else {
+      $('#validBeforePicker').datepick('option', 'maxDate', dates[0] || null);
+    }
+  }
+</script>

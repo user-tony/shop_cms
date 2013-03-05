@@ -1,0 +1,7 @@
+$("#article_body").html("<%= escape_javascript(render :partial => 'list') %>");
+$('.gm-tabs').jqtabTo(0);
+  $.jqmIframe({
+    overlay: 70,
+    trigger: '.add-article-tlj',
+    refreshAfterClose: true //重载页面
+  });

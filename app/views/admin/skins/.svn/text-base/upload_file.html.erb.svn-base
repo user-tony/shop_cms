@@ -1,0 +1,62 @@
+<% content_for :main_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/main", :locals => {:menu_type => "template"} %>
+<% end %>
+<% content_for :sider_menu  do %>
+  <%= render :partial => "admin/main/partials/menus/template"%>
+<% end %>
+<% content_for :head do %>
+<script>
+  var img_index=0;
+  function addline(){
+      var html="<tr id=\"tr"+img_index+"\"><td>&nbsp;</td><td><input type=\"file\" name=\"file[]\"/>&nbsp;&nbsp;<a href=\"javascript:removeline('"+img_index+"');\">删除</a></td></tr>";
+      $("#line").after(html);
+      img_index++;
+    }
+    //删除行
+    function removeline(id){
+      $("#tr"+id).remove();
+    }
+</script>
+<%end%>
+<div class="gm-bloc s-h-wrapper">
+        <div class="gm-bloc-head">
+            <h3 class="gm-bloc-title">
+                上传文件
+            </h3>
+            <a href="#" class="toggle"></a>
+        </div>
+      <%= form_tag upload_admin_skins_path, :id => "form", :multipart => true do |f| %>
+        <div class="s-table">
+            <table>
+              <tbody>
+                   <tr>
+                      <td width="90">当前文件路径：</td>
+                      <td class="picture">
+                         <%=@path.blank? ? "跟目录" : @path%>
+                        <%=hidden_field_tag "path", @path%>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>上传文件：</td>
+                      <td>
+                        <input type="button" value="添加上传框" onclick="addline()"/>
+                      </td>
+                  </tr>
+                  <tr id="line">
+                      <td>&nbsp;</td>
+                      <td>
+                        <%= file_field_tag "file[]" %>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+      <p>
+          <div class="s-input">
+              <%=submit_tag "提交"%>
+              &nbsp;&nbsp;
+              <%=link_to "返回", admin_skins_path(:path => @path)%>
+          </div>
+      </p>
+  <%end%>
+</div>

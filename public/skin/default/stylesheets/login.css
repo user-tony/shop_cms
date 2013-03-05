@@ -1,0 +1,145 @@
+.jqmWindow{
+    display: block;
+    border: solid 5px #D8D8D8;
+    border-radius: 8px;
+    background: #FFF;
+}
+.jqmWindow .jqmClose{
+    width: 11px;
+    height: 11px;
+    text-indent: -9999px;
+    overflow: hidden;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background: url(../images/icon_jqm_close.gif) left top no-repeat;
+}
+
+.s-page-login-w{
+    text-align: center;
+}
+.s-page-login-w .s-page-login{
+    margin:20px auto;
+    text-align: left;
+    width: 660px;
+    border: solid 5px #D8D8D8;
+    border-radius: 8px;
+    background: #FFF;
+    padding: 20px;
+}
+
+
+
+.s-page-login .s-login-wrapper{
+    width: 340px;
+    padding-right: 250px;
+    background: url(../images/bg_jqm_login.gif) right 20px no-repeat;
+}
+.s-page-login .s-login-wrapper p{
+    padding: 5px 0;
+    position: relative;
+    zoom: 1;
+    overflow: hidden;
+}
+.s-page-login .s-login-wrapper .s-login-label{
+    font-size: 14px;
+    width: 80px;
+    text-align: right;
+}
+.s-page-login .s-login-wrapper label.error{
+    clear: both;
+    display: block;
+    margin-left: 80px;
+    color: red;
+}
+
+.s-page-login .s-login-wrapper .s-login-input{
+    width: 230px;
+}
+.s-page-login .s-login-wrapper .p-submit{
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+}
+
+.jqmWindow .title-login, .jqmWindow .title-signup, .s-page-login .title-login, .s-page-login .title-signup{
+    height: 40px;
+    line-height: 40px;
+    border-bottom: solid 1px #CECECE;
+    background: url(../images/title_jqm_login.gif) left top no-repeat;
+    text-indent: -9999px;
+    overflow: hidden;
+}
+.jqmWindow .title-signup, .s-page-login .title-signup{
+    background: url(../images/title_jqm_signup.gif) left top no-repeat;
+}
+
+.s-page-login .s-login-wrapper .login-submit{
+    width: 118px;
+    height: 45px;
+    background: url(../images/btn_jqm_submit.gif) left top no-repeat;
+    cursor: pointer;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.s-page-login .s-signup-wrapper{
+    padding-right: 0;
+    width: 640px;
+    background: none;
+}
+.s-page-login .s-login-wrapper .pnote,.s-page-login .s-login-wrapper .pnote:visited{
+    font-size: 14px;
+    color: #FF6A00;
+}
+.s-page-login .s-login-wrapper .signup-submit{
+    width: 153px;
+    height: 45px;
+    background: url(../images/btn_jqm_signup_submit.gif) left top no-repeat;
+    cursor: pointer;
+    overflow: hidden;
+    border: none;
+}
+
+.s-page-login .s-signup-wrapper .s-login-input{
+    float: left;
+}
+.s-page-login .s-signup-wrapper label.error{
+    float: left;
+    margin-left: 10px;
+    border: solid 1px #94C531;
+    padding:0 10px;
+    border-radius: 4px;
+    color: #94C531;
+    position: relative;
+    clear: none;
+    line-height: 26px;
+}
+.s-code-validate .title-signup{
+    background: url("../images/title_jqm_validate.gif") no-repeat scroll left top transparent;
+}
+.s-code-validate .s-login-wrapper .login-submit{
+    background: url("../images/btn_jqm_vsubmit.gif") no-repeat scroll left top transparent;
+}
+
+
+.jqmWindow .s-ltwm{
+	margin-bottom: 0;
+}
+
+.jqmWindow .s-ltw{
+	width: 660px;
+}
+
+.jqmWindow .s-page-login-w .s-page-login{
+	border: none;
+	margin: 0;
+        height: 370px;
+}
+.jqmWindow .s-page-login .s-login-wrapper .p-submit{
+    text-align: left;
+}
+
+.jqmWindow .popwin-signup{
+    display: none;
+}

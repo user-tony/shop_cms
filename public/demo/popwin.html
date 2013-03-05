@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>芒果CMS系统</title>
+    
+    <!-- description -->
+    <meta name="description" content="芒果CMS系统" />
+    
+    <!-- favorite icon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="bookmark" href="/favicon.ico" type="image/x-icon">
+    
+    <link rel="stylesheet" href="/assets/admin/global/global.css" media="all" type="text/css" />
+    <link rel="stylesheet" href="/assets/admin/global/mod.css" media="all" type="text/css" />
+    <link rel="stylesheet" href="/assets/admin/global/site.css" media="all" type="text/css" />
+    <link rel="stylesheet" href="/skin/default/stylesheets/jqModal.css" media="all" type="text/css" />
+    <script type="text/javascript" src="/skin/default/javascripts/jquery-1.5.2.min.js"></script>
+    <script type="text/javascript" src="/assets/admin/jqModal.js"></script>
+</head>
+<body>
+    <h2>实例：</h2>
+    <!-- 页面内元素弹窗 -->
+    <p> <a href="#" class="jqModal">页面弹窗</a> </p>
+    <div class="s-input">
+        <input type="button" value="按钮风格" class="jqModal" />
+    </div>
+
+    <div class="jqmWindow" id="dialog">
+        <div class="head">
+            <a href="#" class="jqmClose">关闭</a>
+            
+            弹窗标题
+        </div>
+        <div class="body">
+            <em>READ ME</em> -->
+            This is a "vanilla plain" jqModal window. Behavior and appeareance extend far beyond this.
+            The demonstrations on this page will show off a few possibilites. I recommend walking
+            through each one to get an understanding of jqModal <em>before</em> using it.
+
+            <br /><br />
+            You can view the sourcecode of examples by clicking the Javascript, CSS, and HTML tabs.
+            Be sure to checkout the <a href="README">documentation</a> too!
+
+            <br /><br />
+            <em>NOTE</em>; You can close windows by clicking the tinted background known as the "overlay".
+            Clicking the overlay will have no effect if the "modal" parameter is passed, or if the
+            overlay is disabled.
+        </div>
+        
+        <div class="foot">foot</div>
+    </div>
+    <script type="text/javascript">
+        $('#dialog').jqm();
+    </script>
+    
+    
+    <!-- 异步加载内容弹窗 -->
+    <p> <a href="#" class="ex1trigger">异步加载状态</a> </p>
+    <div class="jqmWindow" id="ajax_loading"> </div>
+    <p> <a href="#" class="ex2trigger">一个异步请求</a> </p>
+    <div class="jqmWindow" id="ajax"> </div>
+    <p> <a href="ajax.html" class="ex3trigger">一个异步请求</a> </p>
+    <div class="jqmWindow" id="href_ajax"> </div>
+    <script type="text/javascript">
+        $('#ajax').jqm({ajax: 'ajax.html', trigger: 'a.ex2trigger'});
+        
+        $('#ajax_loading').jqm({ajax: 'ajax2.html', trigger: 'a.ex1trigger'});
+        
+        $('#href_ajax').jqm({ajax:'@href', trigger: 'a.ex3trigger'});
+    </script>
+    
+    
+    <!-- alert 提示窗口 -->
+    <p><a href="#" class="alert-trigger">alert</a></p>
+    <div class="jqmWindow alert" id="dialog_alert">
+        <div class="head">提示</div>
+        <div class="body">
+            提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息
+        </div>
+        <div class="foot">
+            <div class="s-input">
+                <input type="button" value="确定" class="jqmClose" />
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('#dialog_alert').jqm({modal:true,trigger: 'a.alert-trigger'});
+    </script>
+    
+    <!-- 动态加载 alert 提示信息 -->
+    <p><a href="#" class="ajax-alert-trigger">ajax alert</a></p>
+    <div class="jqmWindow alert" id="dialog_ajax_alert"></div>
+    <script type="text/javascript">
+        $('#dialog_ajax_alert').jqm({ajax: 'alert.html', modal:true, trigger: 'a.ajax-alert-trigger'});
+    </script>
+    
+    
+    <!-- confirm 提示窗口 -->
+    <p><a href="#" class="confirm">confirm</a></p>
+    <div class="jqmWindow alert" id="dialog_confirm">
+        <div class="head">确认信息</div>
+        <div class="body">
+            提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息
+        </div>
+        <div class="foot">
+            <div class="s-input">
+                <input type="button" value="确定" class="p-confirm" />
+                <input type="button" value="取消" class="uncen jqmClose" />
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('#dialog_confirm').jqm({modal:true, trigger: 'a.confirm'});
+        $('#dialog_confirm .p-confirm').click(function(e){ alert('you click yes!'); $('#dialog_confirm').jqmHide(); });
+    </script>
+    
+    <p><a href="#" class="ajax-confirm">ajax confirm</a></p>
+    <div class="jqmWindow alert" id="dialog_ajax_confirm"></div>
+    <script type="text/javascript">
+        $('#dialog_ajax_confirm').jqm({ajax: 'confirm.html', modal:true, trigger: 'a.ajax-confirm', onLoad: function(win){
+            $('.p-confirm',win.w).click(function(e){ alert('you click yes!'); win.w.jqmHide(); });
+        }});
+    </script>
+    
+    
+    <!-- iframe 窗口 -->
+    <p><a href="#" class="thickbox" title="iframe 窗口描述" data-iframe-src="iframe.html">iframe</a></p>
+    
+    <div id="modalWindow" class="jqmWindow jqiframe">
+        <div class="head">
+            <a href="#" class="jqmClose">关闭</a>
+            
+            <span class="jqmTitleText">正在加载页面</span>
+        </div>
+        <div class="body"></div>
+    </div>
+    
+    <script type="text/javascript">
+        $('#modalWindow').jqmIframe({
+            overlay: 70,
+            trigger: 'a.thickbox',
+            refreshAfterClose: true //重载页面
+        });
+    </script>
+    
+    <!-- 关闭当前窗口的方法 -->
+    <h2>全局工具方法：</h2>
+    <div>
+        <p>关闭当前弹出窗口的全局方法 : $.jqmClose() </p> 
+        <p>alert信息：$.jqmAlert(str)</p> 
+        <p>加载alert信息：$.jqmRemoteAlert(href)</p> 
+        <p>confirm信息：$.jqmConfirm(str,callback)。 如果callback返回false，不关闭窗口</p> 
+        <p>加载confirm信息：$.jqmConfirm(href,callback)。 如果callback返回false，不关闭窗口</p> 
+    </div>
+    
+</body>
+</html>

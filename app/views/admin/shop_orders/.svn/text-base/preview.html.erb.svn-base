@@ -1,0 +1,196 @@
+<div class="head">
+  <a href="#" class="jqmClose">关闭</a>
+  订单预览
+</div>
+<div class="body">
+  <table>
+    <tr>
+      <td colspan="2">
+        <h1>订单信息</h1>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        订单id：
+      </td>
+      <td>
+        <%= @order.id %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        订单号：
+      </td>
+      <td>
+        <%= @order.scode %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        下单时间：
+      </td>
+      <td>
+        <%= current_time_format(@order.created_at, true) %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        订单金额：
+      </td>
+      <td>
+        <%= currency_price(@order.amount) %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        已付金额：
+      </td>
+      <td>
+        <%= currency_price(@order.payment) %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        订单状态：
+      </td>
+      <td>
+        <%= @order.order_status_cn %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        支付状态：
+      </td>
+      <td>
+        <%= @order.payment_status_cn %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        备注信息：
+      </td>
+      <td>
+        <%= @order.remark %>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <h1>客户信息</h1>
+      </td>
+    </tr>
+    <%if @order.member%>
+    <tr>
+      <td>
+        用户ID：
+      </td>
+      <td>
+        <%= @order.member_id %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        用户名：
+      </td>
+      <td>
+        <%= @order.member.present? ? @order.member.login : "匿名用户" %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        昵称：
+      </td>
+      <td>
+        <%= @order.member.nick_name %>
+      </td>
+    </tr>
+    <%end%>
+    <tr>
+      <td>
+        电话：
+      </td>
+      <td>
+        <%= @order.phone %>
+      </td>
+    </tr>
+     <tr>
+      <td>
+        QQ：
+      </td>
+      <td>
+        <%= @order.qq %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        收货人：
+      </td>
+      <td>
+        <%= @order.recipient_name %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        收货地址：
+      </td>
+      <td>
+        <%if @order.order_address%>
+          <%= order_area(@order.order_address.area_country_id) %>
+          <%= @order.order_address.address %>
+        <%end%>
+        <%= @order.address %>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <h1>物流信息</h1>
+      </td>
+    </tr>
+    <%if @order.logistic%>
+    <tr>
+      <td>
+        物流公司：
+      </td>
+      <td>
+        <%= @order.logistic.logistic_com %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        物流号：
+      </td>
+      <td>
+        <%= @order.logistic.logistic_num %>
+      </td>
+    </tr>
+    <%end%>
+    <tr>
+      <td colspan="2">
+        <h1>订单产品</h1>
+      </td>
+    </tr>
+  </table>
+  <div class="s-table">
+    <table>
+      <thead>
+        <tr>
+          <th width="50">商品类型</th>
+          <th width="50">商品名称</th>
+          <th width="50">价格</th>
+          <th width="50">数量</th>
+          <th width="80">金额</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @order.order_products.each do |product| %>
+          <tr>
+            <td><%= product.type_cn  %> </td>
+            <td><%= product.item.present? ? product.item.full_name : "商品不存在"%></td>
+            <td><%= currency_price(product.price)  %> </td>
+            <td><%= product.item_count  %> </td>
+            <td><%= currency_price(product.price * product.item_count)%> </td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+ 
+<!-- form -->
+<div class="s-input">
+  <%= f.input :title, :label => "标题" ,:required => true, :input_html => { :size => "50"} %>
+  <p class="help-block">问题标题</p>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :content, :label => "描述" ,:required => true, :input_html => { :size => "50"} %>
+  <p class="help-block">问题描述</p>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :name, :label => "用户名" ,:required => true, :input_html => { :size => "50"} %>
+  <p class="help-block">用户名</p>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :qq, :label => "QQ" , :input_html => { :size => "50"} %>
+  <p class="help-block">QQ</p>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :phone, :label => "电话" ,:required => true, :input_html => { :size => "50"} %>
+  <p class="help-block">电话</p>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :address, :label => "地址" , :input_html => { :size => "50"} %>
+  <p class="help-block">详细地址</p>
+</div>
+<br />
+
+<div class="s-input">
+  <%= f.input :approval_count, :label => "赞成数" %>
+  <p class="help-block">赞成数</p>
+</div>
+<br />
+ 
+
+<div class="s-input">
+  <%= f.submit "保存" %>
+</div>
+
+<br />
+<!-- end form -->

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= yield :title %></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- description -->
+    <meta name="description" content="芒果CMS系统" />
+    <!-- favorite icon -->
+
+    <%= javascript_include_tag "admin.js" %>
+    <%= csrf_meta_tags %>    <%= yield :head %>
+  </head>
+  <body>
+    <%= flash[:success] %>
+    <%= flash[:error] %>
+    <%= flash[:notice] %>
+   <%= yield %>
+  </body>
+</html>

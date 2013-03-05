@@ -1,0 +1,14 @@
+<html>
+  <head></head>
+  <body onLoad="javascript:document.E_FORM.submit()">
+    <form action="https://pay3.chinabank.com.cn/PayGate" method="POST" name="E_FORM">
+      <input type="hidden" name="v_md5info"    value="<%=@v_md5info%>" size="100">
+      <input type="hidden" name="v_mid"        value="<%=@v_mid%>">
+      <input type="hidden" name="v_oid"        value="<%=@v_oid%>">
+      <input type="hidden" name="v_amount"     value="<%=@v_amount%>">
+      <input type="hidden" name="v_moneytype"  value="<%=@v_moneytype%>">
+      <input type="hidden" name="v_url"        value="<%=@v_url%>">
+      <input type="hidden" name="pmode_id"     value="<%=@bank_id%>">
+    </form>
+  </body>
+</html>

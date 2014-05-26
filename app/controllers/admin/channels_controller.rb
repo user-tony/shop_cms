@@ -5,31 +5,18 @@ class Admin::ChannelsController < Admin::BaseController
 
   # 方法作用描述:
   # 后台栏目列表页
-  #
-  # 作者:郭金平
-  # 
-  # 最后更新时间: 2012-3-2
   def index
     @channels = Channel.page(params[:page]).per(20)
   end
 
   # 方法作用描述:
   # 后台栏目创建页
-  #
-  # 作者:郭金平
-  #
-  # 最后更新时间: 2012-3-2
   def new_child
     @channel = Channel.new(:parent_id => params[:id])
     render :layout => false if request.headers["X-Requested-With"]
   end
 
   # 方法作用描述:
-  # 后台栏目保存
-  #
-  # 作者:郭金平
-  #
-  # 最后更新时间: 2012-3-2
   def create
     channel = Channel.new(params[:channel])
     respond_to do |format|
@@ -71,10 +58,6 @@ class Admin::ChannelsController < Admin::BaseController
 
   # 方法作用描述:
   # 后台栏目编辑页
-  #
-  # 作者:郭金平
-  #
-  # 最后更新时间: 2012-3-8
   def edit
     @channel = Channel.find params[:id]
     render :layout => false if request.headers["X-Requested-With"]
@@ -82,10 +65,6 @@ class Admin::ChannelsController < Admin::BaseController
 
   # 方法作用描述:
   # 后台栏目修改
-  #
-  # 作者:郭金平
-  #
-  # 最后更新时间: 2012-3-8
   def update
     channel = Channel.find params[:id]
     channel.template_id_index ||= 0

@@ -1,48 +1,23 @@
 #encoding: UTF-8
 class Admin::AnswersController < Admin::BaseController
 
-
-
-  #问题列表页
-  #
-  # 作者: 佟立家
-  # 最后更新时间: 2012-05-3
-  #
   def channel_index
     @channel =  Channel.find_by_id(params[:id])
     @answers = @channel.answers.ct_desc.page(params[:page]).per(20)
     render :layout => false if request.headers["X-Requested-With"]
   end
 
-
-
-  #问题编辑页
-  #
-  # 作者: 佟立家
-  # 最后更新时间: 2012-05-3
-  #
   def edit
     @answer = Answer.find(params[:id])
     render :layout => "iframe"
   end
 
-
-  #后台添加问题
-  #
-  # 作者: 佟立家
-  # 最后更新时间: 2012-05-3
-  #
   def create
     @answer = Answer.new  params[:answer]
     @answer.save ?  flash[:success] = "问题添加成功" : flash[:errors] = "添加失败"
     redirect_to admin_answers_path
   end
 
-  #后台更新问题
-  #
-  # 作者: 佟立家
-  # 最后更新时间: 2012-05-3
-  #
   def update
     @answer = Answer.find(params[:id])
     if @answer.update_attributes(params[:answer])
@@ -52,12 +27,6 @@ class Admin::AnswersController < Admin::BaseController
     end
   end
 
-
-  #后台删除问题 #
-  #
-  # 作者: 佟立家
-  # 最后更新时间: 2012-05-3
-  #
   def destroy
     @answer = Answer.find(params[:id])
     if @answer.destroy
@@ -67,12 +36,6 @@ class Admin::AnswersController < Admin::BaseController
     end
   end
 
-
-  # 管理员回复信息
-  #
-  # 作者: 佟立家
-  # 最后更新时间: 2012-05-3
-  #
   def answer_admin
     @answer = Answer.find(params[:id])
     @admins = @answer.reply_answers.ct_desc
@@ -80,12 +43,6 @@ class Admin::AnswersController < Admin::BaseController
     render :layout => "iframe"
   end
 
-
-  #添加管理回复信息
-  #
-  # 作者: 佟立家
-  # 最后更新时间: 2012-05-3
-  #
   def reply_answer_create
     @reply_answer = ReplyAnswer.new params[:reply_answer]
     @reply_answer.management = 1    #管理员回复
@@ -102,11 +59,6 @@ class Admin::AnswersController < Admin::BaseController
     redirect_to :back
   end
 
-  #删除管理回复信息
-  #
-  # 作者: 佟立家
-  # 最后更新时间: 2012-05-3
-  #
   def ajax_replay_answer_delete
     @reply_answer = ReplyAnswer.find params[:id]
     if @reply_answer.destroy
@@ -116,11 +68,6 @@ class Admin::AnswersController < Admin::BaseController
     end
   end
 
-  #删除管理回复信息
-  #
-  # 作者: 佟立家
-  # 最后更新时间: 2012-05-3
-  #
   def ajax_replay_answer_auth
     @answer = Answer.find(params[:id])
     @answer.answer_status = @answer.answer_status.to_i == 1 ? 0 : 1    #管理员审核回复 answer_status
@@ -131,11 +78,6 @@ class Admin::AnswersController < Admin::BaseController
     end
   end
 
-  #批量操作
-  #
-  # 作者: 佟立家
-  # 最后更新时间: 2012-05-28
-  #
   def batch_operation
     ids = params[:ids]
     if params[:audit].present?
